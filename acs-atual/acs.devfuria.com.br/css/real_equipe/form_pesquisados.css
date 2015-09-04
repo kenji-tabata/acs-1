@@ -1,0 +1,34 @@
+.instrucoes {
+        text-align: justify;
+}
+
+#real-equipe-container-todas-frases {
+        width: 940px;
+}
+
+.real-equipe-frases {
+        width: 100%;
+        height: 50px;
+}
+
+.real-equipe-frase {
+        float: left;
+        width: 720px;
+}
+
+.real-equipe-pontuacao {
+        float: right;
+        width: 190px;
+}
+
+#form-real-equipe-pesquisados label {
+        width: auto;
+}
+
+#form-real-equipe-pesquisados input[type=radio] {
+        width: auto;
+}
+
+#form-real-equipe-pesquisados input[type=submit] {
+        width: 100px;
+}

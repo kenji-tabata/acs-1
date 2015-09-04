@@ -1,0 +1,49 @@
+/* Tabela padrao */
+
+table.default-table {
+        border: 0;
+        border-spacing: 0px;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+}
+
+/* cabecalho */
+
+table.default-table thead {
+        background-color: #787878;
+        color: #fff;
+        font-weight: lighter;
+}
+
+table.default-table thead tr th {
+        text-align: left;
+        border-top: 3px solid #ccc;
+        height: 25px;
+}
+
+/* corpo */
+
+table.default-table tbody tr td {
+        text-align: left;
+        padding: 8px 4px 6px 4px;
+        border-top: 1px solid #ccc;
+        height: 25px;
+}    
+
+table.default-table tbody tr.zebra {
+        border-top: 1px solid #ccc;
+        height: 25px;
+        background-color: #ECECEC;
+}
+
+/* rodape */
+
+table.default-table tfoot tr td {
+        padding: 10px;
+        text-align: center;
+}
+
+table.default-table tfoot tr td span.pag {
+        padding: 10px;
+}

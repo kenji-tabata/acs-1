@@ -1,0 +1,60 @@
+#real-equipe-dialog-formando-equipe {
+        margin-top: 20px;
+}
+
+#real-equipe-dialog-pesquisados, #real-equipe-dialog-equipe {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background: #eee;
+        width: 49%;
+        height: 275px;
+        overflow: auto;
+}
+
+#real-equipe-dialog-pesquisados {
+        float: left;
+}
+
+#real-equipe-dialog-equipe {
+        float: right;
+}
+
+.real-equipe-dialog-cabecalho {
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 5px;
+}
+
+#real-equipe-dialog-pesquisados li, #real-equipe-dialog-equipe li { 
+        margin: 5px;
+        padding: 5px;
+        font-size: 0.9em;
+}
+
+#real-equipe-dialog-pesquisados li:hover, #real-equipe-dialog-equipe li:hover {
+        cursor: pointer;
+}
+    
+#real-equipe-dialog-equipe li.lider {
+        color: red;
+}
+
+tr.links_formularios {
+        background-color: #FFF; 
+        display: table-row;
+}
+
+td.links_formularios {
+        border-bottom: 3px solid #AAA; 
+        border-top: 3px solid #AAA; 
+        padding: 20px;
+}
+
+table.links_formularios {
+        width: 100%;
+}
+
+table.links_formularios .center{
+        text-align: center;
+}

@@ -1,0 +1,2 @@
+ALTER TABLE real_equipe CONVERT TO CHARACTER SET utf8;
+ALTER TABLE real_equipe_pesquisados CONVERT TO CHARACTER SET utf8;
