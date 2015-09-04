@@ -1,0 +1,47 @@
+/* Post e Links */
+
+.post {
+	margin-bottom: 15px;
+}
+
+.post .title {
+	height: 38px;
+	margin-bottom: 10px;
+	padding: 0px;
+	letter-spacing: -.5px;
+	color: #000000;
+}
+
+.post .title a {
+	color: #000000;
+	border: none;
+}
+
+.post .meta {
+	margin-bottom: 30px;
+	padding: 5px 0px 15px 0px;
+	text-align: left;
+	font-size: 13px;
+}
+
+.post .meta .left {
+	float: left;
+}
+
+.post .meta .right {
+	float: right;
+}
+
+.post .meta a {
+}
+
+.post .entry {
+	padding: 0px 0px 20px 0px;
+	text-align: justify;
+}
+
+.links {
+	padding-top: 20px;
+	font-size: 12px;
+	font-weight: bold;
+}

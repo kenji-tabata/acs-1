@@ -1,0 +1,59 @@
+/* POMS */
+
+
+/* tabela do poms */
+
+.processado {
+        color: green;
+}
+
+.preenchido {
+        color: #daa520;
+}
+
+.nao_preenchido {
+        color: red;
+}
+
+/* itens do formulario */
+
+#adjetivos-poms {
+        width: 940px;
+}
+
+#col1, #col2, #col3 {
+        float: left;
+}
+
+#col1 {
+        padding-right: 110px;
+}
+
+#col2 {
+        padding-right: 55px;
+        padding-left: 55px;
+}
+
+#col3 {
+        padding-left: 110px;
+}
+
+label.adjetivos-nomes-poms {
+        padding: 0px;
+        font-size: 15px;
+        color: #787878;
+}
+
+.adjetivo-poms {
+        padding: 0px;
+        padding-bottom: 25px;
+        width: 200px;
+}
+
+span.adjetivos-pontucao-poms {
+        float: right;
+}
+
+.adjetivos-barras-poms {
+        width: 200px;
+}

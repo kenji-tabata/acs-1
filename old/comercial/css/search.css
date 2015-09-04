@@ -1,0 +1,40 @@
+/* Search */
+
+#search {
+	float: right;
+	width: 280px;
+	height: 60px;
+	padding: 20px 0px 0px 0px;
+	background: #E2E2E2;
+	border-bottom: 4px solid #FFFFFF;
+}
+
+#search form {
+	height: 41px;
+	margin: 0;
+	padding: 10px 0 0 20px;
+}
+
+#search fieldset {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+#search-text {
+	width: 170px;
+	padding: 6px 5px 2px 5px;
+	border: 1px solid #DEDEDE;
+	background: #FFFFFF;
+	text-transform: lowercase;
+	font: normal 11px Arial, Helvetica, sans-serif;
+	color: #5D781D;
+}
+
+#search-submit {
+	width: 50px;
+	height: 22px;
+	border: none;
+	background: #B9B9B9;
+	color: #000000;
+}
