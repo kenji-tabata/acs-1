@@ -4,28 +4,60 @@ require "../poms/RowScore.php";
 
 class RowScoreTest extends PHPUnit_Framework_TestCase {
 
-   
-    public function testSomar() {
-        
-        $rowScore = new RowScore();
-        
-        # Note que `$rowScore->vigor = 0`
-        
-        $rowScore->vigor = $rowScore->somar('vigor', 1);
-        $this->assertEquals(1, $rowScore->vigor);
+    protected $rowScore;
 
-        $rowScore->vigor = $rowScore->somar('vigor', 2);
-        $this->assertEquals(3, $rowScore->vigor);
-        
-        $rowScore->vigor = $rowScore->somar('vigor', 3);
-        $this->assertEquals(6, $rowScore->vigor);
+    protected function setUp() {
+        $this->rowScore = new RowScore();
+    }
+
+    public function testSepararStringFormulario() {
+        $arr = $this->rowScore->separarStringFormulario("1-1, 2-1, 3-1");
+        $this->assertEquals("1-1", $arr[0]);
+        $this->assertEquals("2-1", $arr[1]);
+        $this->assertEquals("3-1", $arr[2]);
+        # etc...
+    }
+
+    public function testRetIdFator() {
+        $this->assertEquals(1, $this->rowScore->retIdFator("1-5"));
+        $this->assertEquals(2, $this->rowScore->retIdFator("2-5"));
+        $this->assertEquals(3, $this->rowScore->retIdFator("3-5"));
+        $this->assertEquals(4, $this->rowScore->retIdFator("4-5"));
+        $this->assertEquals(5, $this->rowScore->retIdFator("5-5"));
+        $this->assertEquals(99, $this->rowScore->retIdFator("99-5"));
+    }
+
+    /**
+     * Retorna valor real do fator (sem correção)
+     */
+    public function testRetValorFator() {
+        $this->assertEquals(1, $this->rowScore->retValorFator("1-1"));
+        $this->assertEquals(2, $this->rowScore->retValorFator("1-2"));
+        $this->assertEquals(3, $this->rowScore->retValorFator("1-3"));
+        $this->assertEquals(4, $this->rowScore->retValorFator("1-4"));
+        $this->assertEquals(5, $this->rowScore->retValorFator("1-5"));
+        $this->assertEquals(99, $this->rowScore->retValorFator("1-99"));
+    }
+
+    public function testSomar() {
+
+        # Note que `$rowScore->vigor = 0`
+
+        $this->rowScore->vigor = $this->rowScore->somar('vigor', 1);
+        $this->assertEquals(1, $this->rowScore->vigor);
+
+        $this->rowScore->vigor = $this->rowScore->somar('vigor', 2);
+        $this->assertEquals(3, $this->rowScore->vigor);
+
+        $this->rowScore->vigor = $this->rowScore->somar('vigor', 3);
+        $this->assertEquals(6, $this->rowScore->vigor);
 
     }
 
     /**
      * Após subtrair o valor escolhido (no formulario)
      * somamos 4 unidades.
-     * 
+     *
      * Ex:
      * $rowScore->vigor = 10
      * $valor = 2
@@ -33,142 +65,128 @@ class RowScoreTest extends PHPUnit_Framework_TestCase {
      * 10 - 2 + 4
      */
     public function testSubtrairSomaQuatro() {
-        
-        $rowScore = new RowScore();
-
         # Note que `$rowScore->vigor = 0`
-        
-        $rowScore->vigor = $rowScore->subtrairSomaQuatro('vigor', 1);
-        $this->assertEquals(3, $rowScore->vigor);
 
-        $rowScore->vigor = $rowScore->subtrairSomaQuatro('vigor', 2);
-        $this->assertEquals(5, $rowScore->vigor);
-        
-        $rowScore->vigor = $rowScore->subtrairSomaQuatro('vigor', 3);
-        $this->assertEquals(6, $rowScore->vigor);
+        $this->rowScore->vigor = $this->rowScore->subtrairSomaQuatro('vigor', 1);
+        $this->assertEquals(3, $this->rowScore->vigor);
 
-    }    
+        $this->rowScore->vigor = $this->rowScore->subtrairSomaQuatro('vigor', 2);
+        $this->assertEquals(5, $this->rowScore->vigor);
+
+        $this->rowScore->vigor = $this->rowScore->subtrairSomaQuatro('vigor', 3);
+        $this->assertEquals(6, $this->rowScore->vigor);
+
+    }
 
     public function testCalcularValor() {
-        $rowScore = new RowScore();
-        
         #
         # A alternativa 22 (tensão) soma diferente (SubtrairSomaQuatro)
         #
-        $this->assertEquals(0 - 1 + 4, $rowScore->calcularValor($id=22, $fator='tensao', $valor=1));
-        $this->assertEquals(0 - 2 + 4, $rowScore->calcularValor($id=22, $fator='tensao', $valor=2));
-        $this->assertEquals(0 - 3 + 4, $rowScore->calcularValor($id=22, $fator='tensao', $valor=3));
-        $this->assertEquals(0 - 4 + 4, $rowScore->calcularValor($id=22, $fator='tensao', $valor=4));
-        $this->assertEquals(0 - 5 + 4, $rowScore->calcularValor($id=22, $fator='tensao', $valor=5));
+        $this->assertEquals(0 - 1 + 4, $this->rowScore->calcularValor($id=22, $fator='tensao', $valor=1));
+        $this->assertEquals(0 - 2 + 4, $this->rowScore->calcularValor($id=22, $fator='tensao', $valor=2));
+        $this->assertEquals(0 - 3 + 4, $this->rowScore->calcularValor($id=22, $fator='tensao', $valor=3));
+        $this->assertEquals(0 - 4 + 4, $this->rowScore->calcularValor($id=22, $fator='tensao', $valor=4));
+        $this->assertEquals(0 - 5 + 4, $this->rowScore->calcularValor($id=22, $fator='tensao', $valor=5));
 
         #
         # A alternativa 54 (confusao) soma diferente (SubtrairSomaQuatro)
         #
-        $this->assertEquals(0 - 1 + 4, $rowScore->calcularValor($id=54, $fator='confusao', $valor=1));
-        $this->assertEquals(0 - 2 + 4, $rowScore->calcularValor($id=54, $fator='confusao', $valor=2));
-        $this->assertEquals(0 - 3 + 4, $rowScore->calcularValor($id=54, $fator='confusao', $valor=3));
-        $this->assertEquals(0 - 4 + 4, $rowScore->calcularValor($id=54, $fator='confusao', $valor=4));
-        $this->assertEquals(0 - 5 + 4, $rowScore->calcularValor($id=54, $fator='confusao', $valor=5));
+        $this->assertEquals(0 - 1 + 4, $this->rowScore->calcularValor($id=54, $fator='confusao', $valor=1));
+        $this->assertEquals(0 - 2 + 4, $this->rowScore->calcularValor($id=54, $fator='confusao', $valor=2));
+        $this->assertEquals(0 - 3 + 4, $this->rowScore->calcularValor($id=54, $fator='confusao', $valor=3));
+        $this->assertEquals(0 - 4 + 4, $this->rowScore->calcularValor($id=54, $fator='confusao', $valor=4));
+        $this->assertEquals(0 - 5 + 4, $this->rowScore->calcularValor($id=54, $fator='confusao', $valor=5));
 
         #
         # Todas as demais somam normalmente, exemplo:
         #
-        $this->assertEquals(1, $rowScore->calcularValor($id=1, $fator='vigor', $valor=1));
-        $this->assertEquals(2, $rowScore->calcularValor($id=1, $fator='vigor', $valor=2));
-        $this->assertEquals(3, $rowScore->calcularValor($id=1, $fator='vigor', $valor=3));
-        $this->assertEquals(4, $rowScore->calcularValor($id=1, $fator='vigor', $valor=4));
-        $this->assertEquals(5, $rowScore->calcularValor($id=1, $fator='vigor', $valor=5));
-        
-    }    
-    
-    public function testCorrigirValor() {
-        
-        $rowScore = new RowScore();
-        
-        $this->assertEquals(4, $rowScore->corrigirValor(5));
-        $this->assertEquals(3, $rowScore->corrigirValor(4));
-        $this->assertEquals(2, $rowScore->corrigirValor(3));
-        $this->assertEquals(1, $rowScore->corrigirValor(2));
-        $this->assertEquals(0, $rowScore->corrigirValor(1));
-        
-    }    
-    
-    public function testRetFator() {
+        $this->assertEquals(1, $this->rowScore->calcularValor($id=1, $fator='vigor', $valor=1));
+        $this->assertEquals(2, $this->rowScore->calcularValor($id=1, $fator='vigor', $valor=2));
+        $this->assertEquals(3, $this->rowScore->calcularValor($id=1, $fator='vigor', $valor=3));
+        $this->assertEquals(4, $this->rowScore->calcularValor($id=1, $fator='vigor', $valor=4));
+        $this->assertEquals(5, $this->rowScore->calcularValor($id=1, $fator='vigor', $valor=5));
 
-        $rowScore = new RowScore();
-        $this->assertEquals("vigor", $rowScore->retFator("1"));
-        $this->assertEquals("tensao", $rowScore->retFator("2"));
-        $this->assertEquals("raiva", $rowScore->retFator("3"));
-        $this->assertEquals("fadiga", $rowScore->retFator("4"));
-        $this->assertEquals("depressao", $rowScore->retFator("5"));
-        $this->assertEquals("vigor", $rowScore->retFator("6"));
-        $this->assertEquals("vigor", $rowScore->retFator("7"));
-        $this->assertEquals("confusao", $rowScore->retFator("8"));
-        $this->assertEquals("depressao", $rowScore->retFator("9"));
-        $this->assertEquals("tensao", $rowScore->retFator("10"));
-        
-        $this->assertEquals("fadiga", $rowScore->retFator("11"));
-        $this->assertEquals("raiva", $rowScore->retFator("12"));
-        $this->assertEquals("tensao", $rowScore->retFator("13"));
-        $this->assertEquals("depressao", $rowScore->retFator("14"));
-        $this->assertEquals("vigor", $rowScore->retFator("15"));
-        $this->assertEquals("tensao", $rowScore->retFator("16"));
-        $this->assertEquals("raiva", $rowScore->retFator("17"));
-        $this->assertEquals("depressao", $rowScore->retFator("18"));
-        $this->assertEquals("vigor", $rowScore->retFator("19"));
-        $this->assertEquals("tensao", $rowScore->retFator("20"));
-
-        $this->assertEquals("depressao", $rowScore->retFator("21"));
-        $this->assertEquals("tensao", $rowScore->retFator("22"));
-        $this->assertEquals("depressao", $rowScore->retFator("23"));
-        $this->assertEquals("raiva", $rowScore->retFator("24"));
-        $this->assertEquals("vigor", $rowScore->retFator("25"));
-        $this->assertEquals("tensao", $rowScore->retFator("26"));
-        $this->assertEquals("tensao", $rowScore->retFator("27"));
-        $this->assertEquals("confusao", $rowScore->retFator("28"));
-        $this->assertEquals("fadiga", $rowScore->retFator("29"));
-        $this->assertEquals("vigor", $rowScore->retFator("30"));
-
-        $this->assertEquals("raiva", $rowScore->retFator("31"));
-        $this->assertEquals("depressao", $rowScore->retFator("32"));
-        $this->assertEquals("raiva", $rowScore->retFator("33"));
-        $this->assertEquals("tensao", $rowScore->retFator("34"));
-        $this->assertEquals("depressao", $rowScore->retFator("35"));
-        $this->assertEquals("depressao", $rowScore->retFator("36"));
-        $this->assertEquals("confusao", $rowScore->retFator("37"));
-        $this->assertEquals("vigor", $rowScore->retFator("38"));
-        $this->assertEquals("raiva", $rowScore->retFator("39"));
-        $this->assertEquals("fadiga", $rowScore->retFator("40"));
-
-        $this->assertEquals("tensao", $rowScore->retFator("41"));
-        $this->assertEquals("raiva", $rowScore->retFator("42"));
-        $this->assertEquals("vigor", $rowScore->retFator("43"));
-        $this->assertEquals("depressao", $rowScore->retFator("44"));
-        $this->assertEquals("depressao", $rowScore->retFator("45"));
-        $this->assertEquals("fadiga", $rowScore->retFator("46"));
-        $this->assertEquals("raiva", $rowScore->retFator("47"));
-        $this->assertEquals("depressao", $rowScore->retFator("48"));
-        $this->assertEquals("fadiga", $rowScore->retFator("49"));
-        $this->assertEquals("confusao", $rowScore->retFator("50"));
-
-        $this->assertEquals("vigor", $rowScore->retFator("51"));
-        $this->assertEquals("raiva", $rowScore->retFator("52"));
-        $this->assertEquals("raiva", $rowScore->retFator("53"));
-        $this->assertEquals("confusao", $rowScore->retFator("54"));
-        $this->assertEquals("vigor", $rowScore->retFator("55"));
-        $this->assertEquals("vigor", $rowScore->retFator("56"));
-        $this->assertEquals("raiva", $rowScore->retFator("57"));
-        $this->assertEquals("depressao", $rowScore->retFator("58"));
-        $this->assertEquals("confusao", $rowScore->retFator("59"));
-        $this->assertEquals("vigor", $rowScore->retFator("60"));
-        
-        $this->assertEquals("depressao", $rowScore->retFator("61"));
-        $this->assertEquals("depressao", $rowScore->retFator("62"));
-        $this->assertEquals("vigor", $rowScore->retFator("63"));
-        $this->assertEquals("confusao", $rowScore->retFator("64"));
-        $this->assertEquals("fadiga", $rowScore->retFator("65"));
-        
     }
 
+    public function testCorrigirValor() {
+        $this->assertEquals(4, $this->rowScore->corrigirValor(5));
+        $this->assertEquals(3, $this->rowScore->corrigirValor(4));
+        $this->assertEquals(2, $this->rowScore->corrigirValor(3));
+        $this->assertEquals(1, $this->rowScore->corrigirValor(2));
+        $this->assertEquals(0, $this->rowScore->corrigirValor(1));
+    }
 
+    public function testRetFator() {
+        $this->assertEquals("vigor", $this->rowScore->retFator("1"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("2"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("3"));
+        $this->assertEquals("fadiga", $this->rowScore->retFator("4"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("5"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("6"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("7"));
+        $this->assertEquals("confusao", $this->rowScore->retFator("8"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("9"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("10"));
+
+        $this->assertEquals("fadiga", $this->rowScore->retFator("11"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("12"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("13"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("14"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("15"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("16"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("17"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("18"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("19"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("20"));
+
+        $this->assertEquals("depressao", $this->rowScore->retFator("21"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("22"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("23"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("24"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("25"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("26"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("27"));
+        $this->assertEquals("confusao", $this->rowScore->retFator("28"));
+        $this->assertEquals("fadiga", $this->rowScore->retFator("29"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("30"));
+
+        $this->assertEquals("raiva", $this->rowScore->retFator("31"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("32"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("33"));
+        $this->assertEquals("tensao", $this->rowScore->retFator("34"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("35"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("36"));
+        $this->assertEquals("confusao", $this->rowScore->retFator("37"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("38"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("39"));
+        $this->assertEquals("fadiga", $this->rowScore->retFator("40"));
+
+        $this->assertEquals("tensao", $this->rowScore->retFator("41"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("42"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("43"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("44"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("45"));
+        $this->assertEquals("fadiga", $this->rowScore->retFator("46"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("47"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("48"));
+        $this->assertEquals("fadiga", $this->rowScore->retFator("49"));
+        $this->assertEquals("confusao", $this->rowScore->retFator("50"));
+
+        $this->assertEquals("vigor", $this->rowScore->retFator("51"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("52"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("53"));
+        $this->assertEquals("confusao", $this->rowScore->retFator("54"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("55"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("56"));
+        $this->assertEquals("raiva", $this->rowScore->retFator("57"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("58"));
+        $this->assertEquals("confusao", $this->rowScore->retFator("59"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("60"));
+
+        $this->assertEquals("depressao", $this->rowScore->retFator("61"));
+        $this->assertEquals("depressao", $this->rowScore->retFator("62"));
+        $this->assertEquals("vigor", $this->rowScore->retFator("63"));
+        $this->assertEquals("confusao", $this->rowScore->retFator("64"));
+        $this->assertEquals("fadiga", $this->rowScore->retFator("65"));
+    }
 }
