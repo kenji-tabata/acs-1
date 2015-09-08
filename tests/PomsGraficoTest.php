@@ -13,7 +13,7 @@ class GraficoTest extends PHPUnit_Framework_TestCase {
         $graf->setPontuacao(new TScore(), new RowScore());
         $graf->setNomeArquivo();
         $graf->setDisplay(Grafico::GRAVAR_NO_DISCO);
-        $graf->display(Grafico::GRAVAR_NO_DISCO);
+        $graf->display();
 
         $this->assertTrue(file_exists($graf->getNomeArquivo()));
         $graf->deletar_imagem();

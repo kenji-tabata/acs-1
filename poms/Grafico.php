@@ -1,6 +1,5 @@
 <?php
 
-
 class Grafico {
 
     private $imagem;    # array
@@ -30,7 +29,6 @@ class Grafico {
     public function display() {
 
         $this->desenhar_imagem();
-
 
         # Mostrar imagem...
         switch ($this->imagem['display']) {
@@ -70,6 +68,8 @@ class Grafico {
         $font = "fonts/arial.ttf";
 
 
+
+
         /******************************************************************
          ******************************************************************
          **                                                              **
@@ -93,6 +93,7 @@ class Grafico {
 
         $espAltura = 80;
         $espLargura = 80;
+
         /*
          * Grade Horizontal
          */
@@ -125,8 +126,6 @@ class Grafico {
         $x2 = $fimLargura;
         $y2 = $y1;
         imageline($im, $x1, $y1, $x2, $y2, IMG_COLOR_STYLED);
-
-
 
         /*
          * Grade Vertical
@@ -210,7 +209,6 @@ class Grafico {
 
 
 
-
         /******************************************************************
          ******************************************************************
          **                                                              **
@@ -267,8 +265,6 @@ class Grafico {
 
 
 
-
-
         /******************************************************************
          ******************************************************************
          **                                                              **
@@ -308,7 +304,6 @@ class Grafico {
 
 
 
-
         /******************************************************************
          ******************************************************************
          **                                                              **
@@ -331,15 +326,12 @@ class Grafico {
         $row_fadiga = $this->rowScore->fadiga;
         $row_confusao = $this->rowScore->confusao;
 
-
-
         /*
          * Define as fontes
          */
         $font_size = 10;
         $angle = 0;
         $text_color = $cores['preto'];
-
 
         # Coluna 0(zero)
         $x = $marEsq_rodape;
@@ -350,7 +342,6 @@ class Grafico {
 
         $texto = "TScore";
         imagettftext($im, $font_size, $angle, $x, $y+=$alturaLinha, $cores['azul'], $font, $texto);
-
 
         # Coluna 1
         $texto = "Tensao";
@@ -364,7 +355,6 @@ class Grafico {
         $texto = $per_tensao;
         imagettftext($im, $font_size, $angle, $x + 15, $y+=$alturaLinha, $cores['azul'], $font, $texto);
 
-
         # Coluna 2
         $texto = "Depressao";
         $x += $distColuna;
@@ -377,7 +367,6 @@ class Grafico {
         $texto = $per_depressao;
         imagettftext($im, $font_size, $angle, $x + 25, $y+=$alturaLinha, $cores['azul'], $font, $texto);
 
-
         # Coluna 3
         $texto = "Raiva";
         $x += $distColuna + 23;
@@ -389,7 +378,6 @@ class Grafico {
 
         $texto = $per_raiva;
         imagettftext($im, $font_size, $angle, $x + 12, $y+=$alturaLinha, $cores['azul'], $font, $texto);
-
 
         # Coluna 4
         $texto = "Vigor";
@@ -427,7 +415,9 @@ class Grafico {
         $texto = $per_confusao;
         imagettftext($im, $font_size, $angle, $x + 20, $y+=$alturaLinha, $cores['azul'], $font, $texto);
         
+
         
+
         /******************************************************************
          ******************************************************************
          **                                                              **
@@ -439,7 +429,6 @@ class Grafico {
     }
 
     private function retornaDistancia($porcentagem) {
-
         $alturaAreaGrafico = 480;
         $relacao = 8; # $alturaAreaGrafico / 60
         $correcao = 30;
