@@ -11,7 +11,7 @@ class Grafico {
     const GRAVAR_NO_DISCO = 2;
 
     public function setNomeArquivo() {
-        $this->imagem['nome'] = 'temp-files/' . uniqid() . '.png';
+        $this->imagem['nome'] = 'files-temp/' . uniqid() . '.png';
     }
 
     public function getNomeArquivo() {
@@ -118,7 +118,7 @@ class Grafico {
         $y1 = $y1 + $espAltura;
         $x2 = $fimLargura;
         $y2 = $y1;
-        imageline($im, $x1, $y1, $x2, $y2, IMG_COLOR_STYLED);
+        imageline($im, $x1, $y1, $x2, $y2, $cores['azul']);
 
         $x1 = $x1;
         $y1 = $y1 + $espAltura;
