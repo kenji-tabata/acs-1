@@ -1,7 +1,7 @@
 <?php
 
-require "../poms/Calc.php";
-require "../poms/RowScore.php";
+require_once "poms/Calc.php";
+require_once "poms/RowScore.php";
 
 class CalcTest extends PHPUnit_Framework_TestCase {
 
