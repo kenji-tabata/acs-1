@@ -13,9 +13,22 @@ class RowScore {
     public $depressao = 0;
 
     /**
+     * Pegamos "aquela string grandona" que vem
+     * do formulário e quebramos em um array.
+     *
+     * separarStringFormulario('1-5, 2-3, 3-3') == array('1-5', '2-3', '3-3')
+     *
+     * @param type $stringFormulario
+     * @return type
+     */
+    function separarStringFormulario($stringFormulario) {
+        return explode(", ", $stringFormulario);
+    }
+
+    /**
      * O calculo consiste em somar o valor escolhido no formulário
      * A exceção é para as alternativas 22 e 54
-     * 
+     *
      * @param type $id
      * @param type $fator
      * @param type $valor
@@ -27,15 +40,18 @@ class RowScore {
         } else {
             return $this->somar($fator, $valor);
         }
-    }    
-    
+    }
+
+    /**
+     * Soma de froma comulativa
+     */
     public function somar($fator, $valor) {
         return $this->$fator + $valor;
     }
 
     /**
      * Subtrai o valor e soma 4
-     * 
+     *
      * @param type $fator
      * @param type $valor
      * @return type
@@ -47,14 +63,14 @@ class RowScore {
     /**
      * O valor escolhido no formulário deve ser subtraído
      * um unidade.
-     * 
+     *
      * entrada | saída
      *    1        0
      *    2        1
      *    3        2
      *    4        3
      *    5        4
-     * 
+     *
      * @param type $valor
      * @return type
      */
@@ -62,10 +78,38 @@ class RowScore {
         return $valor - 1;
     }
 
+
+    /**
+     * Retorna o id do fator
+     *
+     * retIdFator('10-2') == 10
+     *
+     * @param type $strIdValor
+     * @return type
+     */
+    function retIdFator($strIdValor) {
+        $arr = explode("-", $strIdValor);
+        return $arr[0];
+    }
+
+    /**
+     * Retorna o valor do fator
+     *
+     * retIdFator('10-2') == 2
+     *
+     * @param type $strIdValor
+     * @return type
+     */
+    function retValorFator($strIdValor) {
+        $arr = explode("-", $strIdValor);
+        return $arr[1];
+    }
+
+
     /**
      * Eis a relação das alternativas e os fatores
      * A 'key' deve ser equivalente ao formulário
-     * 
+     *
      * @param type $key
      * @return string
      */

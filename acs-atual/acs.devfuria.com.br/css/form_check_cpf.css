@@ -1,0 +1,55 @@
+/* Caixa de Check Cpf */
+
+#box-check-cpf {
+        margin: auto;   
+        width: 450px;
+        padding: 20px;
+        margin-top: 150px;
+        background-color: #ffffff;
+}
+
+#box-check-cpf form fieldset {
+        width: 420px;
+        border: none;
+        padding-top: 15px;
+}
+
+#box-check-cpf form label {
+        width: 100%;
+        display: inline-block;
+}
+
+#box-check-cpf form .texto {
+        padding: 5px;
+        width: 100%;
+        display: inline-block;
+        border: 1px solid #ccc;
+}
+
+#box-check-cpf form .botao {
+        padding: 5px;
+        margin-top: 10px;
+        width: 52px;
+        display: inline;
+        border: 1px solid #ccc;
+}
+
+#box-check-cpf hr {
+        margin: 20px 0px 20px 0px;
+}
+
+/*
+    Aplica sombra
+*/
+
+.shadow {
+        -moz-border-radius: 3px; /* Firefox */
+        -webkit-border-radius: 3px; /* Safari and Chrome */
+        border-radius: 3px; /* Opera 10.5+, future browsers, and now also Internet Explorer 6+ using IE-CSS3 */
+
+        -moz-box-shadow: 10px 10px 30px #666; /* Firefox */
+        -webkit-box-shadow: 10px 10px 30px #666; /* Safari and Chrome */
+        box-shadow: 10px 10px 30px #666; /* Opera 10.5+, future browsers and IE6+ using IE-CSS3 */
+
+        behavior: url(js/ie-css3.htc); /* This lets IE know to call the script on all elements which get the 'box' class */
+}

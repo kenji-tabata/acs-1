@@ -1,0 +1,29 @@
+/* Formulario Padrao */
+
+.default-form {
+        width: 100%;
+        display: inline-block;
+}
+
+form.default-form fieldset {
+        width: 100%;
+        border: none;
+        padding: 0px;
+}
+
+form.default-form label {
+        width: 100%;
+        display: inline-block;
+}
+
+form.default-form input.botao {
+        width: 100px;
+        float: right;
+}
+
+form.default-form input, form.default-form textarea, form.default-form select {
+        padding: 4px 0px 4px 0px;
+        margin-bottom: 15px;
+        border: #ccc solid 2px;
+        width: 100%;
+}

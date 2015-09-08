@@ -1,0 +1,23 @@
+/* Footer */
+
+#footer {
+	height: 50px;
+	margin: 0 auto;
+	padding: 0px 0 15px 0;
+	background: #ECECEC;
+	border-top: 1px solid #DEDEDE;
+}
+
+#footer p {
+	margin: 0;
+	padding-top: 20px;
+	line-height: normal;
+	font-size: 9px;
+	text-transform: uppercase;
+	text-align: center;
+	color: #A0A0A0;
+}
+
+#footer a {
+	color: #8A8A8A;
+}
