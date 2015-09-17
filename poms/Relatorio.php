@@ -2,233 +2,209 @@
 
 require_once "includes/pdf/fpdf.php";
 require_once "includes/pdf/pdfwritetag.php";
-require_once "Grafico.php";
-require_once "RowScore.php";
-require_once "TScore.php";
+
+class Relatorio {
+
+    private $fpdf;
+
+    function __construct($pesquisado, $laudo) {
+
+        $this->texto = array(
+            'titulo'       => "LAUDO DE AVALIAÇÂO SITUACIONAL DE ESTADO DE HUMOR",
+            'POMS'         => "\"POMS\"",
+            'pesquisado'   => array(
+                'nome'  => $pesquisado->nome,
+                'cpf'   => $pesquisado->cpf,
+                'email' => $pesquisado->email,
+                'sexo'  => $pesquisado->sexo,
+            ),
+            'sub-titulo-1' => "1. Descrição do Dispositivo de diagnóstico e métricas de avaliação \"POMS\" \- "
+                            . "Profile of Moode State (de MacNair, Loor y Dropleman (1971)).",
+            'descricao-1'  => "O POMS é um dispositivo de diagnóstico situacional do estado de ânimo - autoinforme emocional - "
+                            . "que tem como objetivo avaliar seis estados de ânimo ou estados afetivos relacionais caracterizados, "
+                            . "como: tensão-ansiedade (fator T); depressão-melancolia (fator D); agressividade-cólera (fator A); "
+                            . "vigor afetividade (fator V); fadiga-inércia (fator F) e confusão-desorientação (fator C). "
+                            . "Os estados de ânimo são flutuantes e transitórios, oscilando entre dois pólos: desde os "
+                            . "estados de ânimos agradáveis até os estados de ânimos desagradáveis, dependendo da gravitação "
+                            . "de energias (física, social, emocional, espiritual, etc.) pela qual as pessoas estão sujeitas a "
+                            . "sentimentos de segurança ou insegurança. É composto por um conjunto de sessenta e cinco adjetivos "
+                            . "como medidas de avaliação e alterações de estados de ânimo/humor das pessoas no contexto social e "
+                            . "organizacional. Um dispositivo de avaliação que pode ser utilizado na seleção de pessoas, sempre e "
+                            . "quando administrado em conjunto com outros dispositivos para tal finalidade. A pontuação "
+                            . "de cada fator de estado de ânimo/humor é obtida pela soma das respostas como medidas de "
+                            . "avaliação de estados de humor e suas relações com o contexto social e organizacional em geral. "
+                            . "A somatória total das pontuações aos seis estados de ânimo/humor determina o que chamamos de: Perfil Iceberg.",
+            'sub-titulo-2' => "2. Apresentação e Análise dos Resultados.",
+            'laudo'        => array(
+                'titulo-a1' => $laudo->titulo_a1,
+                'titulo-a2' => $laudo->titulo_a2,
+                'titulo-a3' => $laudo->titulo_a3,
+                'corpo'     => $laudo->corpo
+            ),
+            'rodape-esq'   => 'Gerado em ' . date('d/m/Y') . ' às ' . date('G:i') . 'hs' . '.',
+            'rodape-dir'   => "Página 1"
+        );
+
+        /**
+         * Codificar para utf8
+         *
+         * Débito técnico: percorrer em profundidade de forma mais decente!
+         */
+        foreach ($this->texto as $key => $value) {
+            if ($key == "laudo") {
+                foreach ($value as $laudo_key => $laudo_value) {
+                    $this->texto[$key][$laudo_key] = utf8_decode($laudo_value);
+                }
+            } else if ($key == "pesquisado") {
+                foreach ($value as $pesq_key => $pesq_value) {
+                    $this->texto[$key][$pesq_key] = utf8_decode($pesq_value);
+                }
+            } else {
+                $this->texto[$key] = utf8_decode($value);
+            }
+        }
+    }
 
 
+    function setGrafico($arquivo) {
+        $this->nome_arquivo_grafico = $arquivo;
+    }
 
-class Pesquisado {
+    function gerar() {
+        $this->fpdf = new PdfWriteTag();
+
+        $this->fpdf->AddPage();
+        $this->gerar_cabecalho();
+
+        $this->fpdf->SetY(25);
+        $this->gerar_informacoes_pesquisado();
+        $this->fpdf->Ln();
+
+        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0" );
+
+        $this->gerar_sub_titulo_1();
+        $this->fpdf->Ln();
+
+        $this->gerar_descricao_1();
+        $this->fpdf->Ln(10);
+
+        $this->gerar_sub_titulo_2();
+        $this->fpdf->Ln(8);
+
+        $this->gerar_grafico($this->nome_arquivo_grafico);
+
+        $this->gerar_laudo();
+        $this->fpdf->Ln(60);
+
+        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0");
+        $this->gerar_laudo_corpo();
+        $this->fpdf->Ln();
+
+        $this->gerar_rodape();
+
+    }
+
+    private function gerar_cabecalho() {
+        $this->fpdf->SetFont('Arial','B',12);
+        $this->fpdf->Cell(0, 7, $this->texto['titulo'], 0, 1, "C");
+        $this->fpdf->Cell(0, 7, $this->texto['POMS'], 0, 0, "C");
+
+        $this->fpdf->Line($x1=10, $y1=24, $x2=200, $y2=24);
+    }
+
+    private function gerar_informacoes_pesquisado() {
+        $wd = 15; # tamanho dos campos
+        $ht = 5;  # altura das linhas
+
+        $this->fpdf->SetFont('Arial','B', 7);
+        $this->fpdf->Cell($wd, $ht, "Nome :");
+        $this->fpdf->SetFont('Arial','', 7);
+        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['nome'], 0, 1);
+
+        $this->fpdf->SetFont('Arial','B', 7);
+        $this->fpdf->Cell($wd, $ht, "Cpf :");
+        $this->fpdf->SetFont('Arial','', 7);
+        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['cpf'], 0, 1);
+
+        $this->fpdf->SetFont('Arial','B', 7);
+        $this->fpdf->Cell($wd, $ht, "Email: ");
+        $this->fpdf->SetFont('Arial','', 7);
+        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['email'], 0, 1);
+
+        $this->fpdf->SetFont('Arial','B', 7);
+        $this->fpdf->Cell($wd, $ht, "Sexo: ");
+        $this->fpdf->SetFont('Arial','', 7);
+        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['sexo'], 0, 1);
+    }
+
+    private function gerar_sub_titulo_1() {
+        $texto = $this->texto['sub-titulo-1'];
+        $this->fpdf->WriteTag($w=0, $h=6,  "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
+    }
+
+    private function gerar_descricao_1() {
+        $texto = $this->texto['descricao-1'];
+        $this->fpdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
+    }
+
+    private function gerar_sub_titulo_2() {
+        $texto = $this->texto['sub-titulo-2'];
+        $this->fpdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
+    }
+
+    private function gerar_grafico($nome_arquivo) {
+        $this->fpdf->Image($nome_arquivo, $x=10, $y=130, $w=70, $h=70);
+    }
+
+    private function gerar_laudo() {
+        $margem_esquerda = 75;
+
+        $this->fpdf->SetFont('Arial','B',12);
+
+        $this->fpdf->Cell($margem_esquerda);
+        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a1'], 0, 1);
+
+        $this->fpdf->Cell($margem_esquerda);
+        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a2'], 0, 1);
+
+        $this->fpdf->Cell($margem_esquerda);
+        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a3'], 0, 0);
+    }
+
+    private function gerar_laudo_corpo() {
+        $this->fpdf->WriteTag($w=0, $h=6, "<p>" . $this->texto['laudo']['corpo'] . "</p>", $border=0, $align="J",  $fill=0,  $padding=0);
+    }
+
+    private function gerar_rodape() {
+        $r_x1 = 10;
+        $r_y1 = 269;
+        $r_x2 = 200;
+        $r_y2 = $r_y1;
+
+        $this->fpdf->Line($r_x1, $r_y1, $r_x2, $r_y2);
+
+        $this->fpdf->SetFont('Arial','',7);
+        $this->fpdf->SetY($r_y1 + 1);
+        $this->fpdf->Cell(10, 2, $this->texto['rodape-esq']);
+
+        $this->fpdf->SetY($r_y1 - 1.5);
+        $this->fpdf->SetX(180);
+        $this->fpdf->Cell(0, 7, $this->texto['rodape-dir']);
+    }
+
+    function getNomeArquivo() {
+        return "files-temp/laudo.pdf";
+    }
+
+    function gravar() {
+        $this->fpdf->SetDisplayMode('fullpage', 'single');
+        $this->fpdf->Output($this->getNomeArquivo());
+    }
+
+    function deletar_relatorio() {
+        unlink($this->getNomeArquivo());
+    }
 
 }
 
-$pesquisado = new Pesquisado();
-$pesquisado->nome  = "Flávio";
-$pesquisado->cpf   = "111.2222.333.45";
-$pesquisado->email = "fulano@qualquer.com.br";
-$pesquisado->sexo  = "masculino";
-
-$laudo = array(
-    "titulo-1" => "Estado de Humor / Ánimo Ótimo - ",
-    "titulo-2" => "'Perfil Iceberg' - ao lado",
-    "corpo" => "Indica que a pessoa avaliada apresenta um Estados de Humor/ Ánimo com índices de energias afetivas dentro da média populacional e com disposição para agir e lidar normalmente para levar adiante suas atividades pessoais e profissionais. Indica que os seis fatores (vigor-afetividade, tensão-ansiedade, depressao-melancolia; agressividade-cólera, fadiga-inércia e confusão-desorientação) que constituem o \"Perfil Iceberg\" estáo com índices de energias afetivas relacionais capazes de levar a pessoa a manter um padrão de comportamento caracterizado por autodomínio, autoconfiança e autonomia de competência para superar obstáculos impelida por estados de ánimo/humor estáveis e com pouca oscilação. De uma pessoa confiante, animada e produtiva com impulso competitivo, determinada a fazer com que as coisas aconteçam. Esse Perfil Iceberg representa que a pessoa está agindo normalmente ao fazer as coisas no seu dia-a-dia e adaptando-se às condições de mudanças no meio social ambiental e com impulso para tomar decisões, assumir riscos visando melhor aproveitamento do seu perfil pessoal e profissional.",
-);
-
-
-$fpdf = new PdfWriteTag();
-
-/******************************************************************
- ******************************************************************
- **                                                              **
- **                          Cabeçalho                           **
- **                                                              **
- ******************************************************************
- ******************************************************************/
-$fpdf->AddPage();
-$fpdf->SetFont('Arial','B',12);
-$fpdf->Cell(0, 7, utf8_decode("LAUDO DE AVALIAÇÂO SITUACIONAL DE ESTADO DE HUMOR"), 0, 1, "C");
-$fpdf->Cell(0, 7, "\"POMS\"", 0, 0, "C");
-
-
-$x1 = 10;
-$y1 = 24;#17
-$x2 = 200;
-$y2 = $y1;
-$fpdf->Line($x1, $y1, $x2, $y2);
-
-
-
-
-/******************************************************************
- ******************************************************************
- **                                                              **
- **                         Pesquisado                           **
- **                                                              **
- ******************************************************************
- ******************************************************************/
-$fpdf->SetY(25); # toma distância do cabeçalho
-$wd = 15;        # tamanho dos campos
-$ht = 5;         # altura das linhas
-
-$fpdf->SetFont('Arial','B', 7);
-$fpdf->Cell($wd, $ht, "Nome :");
-$fpdf->SetFont('Arial','', 7);
-$fpdf->Cell(10, $ht, utf8_decode($pesquisado->nome), 0, 1);
-
-$fpdf->SetFont('Arial','B', 7);
-$fpdf->Cell($wd, $ht, "Cpf :");
-$fpdf->SetFont('Arial','', 7);
-$fpdf->Cell(10, $ht, utf8_decode($pesquisado->cpf), 0, 1);
-
-$fpdf->SetFont('Arial','B', 7);
-$fpdf->Cell($wd, $ht, "Email: ");
-$fpdf->SetFont('Arial','', 7);
-$fpdf->Cell(10, $ht, utf8_decode($pesquisado->email), 0, 1);
-
-$fpdf->SetFont('Arial','B', 7);
-$fpdf->Cell($wd, $ht, "Sexo: ");
-$fpdf->SetFont('Arial','', 7);
-$fpdf->Cell(10, $ht, utf8_decode($pesquisado->sexo), 0, 1);
-$fpdf->Ln();
-
-
-
-
-/******************************************************************
- ******************************************************************
- **                                                              **
- **                           Texto                              **
- **                                                              **
- ******************************************************************
- ******************************************************************/
-$fpdf->SetStyle($tag="p",
-                $fonte="Arial",
-                $style="N",
-                $size=7,
-                $cor="0, 0, 0"
-              );
-
-
-$texto = utf8_decode("1. Descrição do Dispositivo de diagnóstico e métricas de avaliação \"POMS\" \- Profile of Moode State (de MacNair, Loor y Dropleman (1971)).");
-$fpdf->WriteTag($w=0,
-                $h=6,
-                "<p>".$texto."</p>",
-                $border=0,
-                $align="J",
-                $fill=0,
-                $padding=0);
-$fpdf->Ln();
-
-
-$texto = utf8_decode("O POMS é um dispositivo de diagnóstico situacional do estado de ânimo - autoinforme emocional - que tem como objetivo avaliar seis estados de ânimo ou estados afetivos relacionais caracterizados, como: tensão-ansiedade (fator T); depressão-melancolia (fator D); agressividade-cólera (fator A); vigor afetividade (fator V); fadiga-inércia (fator F) e confusão-desorientação (fator C). Os estados de ânimo são flutuantes e transitórios, oscilando entre dois pólos: desde os estados de ânimos agradáveis até os estados de ânimos desagradáveis, dependendo da gravitação de energias (física, social, emocional, espiritual, etc.) pela qual as pessoas estão sujeitas a sentimentos de segurança ou insegurança. É composto por um conjunto de sessenta e cinco adjetivos como medidas de avaliação e alterações de estados de ânimo/humor das pessoas no contexto social e organizacional. Um dispositivo de avaliação que pode ser utilizado na seleção de pessoas, sempre e quando administrado em conjunto com outros dispositivos para tal finalidade. A pontuação de cada fator de estado de ânimo/humor é obtida pela soma das respostas como medidas de avaliação de estados de humor e suas relações com o contexto social e organizacional em geral. A somatória total das pontuações aos seis estados de ânimo/humor determina o que chamamos de: Perfil Iceberg.");
-$fpdf->WriteTag($w=0,
-                $h=6,
-                "<p>".$texto."</p>",
-                $border=0,
-                $align="J",
-                $fill=0,
-                $padding=0);
-$fpdf->Ln(10);
-
-
-$texto = utf8_decode("2. Apresentação e Análise dos Resultados.");
-$fpdf->WriteTag($w=0,
-                $h=6,
-                "<p>".$texto."</p>",
-                $border=0,
-                $align="J",
-                $fill=0,
-                $padding=0);
-
-
-
-
-/******************************************************************
- ******************************************************************
- **                                                              **
- **                            Gráfico                           **
- **                                                              **
- ******************************************************************
- ******************************************************************/
-$graf = new Grafico();
-$graf->setPontuacao(new TScore(), new RowScore());
-$graf->setNomeArquivo();
-$graf->setDisplay(Grafico::GRAVAR_NO_DISCO);
-$graf->display(Grafico::GRAVAR_NO_DISCO);
-
-$graf->deletar_imagem();
-
-// $x = 10;
-// $y = 130;
-// $w = 70;
-// $h = 70;
-// $fpdf->Image($graf->getNomeArquivo(), $x, $y , $w, $h);
-// $graf->deletar_imagem();
-// $fpdf->Ln(8);
-
-
-
-
-/******************************************************************
- ******************************************************************
- **                                                              **
- **                             Laudo                            **
- **                                                              **
- ******************************************************************
- ******************************************************************/
-
-// Nome do laudo
-$fpdf->SetFont('Arial','B',12);
-$margem_esquerda = 75;
-
-$fpdf->Cell($margem_esquerda);
-$fpdf->Cell(0, 7, "Parecer Psicológico", 0, 1);
-
-$fpdf->Cell($margem_esquerda);
-$fpdf->Cell(0, 7, utf8_decode($laudo['titulo-1']), 0, 1);
-
-$fpdf->Cell($margem_esquerda);
-$fpdf->Cell(0, 7, utf8_decode($laudo['titulo-2']), 0, 0);
-$fpdf->Ln(50);
-
-// Corpo do laudo
-$fpdf->SetStyle($tag="p",
-                $fonte="Arial",
-                $style="N",
-                $size=7,
-                $cor="0, 0, 0"
-              );
-$fpdf->WriteTag($w=0,
-                $h=6,
-                "<p>".utf8_decode($laudo['corpo'])."</p>",
-                $border=0,
-                $align="J",
-                $fill=0,
-                $padding=0);
-$fpdf->Ln();
-
-
-
-
-/******************************************************************
- ******************************************************************
- **                                                              **
- **                             Rodapé                           **
- **                                                              **
- ******************************************************************
- ******************************************************************/
-$r_x1 = 10;
-$r_y1 = 269;
-$r_x2 = 200;
-$r_y2 = $r_y1;
-$fpdf->Line($r_x1, $r_y1, $r_x2, $r_y2);
-
-$fpdf->SetFont('Arial','',7);
-$fpdf->SetY($r_y1 + 1);
-$fpdf->Cell(10, 2, utf8_decode('Impresso em '.date('d/m/Y').' às '.date('G:i').'hs'.'.'));
-
-$fpdf->SetY($r_y1 - 1.5);
-$fpdf->SetX(180);
-$fpdf->Cell(0, 7, 'Página 1');
-
-
-/******************************************************************
- ******************************************************************
- **                                                              **
- **                            Display                           **
- **                                                              **
- ******************************************************************
- ******************************************************************/
-$fpdf->SetDisplayMode('fullpage', 'single'); # Modo de visualização
-$fpdf->Output("files-temp/laudo.pdf");
 ?>
