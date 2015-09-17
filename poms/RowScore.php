@@ -43,7 +43,7 @@ class RowScore {
     }
 
     /**
-     * Soma de froma comulativa
+     * Soma de forma comulativa
      */
     public function somar($fator, $valor) {
         return $this->$fator + $valor;

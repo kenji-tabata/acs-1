@@ -20,11 +20,9 @@ class RowScoreTest extends PHPUnit_Framework_TestCase {
 
     public function testRetIdFator() {
         $this->assertEquals(1, $this->rowScore->retIdFator("1-5"));
-        $this->assertEquals(2, $this->rowScore->retIdFator("2-5"));
-        $this->assertEquals(3, $this->rowScore->retIdFator("3-5"));
         $this->assertEquals(4, $this->rowScore->retIdFator("4-5"));
-        $this->assertEquals(5, $this->rowScore->retIdFator("5-5"));
-        $this->assertEquals(99, $this->rowScore->retIdFator("99-5"));
+        $this->assertEquals(11, $this->rowScore->retIdFator("11-5"));
+        $this->assertEquals(12, $this->rowScore->retIdFator("12-5"));
     }
 
     /**
@@ -36,12 +34,14 @@ class RowScoreTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(3, $this->rowScore->retValorFator("1-3"));
         $this->assertEquals(4, $this->rowScore->retValorFator("1-4"));
         $this->assertEquals(5, $this->rowScore->retValorFator("1-5"));
-        $this->assertEquals(99, $this->rowScore->retValorFator("1-99"));
     }
 
+    /**
+     *  Repare que a soma é de forma comulativa
+     */
     public function testSomar() {
 
-        # Note que `$rowScore->vigor = 0`
+        # O valor inicial de `$rowScore->vigor = 0`
 
         $this->rowScore->vigor = $this->rowScore->somar('vigor', 1);
         $this->assertEquals(1, $this->rowScore->vigor);
@@ -55,8 +55,7 @@ class RowScoreTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Após subtrair o valor escolhido (no formulario)
-     * somamos 4 unidades.
+     * Após subtrair o valor escolhido (no formulário) somamos 4 unidades.
      *
      * Ex:
      * $rowScore->vigor = 10
@@ -65,7 +64,7 @@ class RowScoreTest extends PHPUnit_Framework_TestCase {
      * 10 - 2 + 4
      */
     public function testSubtrairSomaQuatro() {
-        # Note que `$rowScore->vigor = 0`
+        # O valor inicial de `$rowScore->vigor = 0`
 
         $this->rowScore->vigor = $this->rowScore->subtrairSomaQuatro('vigor', 1);
         $this->assertEquals(3, $this->rowScore->vigor);
@@ -116,6 +115,9 @@ class RowScoreTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $this->rowScore->corrigirValor(1));
     }
 
+    /**
+     * As 65 questões do formulário possuem um fator atrelado.
+     */
     public function testRetFator() {
         $this->assertEquals("vigor", $this->rowScore->retFator("1"));
         $this->assertEquals("tensao", $this->rowScore->retFator("2"));

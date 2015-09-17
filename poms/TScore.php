@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Classe que abstrai a pontuação row-score do método Poms
+ * Classe que abstrai a pontuação TScore do método Poms
  */
 class TScore {
 
@@ -290,7 +290,7 @@ class TScore {
             23 => 99,
             24 => 100
         );
-        
+
         return $relacao[$fator][$row_score];
     }
 }
