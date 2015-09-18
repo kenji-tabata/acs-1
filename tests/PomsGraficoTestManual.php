@@ -31,6 +31,6 @@ $graf = new Grafico();
 $graf->setPontuacao($tScore, $rowScore);
 $graf->setNomeArquivo();
 $graf->setDisplay(Grafico::GRAVAR_NO_DISCO);
-$graf->display(Grafico::GRAVAR_NO_DISCO);
+$graf->display();
 
 print($graf->getNomeArquivo(). "\n");

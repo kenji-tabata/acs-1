@@ -37,8 +37,24 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
             . "dia-a-dia e adaptando-se às condições de mudanças no meio social ambiental e com impulso para "
             . "tomar decisões, assumir riscos visando melhor aproveitamento do seu perfil pessoal e profissional.";
 
+        $tScore = new TScore();
+        $tScore->tensao    = 46;
+        $tScore->depressao = 40;
+        $tScore->raiva     = 40;
+        $tScore->vigor     = 80;
+        $tScore->fadiga    = 40;
+        $tScore->confusao  = 51;
+
+        $rowScore = new RowScore();
+        $rowScore->tensao    = 4;
+        $rowScore->depressao = 0;
+        $rowScore->raiva     = 0;
+        $rowScore->vigor     = 37;
+        $rowScore->fadiga    = 0;
+        $rowScore->confusao  = 4;
+
         $this->grafico = new Grafico();
-        $this->grafico->setPontuacao(new TScore(), new RowScore());
+        $this->grafico->setPontuacao($tScore, $rowScore);
         $this->grafico->setNomeArquivo();
         $this->grafico->setDisplay(Grafico::GRAVAR_NO_DISCO);
         $this->grafico->display();
