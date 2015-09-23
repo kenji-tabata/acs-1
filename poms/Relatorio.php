@@ -72,47 +72,16 @@ class Relatorio {
 
     function gerar() {
         $this->fpdf = new PdfWriteTag();
-
         $this->fpdf->AddPage();
-        $this->gerar_cabecalho();
-
-        $this->fpdf->SetY(25);
-        $this->gerar_informacoes_pesquisado();
-        $this->fpdf->Ln();
-
-        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0" );
-
-        $this->gerar_sub_titulo_1();
-        $this->fpdf->Ln();
-
-        $this->gerar_descricao_1();
-        $this->fpdf->Ln(10);
-
-        $this->gerar_sub_titulo_2();
-        $this->fpdf->Ln(8);
-
-        $this->gerar_grafico($this->nome_arquivo_grafico);
-
-        $this->gerar_laudo();
-        $this->fpdf->Ln(60);
-
-        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0");
-        $this->gerar_laudo_corpo();
-        $this->fpdf->Ln();
-
-        $this->gerar_rodape();
-
-    }
-
-    private function gerar_cabecalho() {
+        
+        # Cabeçalho
         $this->fpdf->SetFont('Arial','B',12);
         $this->fpdf->Cell(0, 7, $this->texto['titulo'], 0, 1, "C");
         $this->fpdf->Cell(0, 7, $this->texto['POMS'], 0, 0, "C");
+        $this->fpdf->Line($x1=10, $y1=24, $x2=200, $y2=24);        
+        $this->fpdf->SetY(25);
 
-        $this->fpdf->Line($x1=10, $y1=24, $x2=200, $y2=24);
-    }
-
-    private function gerar_informacoes_pesquisado() {
+        # Informações do pesquisado
         $wd = 15; # tamanho dos campos
         $ht = 5;  # altura das linhas
 
@@ -135,30 +104,29 @@ class Relatorio {
         $this->fpdf->Cell($wd, $ht, "Sexo: ");
         $this->fpdf->SetFont('Arial','', 7);
         $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['sexo'], 0, 1);
-    }
 
-    private function gerar_sub_titulo_1() {
+        $this->fpdf->Ln();
+        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0" );
+
+        # Sub título 1
         $texto = $this->texto['sub-titulo-1'];
         $this->fpdf->WriteTag($w=0, $h=6,  "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-    }
+        $this->fpdf->Ln();
 
-    private function gerar_descricao_1() {
+        # Descrição 1
         $texto = $this->texto['descricao-1'];
         $this->fpdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-    }
+        $this->fpdf->Ln(10);
 
-    private function gerar_sub_titulo_2() {
+        # Sub título 2
         $texto = $this->texto['sub-titulo-2'];
         $this->fpdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-    }
+        $this->fpdf->Ln(8);
 
-    private function gerar_grafico($nome_arquivo) {
-        $this->fpdf->Image($nome_arquivo, $x=10, $y=130, $w=70, $h=70);
-    }
+        $this->fpdf->Image($this->nome_arquivo_grafico, $x=10, $y=130, $w=70, $h=70);
 
-    private function gerar_laudo() {
+        # Texto específico do laudo
         $margem_esquerda = 75;
-
         $this->fpdf->SetFont('Arial','B',12);
 
         $this->fpdf->Cell($margem_esquerda);
@@ -169,28 +137,27 @@ class Relatorio {
 
         $this->fpdf->Cell($margem_esquerda);
         $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a3'], 0, 0);
-    }
+        $this->fpdf->Ln(60);
 
-    private function gerar_laudo_corpo() {
+        # corpo do laudo        
+        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0");
         $this->fpdf->WriteTag($w=0, $h=6, "<p>" . $this->texto['laudo']['corpo'] . "</p>", $border=0, $align="J",  $fill=0,  $padding=0);
-    }
 
-    private function gerar_rodape() {
-        $r_x1 = 10;
-        $r_y1 = 269;
-        $r_x2 = 200;
-        $r_y2 = $r_y1;
+        $this->fpdf->Ln();
 
-        $this->fpdf->Line($r_x1, $r_y1, $r_x2, $r_y2);
+        # Rodapé
+        $this->fpdf->Line(10, 269, 200, 269);
+        $this->fpdf->SetY(269 + 1);
 
         $this->fpdf->SetFont('Arial','',7);
-        $this->fpdf->SetY($r_y1 + 1);
         $this->fpdf->Cell(10, 2, $this->texto['rodape-esq']);
 
-        $this->fpdf->SetY($r_y1 - 1.5);
+        $this->fpdf->SetY(269 - 1.5);
         $this->fpdf->SetX(180);
         $this->fpdf->Cell(0, 7, $this->texto['rodape-dir']);
+
     }
+
 
     function getNomeArquivo() {
         return "files-temp/laudo.pdf";

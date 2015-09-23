@@ -54,7 +54,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
 
 
         $this->assertTrue(file_exists($relatorio->getNomeArquivo()));
-        //$relatorio->deletar_relatorio();
+        $relatorio->deletar_relatorio();
         $this->grafico->deletar_imagem();
     }
 
