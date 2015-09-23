@@ -12,8 +12,16 @@ class TScore {
     public $fadiga    = 0;
     public $depressao = 0;
 
+    public function converterParaTScore($row_score) {
+        $this->tensao    = $this->retValorTScore('tensao',    $row_score->tensao);
+        $this->depressao = $this->retValorTScore('depressao', $row_score->depressao);
+        $this->raiva     = $this->retValorTScore('raiva',     $row_score->raiva);
+        $this->vigor     = $this->retValorTScore('vigor',     $row_score->vigor);
+        $this->fadiga    = $this->retValorTScore('fadiga',    $row_score->fadiga);
+        $this->confusao  = $this->retValorTScore('confusao',  $row_score->confusao);
+    }
 
-    public function converterParaTScore($fator, $row_score) {
+    public function retValorTScore($fator, $valor_row_score) {
 
         $relacao['tensao'] = array(
             0 => 40,
@@ -291,6 +299,6 @@ class TScore {
             24 => 100
         );
 
-        return $relacao[$fator][$row_score];
+        return $relacao[$fator][$valor_row_score];
     }
 }
