@@ -6,8 +6,6 @@
 class Calc {
 
     /**
-     * Método principal
-     *
      * Devemos passar a string que vem do formulário, ex: "1-5, 2-3, 3-3, etc..."
      *
      * @param type $stringFormulario
@@ -42,9 +40,13 @@ class Calc {
         return $rowScore;
     }
 
-
-
-
-
+    /**
+     * Após calculado o rowScore devemos ncontar o TScore
+     */
+    function tScore($rowScore) {
+        $tScore = new TScore();
+        $tScore->converterParaTScore($rowScore);
+        return $tScore;
+    }
 
 }
