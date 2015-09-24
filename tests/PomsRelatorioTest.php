@@ -24,7 +24,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->laudo->titulo_a1 = "Parecer Psicológico";
         $this->laudo->titulo_a2 = "Estado de Humor / Ánimo Ótimo - ";
         $this->laudo->titulo_a3 = "'Perfil Iceberg' - ao lado";
-        $this->laudo->corpo    = "Indica que a pessoa avaliada apresenta um Estados de Humor/ Ánimo com índices de energias "
+        $this->laudo->corpo     = "Indica que a pessoa avaliada apresenta um Estados de Humor/ Ánimo com índices de energias "
             . "afetivas dentro da média populacional e com disposição para agir e lidar normalmente para "
             . "levar adiante suas atividades pessoais e profissionais. Indica que os seis fatores "
             . "(vigor-afetividade, tensão-ansiedade, depressao-melancolia; agressividade-cólera, "
