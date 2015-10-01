@@ -69,7 +69,6 @@ class Grafico {
 
 
 
-
         /******************************************************************
          ******************************************************************
          **                                                              **
@@ -168,7 +167,6 @@ class Grafico {
 
 
 
-
         /******************************************************************
          ******************************************************************
          **                                                              **
@@ -205,7 +203,6 @@ class Grafico {
         $x2 = $fimLargura;
         $y2 = $fimAltura;
         imageline($im, $x1, $y1, $x2, $y2, $corContorno);
-
 
 
 
@@ -264,7 +261,6 @@ class Grafico {
 
 
 
-
         /******************************************************************
          ******************************************************************
          **                                                              **
@@ -277,7 +273,7 @@ class Grafico {
         $font_size = 7;
         $angle = 0;
         $x = 40;
-        $y = $marSup + 4; # esse 4 é para centralizar certicalmente
+        $y = $marSup + 4; # esse 4 é para centralizar verticalmente
 
 
         $texto = "90%";
@@ -300,7 +296,6 @@ class Grafico {
 
         $texto = "30%";
         imagettftext($im, $font_size, $angle, $x, $y+=$espAltura, $text_color, $font, $texto);
-
 
 
 
@@ -414,9 +409,8 @@ class Grafico {
 
         $texto = $per_confusao;
         imagettftext($im, $font_size, $angle, $x + 20, $y+=$alturaLinha, $cores['azul'], $font, $texto);
-        
 
-        
+
 
         /******************************************************************
          ******************************************************************

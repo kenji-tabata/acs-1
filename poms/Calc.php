@@ -41,7 +41,7 @@ class Calc {
     }
 
     /**
-     * Após calculado o rowScore devemos ncontar o TScore
+     * Após calculado o rowScore devemos montar o TScore
      */
     function tScore($rowScore) {
         $tScore = new TScore();
