@@ -1,12 +1,12 @@
 <?php
 
-require_once "poms/Laudo.php";
+require_once "poms/Laudos.php";
 require_once "poms/TScore.php";
 require_once "poms/RowScore.php";
 
 class LaudoTest extends PHPUnit_Framework_TestCase {
     public function setUp() {
-        $this->laudo  = new Laudo();
+        $this->laudo  = new Laudos();
         $this->tscore = new TScore();
     }
 

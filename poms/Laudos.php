@@ -1,6 +1,6 @@
 <?php
 
-class Laudo {
+class Laudos {
 
     function __construct($linha_corte=50) {
         # O padrão é 50

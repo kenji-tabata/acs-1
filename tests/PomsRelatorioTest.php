@@ -2,7 +2,7 @@
 
 require_once "poms/Relatorio.php";
 require_once "poms/Pesquisado.php";
-require_once "poms/Laudo.php";
+require_once "poms/Laudos.php";
 require_once "poms/Grafico.php";
 require_once "poms/TScore.php";
 require_once "poms/RowScore.php";
@@ -10,7 +10,7 @@ require_once "poms/RowScore.php";
 
 class RelatorioTest extends PHPUnit_Framework_TestCase {
     protected $pesquisado;
-    protected $laudo;
+    protected $laudos;
 
     protected function setUp() {
 
@@ -42,7 +42,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->grafico->setDisplay(Grafico::GRAVAR_NO_DISCO);
         $this->grafico->display();
 
-        $this->laudo = new Laudo();
+        $this->laudo = new Laudos;
         $this->laudo->descobrir($tScore);
 
     }
@@ -60,7 +60,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
 
     public function testTodosOsLaudos() {
         $laudos = array();
-        $laudo  = new Laudo();
+        $laudo  = new Laudos();
 
         $laudo->laudo01();
         $laudos[] = clone $laudo;
