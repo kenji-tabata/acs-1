@@ -21,21 +21,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->pesquisado->sexo  = "masculino";
 
         $this->laudo = new Laudo();
-        $this->laudo->titulo_a1 = "Parecer Psicológico";
-        $this->laudo->titulo_a2 = "Estado de Humor / Ánimo Ótimo - ";
-        $this->laudo->titulo_a3 = "'Perfil Iceberg' - ao lado";
-        $this->laudo->corpo     = "Indica que a pessoa avaliada apresenta um Estados de Humor/ Ánimo com índices de energias "
-            . "afetivas dentro da média populacional e com disposição para agir e lidar normalmente para "
-            . "levar adiante suas atividades pessoais e profissionais. Indica que os seis fatores "
-            . "(vigor-afetividade, tensão-ansiedade, depressao-melancolia; agressividade-cólera, "
-            . "fadiga-inércia e confusão-desorientação) que constituem o \"Perfil Iceberg\" estão com índices "
-            . "de energias afetivas relacionais capazes de levar a pessoa a manter um padrão de comportamento "
-            . "caracterizado por autodomínio, autoconfiança e autonomia de competência para superar obstáculos "
-            . "impelida por estados de ánimo/humor estáveis e com pouca oscilação. De uma pessoa confiante, "
-            . "animada e produtiva com impulso competitivo, determinada a fazer com que as coisas aconteçam. "
-            . "Esse Perfil Iceberg representa que a pessoa está agindo normalmente ao fazer as coisas no seu "
-            . "dia-a-dia e adaptando-se às condições de mudanças no meio social ambiental e com impulso para "
-            . "tomar decisões, assumir riscos visando melhor aproveitamento do seu perfil pessoal e profissional.";
+        $this->laudo->laudo01();
 
         $tScore = new TScore();
         $tScore->tensao    = 46;
@@ -71,7 +57,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
     }
 
     protected function tearDown() {
-        $this->relatorio->deletar_relatorio();
+        // $this->relatorio->deletar_relatorio();
         $this->grafico->deletar_imagem();
     }
 
