@@ -11,7 +11,6 @@ class Laudo {
         $c = $this->linha_corte;
         $maior_fator = $this->retMaiorFator($ts);
 
-
         if ($ts->tensao < $c && $ts->depressao < $c &&  $ts->raiva < $c && $ts->vigor > $c && $ts->fadiga < $c &&  $ts->confusao < $c) {
             # se todos < 50 menos e vigor > 50
             return $this->laudo01();

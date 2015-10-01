@@ -65,7 +65,6 @@ class Relatorio {
         }
     }
 
-
     function setGrafico($arquivo) {
         $this->nome_arquivo_grafico = $arquivo;
     }
@@ -73,12 +72,12 @@ class Relatorio {
     function gerar() {
         $this->fpdf = new PdfWriteTag();
         $this->fpdf->AddPage();
-        
+
         # Cabeçalho
         $this->fpdf->SetFont('Arial','B',12);
         $this->fpdf->Cell(0, 7, $this->texto['titulo'], 0, 1, "C");
         $this->fpdf->Cell(0, 7, $this->texto['POMS'], 0, 0, "C");
-        $this->fpdf->Line($x1=10, $y1=24, $x2=200, $y2=24);        
+        $this->fpdf->Line($x1=10, $y1=24, $x2=200, $y2=24);
         $this->fpdf->SetY(25);
 
         # Informações do pesquisado
@@ -139,7 +138,7 @@ class Relatorio {
         $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a3'], 0, 0);
         $this->fpdf->Ln(60);
 
-        # corpo do laudo        
+        # corpo do laudo
         $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0");
         $this->fpdf->WriteTag($w=0, $h=6, "<p>" . $this->texto['laudo']['corpo'] . "</p>", $border=0, $align="J",  $fill=0,  $padding=0);
 
@@ -158,7 +157,6 @@ class Relatorio {
 
     }
 
-
     function getNomeArquivo() {
         return "files-temp/laudo.pdf";
     }
@@ -173,5 +171,4 @@ class Relatorio {
     }
 
 }
-
 ?>

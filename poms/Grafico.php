@@ -47,13 +47,7 @@ class Grafico {
     }
 
     private function desenhar_imagem() {
-        /******************************************************************
-         ******************************************************************
-         **                                                              **
-         **                   Aqui inicia a imagem                       **
-         **                                                              **
-         ******************************************************************
-         *******************************************************************/
+        # Aqui inicia a imagem
         $altura = 600;
         $largura = 665;
         $im = imagecreate($largura, $altura);
@@ -67,15 +61,7 @@ class Grafico {
         # fonts
         $font = "fonts/arial.ttf";
 
-
-
-        /******************************************************************
-         ******************************************************************
-         **                                                              **
-         **                   Aqui começa a grade                        **
-         **                                                              **
-         ******************************************************************
-         ******************************************************************/
+        # Aqui começa a grade
         $marSup = 15;
         $marEsq = 73;
 
@@ -93,9 +79,7 @@ class Grafico {
         $espAltura = 80;
         $espLargura = 80;
 
-        /*
-         * Grade Horizontal
-         */
+        # Grade Horizontal
         $x1 = $marEsq;
         $y1 = $marSup + $espAltura;
         $x2 = $fimLargura;
@@ -126,9 +110,7 @@ class Grafico {
         $y2 = $y1;
         imageline($im, $x1, $y1, $x2, $y2, IMG_COLOR_STYLED);
 
-        /*
-         * Grade Vertical
-         */
+        # Grade Vertical
         $x1 = $espLargura + $marEsq;
         $y1 = $marSup;
         $x2 = $x1;
@@ -165,15 +147,7 @@ class Grafico {
         $y2 = $fimAltura;
         imageline($im, $x1, $y1, $x2, $y2, IMG_COLOR_STYLED);
 
-
-
-        /******************************************************************
-         ******************************************************************
-         **                                                              **
-         **            Aqui começa a borda(contorno)                     **
-         **                                                              **
-         ******************************************************************
-         ******************************************************************/
+        # Aqui começa a borda(contorno)
         $corContorno = $cores['preto'];
 
         # linha hor de cima
@@ -204,15 +178,7 @@ class Grafico {
         $y2 = $fimAltura;
         imageline($im, $x1, $y1, $x2, $y2, $corContorno);
 
-
-
-        /******************************************************************
-         ******************************************************************
-         **                                                              **
-         **                   Aqui começa o iceberg                      **
-         **                                                              **
-         ******************************************************************
-         ******************************************************************/
+        # Aqui começa o iceberg
         $corIce = $cores['azul'];
         imagesetthickness($im, 3);
 
@@ -222,7 +188,6 @@ class Grafico {
         $per_vigor     = $this->tScore->vigor;
         $per_fadiga    = $this->tScore->fadiga;
         $per_confusao  = $this->tScore->confusao;
-
 
         # TENSÂO depressão
         $x1 = $marEsq + 80;
@@ -259,22 +224,13 @@ class Grafico {
         $y2 = $marSup + $this->retornaDistancia($per_confusao);
         imageline($im, $x1, $y1, $x2, $y2, $corIce);
 
-
-
-        /******************************************************************
-         ******************************************************************
-         **                                                              **
-         **                Aqui começa a legenda esquerda                **
-         **                                                              **
-         ******************************************************************
-         ******************************************************************/
+        # Aqui começa a legenda esquerda
         $text_color = $cores['azul'];
 
         $font_size = 7;
         $angle = 0;
         $x = 40;
         $y = $marSup + 4; # esse 4 é para centralizar verticalmente
-
 
         $texto = "90%";
         imagettftext($im, $font_size, $angle, $x, $y, $text_color, $font, $texto);
@@ -297,23 +253,13 @@ class Grafico {
         $texto = "30%";
         imagettftext($im, $font_size, $angle, $x, $y+=$espAltura, $text_color, $font, $texto);
 
-
-
-        /******************************************************************
-         ******************************************************************
-         **                                                              **
-         **                   Aqui começa o rodapé                       **
-         **                                                              **
-         ******************************************************************
-         ******************************************************************/
+        # Aqui começa o rodapé
         $marSup_rodape = 530;
         $marEsq_rodape = 10;
         $alturaLinha = 20;
         $distColuna = 70;
 
-        /*
-         * Set row score
-         */
+        # Set row score
         $row_tensao = $this->rowScore->tensao;
         $row_depressao = $this->rowScore->depressao;
         $row_raiva = $this->rowScore->raiva;
@@ -321,9 +267,7 @@ class Grafico {
         $row_fadiga = $this->rowScore->fadiga;
         $row_confusao = $this->rowScore->confusao;
 
-        /*
-         * Define as fontes
-         */
+        # Define as fontes
         $font_size = 10;
         $angle = 0;
         $text_color = $cores['preto'];
@@ -410,15 +354,7 @@ class Grafico {
         $texto = $per_confusao;
         imagettftext($im, $font_size, $angle, $x + 20, $y+=$alturaLinha, $cores['azul'], $font, $texto);
 
-
-
-        /******************************************************************
-         ******************************************************************
-         **                                                              **
-         **                   Última atribuição                          **
-         **                                                              **
-         ******************************************************************
-         *******************************************************************/
+        # Ũltima atribuição
         $this->imagem['imagem'] = $im;
     }
 
