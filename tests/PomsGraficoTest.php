@@ -33,8 +33,12 @@ class GraficoTest extends PHPUnit_Framework_TestCase {
         $graf->display();
 
         $this->assertTrue(file_exists($graf->getNomeArquivo()));
-        $graf->deletar_imagem();
-        
+        $this->grafico = $graf;
+
+    }
+
+    protected function tearDown() {
+        $this->grafico->deletar_imagem();
     }
 
 }

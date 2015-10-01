@@ -58,19 +58,20 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->grafico->setNomeArquivo();
         $this->grafico->setDisplay(Grafico::GRAVAR_NO_DISCO);
         $this->grafico->display();
-
     }
 
     public function testGeradorDoRelatorioPoms() {
-
         $relatorio = new Relatorio($this->pesquisado, $this->laudo);
         $relatorio->setGrafico($this->grafico->getNomeArquivo());
         $relatorio->gerar();
         $relatorio->gravar();
 
-
         $this->assertTrue(file_exists($relatorio->getNomeArquivo()));
-        $relatorio->deletar_relatorio();
+        $this->relatorio = $relatorio;
+    }
+
+    protected function tearDown() {
+        $this->relatorio->deletar_relatorio();
         $this->grafico->deletar_imagem();
     }
 
