@@ -20,9 +20,6 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->pesquisado->email = "fulano@qualquer.com.br";
         $this->pesquisado->sexo  = "masculino";
 
-        $this->laudo = new Laudo();
-        $this->laudo->laudo01();
-
         $tScore = new TScore();
         $tScore->tensao    = 46;
         $tScore->depressao = 40;
@@ -44,9 +41,14 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->grafico->setNomeArquivo();
         $this->grafico->setDisplay(Grafico::GRAVAR_NO_DISCO);
         $this->grafico->display();
+
+        $this->laudo = new Laudo();
+        $this->laudo->descobrir($tScore);
+
     }
 
     public function testGeradorDoRelatorioPoms() {
+
         $relatorio = new Relatorio($this->pesquisado, $this->laudo);
         $relatorio->setGrafico($this->grafico->getNomeArquivo());
         $relatorio->gerar();
@@ -56,8 +58,48 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->relatorio = $relatorio;
     }
 
+    public function testTodosOsLaudos() {
+        $laudos = array();
+        $laudo  = new Laudo();
+
+        $laudo->laudo01();
+        $laudos[] = clone $laudo;
+
+        $laudo->laudo02();
+        $laudos[] = clone $laudo;
+
+        $laudo->laudo03();
+        $laudos[] = clone $laudo;
+
+        $laudo->laudo04();
+        $laudos[] = clone $laudo;
+
+        $laudo->laudo05();
+        $laudos[] = clone $laudo;
+
+        $laudo->laudo06();
+        $laudos[] = clone $laudo;
+
+        $laudo->laudo07();
+        $laudos[] = clone $laudo;
+
+        $laudo->laudoDesconhecido();
+        $laudos[] = clone $laudo;
+
+        foreach($laudos as $laudo) {
+            // echo $laudo->titulo_a3 . "\n";
+            $relatorio = new Relatorio($this->pesquisado, $laudo);
+            $relatorio->setGrafico($this->grafico->getNomeArquivo());
+            $relatorio->gerar();
+            $relatorio->gravar();
+        }
+
+        $this->relatorio = $relatorio;
+
+    }
+
     protected function tearDown() {
-        // $this->relatorio->deletar_relatorio();
+        $this->relatorio->deletar_relatorio();
         $this->grafico->deletar_imagem();
     }
 
