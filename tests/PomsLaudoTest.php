@@ -10,7 +10,7 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore = new TScore();
     }
 
-    public function testGetNumero01() {
+    public function testDescobrir01() {
         $this->tscore->tensao    = 40; # < linha de corte
         $this->tscore->depressao = 40; # < linha de corte
         $this->tscore->raiva     = 40; # < linha de corte
@@ -18,10 +18,10 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore->fadiga    = 40; # < linha de corte
         $this->tscore->confusao  = 46; # < linha de corte
 
-        $this->assertEquals("vigor-otimo", $this->laudo->getNumero($this->tscore));
+        $this->assertEquals("vigor-otimo", $this->laudo->descobrir($this->tscore));
     }
 
-    public function testGetNumero02() {
+    public function testDescobrir02() {
         $this->tscore = new TScore();
         $this->tscore->tensao    = 46;
         $this->tscore->depressao = 40;
@@ -30,10 +30,10 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore->fadiga    = 60; # <----
         $this->tscore->confusao  = 46;
 
-        $this->assertEquals("fadiga-inercia", $this->laudo->getNumero($this->tscore));
+        $this->assertEquals("fadiga-inercia", $this->laudo->descobrir($this->tscore));
     }
 
-    public function testGetNumero03() {
+    public function testDescobrir03() {
         $this->tscore = new TScore();
         $this->tscore->tensao    = 46;
         $this->tscore->depressao = 40;
@@ -42,10 +42,10 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore->fadiga    = 40;
         $this->tscore->confusao  = 60; # <----
 
-        $this->assertEquals("confusao-desorientacao", $this->laudo->getNumero($this->tscore));
+        $this->assertEquals("confusao-desorientacao", $this->laudo->descobrir($this->tscore));
     }
 
-    public function testGetNumero04() {
+    public function testDescobrir04() {
         $this->tscore = new TScore();
         $this->tscore->tensao    = 46;
         $this->tscore->depressao = 60; # <----
@@ -54,10 +54,10 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore->fadiga    = 40;
         $this->tscore->confusao  = 46;
 
-        $this->assertEquals("depressao-melancolia", $this->laudo->getNumero($this->tscore));
+        $this->assertEquals("depressao-melancolia", $this->laudo->descobrir($this->tscore));
     }
 
-    public function testGetNumero05() {
+    public function testDescobrir05() {
         $this->tscore = new TScore();
         $this->tscore->tensao    = 60; # <----
         $this->tscore->depressao = 40;
@@ -66,10 +66,10 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore->fadiga    = 40;
         $this->tscore->confusao  = 46;
 
-        $this->assertEquals("tensao-ansiedade", $this->laudo->getNumero($this->tscore));
+        $this->assertEquals("tensao-ansiedade", $this->laudo->descobrir($this->tscore));
     }
 
-    public function testGetNumero06() {
+    public function testDescobrir06() {
         $this->tscore = new TScore();
         $this->tscore->tensao    = 46; # menor que 70
         $this->tscore->depressao = 40;
@@ -78,10 +78,10 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore->fadiga    = 40;
         $this->tscore->confusao  = 46;
 
-        $this->assertEquals("agressividade-colera", $this->laudo->getNumero($this->tscore));
+        $this->assertEquals("agressividade-colera", $this->laudo->descobrir($this->tscore));
     }
 
-    public function testGetNumero07() {
+    public function testDescobrir07() {
         $this->tscore = new TScore();
         $this->tscore->tensao    = 71; # > 70
         $this->tscore->depressao = 40;
@@ -90,7 +90,7 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore->fadiga    = 40;
         $this->tscore->confusao  = 46;
 
-        $this->assertEquals("tensao-raiva", $this->laudo->getNumero($this->tscore));
+        $this->assertEquals("tensao-raiva", $this->laudo->descobrir($this->tscore));
     }
 
     public function testRetMaiorFator() {

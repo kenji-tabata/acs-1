@@ -7,7 +7,7 @@ class Laudo {
         $c = $this->linha_corte = $linha_corte;
     }
 
-    function getNumero($ts) {
+    function descobrir($ts) {
         $c = $this->linha_corte;
         $maior_fator = $this->retMaiorFator($ts);
 
