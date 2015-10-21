@@ -8,7 +8,7 @@ class Relatorio {
     private $fpdf;
 
     function __construct($pesquisado, $laudo) {
-
+        date_default_timezone_set('America/Sao_Paulo');
         $this->texto = array(
             'titulo'       => "LAUDO DE AVALIAÇÂO SITUACIONAL DE ESTADO DE HUMOR",
             'POMS'         => "\"POMS\"",
