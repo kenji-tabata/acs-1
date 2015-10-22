@@ -354,7 +354,7 @@ class Grafico {
         $texto = $per_confusao;
         imagettftext($im, $font_size, $angle, $x + 20, $y+=$alturaLinha, $cores['azul'], $font, $texto);
 
-        # Ũltima atribuição
+        # Última atribuição
         $this->imagem['imagem'] = $im;
     }
 
