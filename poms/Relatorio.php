@@ -166,6 +166,10 @@ class Relatorio {
         $this->fpdf->Output($this->getNomeArquivo());
     }
 
+    function download() {
+        $this->fpdf->Output($this->getNomeArquivo(), "D");
+    }
+
     function deletar_relatorio() {
         unlink($this->getNomeArquivo());
     }
