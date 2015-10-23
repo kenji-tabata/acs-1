@@ -6,6 +6,16 @@
 class Calc {
 
     /**
+     * Para calcular o perfil Poms
+     */
+    static function perfilPoms($stringFormulario) {
+        $perfil = new Calc();
+        $perfil->rowScore = $perfil->rowScore($stringFormulario);
+        $perfil->tScore   = $perfil->tScore($perfil->rowScore);
+        return $perfil;
+    }
+
+    /**
      * Devemos passar a string que vem do formulário, ex: "1-5, 2-3, 3-3, etc..."
      *
      * @param type $stringFormulario

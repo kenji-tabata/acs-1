@@ -2,6 +2,7 @@
 
 require_once "poms/Calc.php";
 require_once "poms/RowScore.php";
+require_once "poms/TScore.php";
 
 class CalcTest extends PHPUnit_Framework_TestCase {
 
@@ -66,6 +67,13 @@ class CalcTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $rowScore->depressao);
 
     }
+
+    public function testCalcularPerfilPoms() {
+        $perfilPoms = Calc::perfilPoms($this->alternativasEscolhidas);
+        $this->assertObjectHasAttribute("rowScore", $perfilPoms);
+        $this->assertObjectHasAttribute("tScore",   $perfilPoms);
+    }
+
 
 
 }
