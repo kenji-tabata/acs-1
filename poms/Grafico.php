@@ -7,7 +7,16 @@ class Grafico {
     private $rowScore;  # PomsRowScore
 
     const MOSTRAR_NO_BROWSER = 1;
-    const GRAVAR_NO_DISCO = 2;
+    const GRAVAR_NO_DISCO    = 2;
+
+    static function gerar($tScore, $rowScore) {
+        $graf = new Grafico();
+        $graf->setPontuacao($tScore, $rowScore);
+        $graf->setNomeArquivo();
+        $graf->setDisplay(Grafico::GRAVAR_NO_DISCO);
+        $graf->display();
+        return $graf;
+    }
 
     public function setNomeArquivo() {
         $this->imagem['nome'] = 'files-temp/' . uniqid() . '.png';
@@ -27,7 +36,6 @@ class Grafico {
     }
 
     public function display() {
-
         $this->desenhar_imagem();
 
         # Mostrar imagem...

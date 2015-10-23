@@ -5,6 +5,7 @@ require_once "poms/TScore.php";
 require_once "poms/RowScore.php";
 
 class GraficoTest extends PHPUnit_Framework_TestCase {
+
     public function setUp() {
         $this->tScore = new TScore();
         $this->tScore->tensao    = 46;
@@ -23,18 +24,10 @@ class GraficoTest extends PHPUnit_Framework_TestCase {
         $this->rowScore->confusao  = 4;
     }
 
-    public function testGeradorDeGraficoPoms() {
-
-        $graf = new Grafico();
-
-        $graf->setPontuacao($this->tScore, $this->rowScore);
-        $graf->setNomeArquivo();
-        $graf->setDisplay(Grafico::GRAVAR_NO_DISCO);
-        $graf->display();
-
-        $this->assertTrue(file_exists($graf->getNomeArquivo()));
-        $this->grafico = $graf;
-
+    public function testGerar() {
+        $grafico = Grafico::gerar($this->tScore, $this->rowScore);
+        $this->assertTrue(file_exists($grafico->getNomeArquivo()));
+        $this->grafico = $grafico;
     }
 
     protected function tearDown() {
