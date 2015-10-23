@@ -2,6 +2,12 @@
 
 class Laudos {
 
+    static function laudo($tscore) {
+        $laudo = new Laudos();
+        $laudo->descobrir($tscore);
+        return $laudo;
+    }
+
     function __construct($linha_corte=50) {
         # O padrão é 50
         $c = $this->linha_corte = $linha_corte;

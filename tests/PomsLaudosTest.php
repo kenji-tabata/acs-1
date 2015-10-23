@@ -10,6 +10,20 @@ class LaudoTest extends PHPUnit_Framework_TestCase {
         $this->tscore = new TScore();
     }
 
+    public function testLaudo() {
+        # um tscore qualquer
+        $this->tscore = new TScore();
+        $this->tscore->tensao    = 50;
+        $this->tscore->depressao = 50;
+        $this->tscore->raiva     = 40;
+        $this->tscore->vigor     = 80;
+        $this->tscore->fadiga    = 40;
+        $this->tscore->confusao  = 50;
+
+        $laudo = Laudos::laudo($this->tscore);
+        $this->assertInstanceOf('Laudos', $laudo);
+    }
+
     public function testDescobrir01() {
         $this->tscore->tensao    = 40; # < linha de corte
         $this->tscore->depressao = 40; # < linha de corte
