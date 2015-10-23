@@ -9,7 +9,6 @@ class CalcTest extends PHPUnit_Framework_TestCase {
 
     protected function setUp() {
         $this->pomsCalc = new Calc();
-
         $this->alternativasEscolhidas = "1-1, 2-1, 3-1, 4-1, 5-1, 6-1, 7-1, 8-1, 9-1, 10-1, "
             . "11-1, 12-1, 13-1, 14-1, 15-1, 16-1, 17-1, 18-1, 19-1, 20-1,"
             . "21-1, 22-1, 23-1, 24-1, 25-1, 26-1, 27-1, 28-1, 29-1, 30-1,"
@@ -19,8 +18,9 @@ class CalcTest extends PHPUnit_Framework_TestCase {
             . "61-1, 62-1, 63-1, 64-1, 65-1";
     }
 
-    public function testRowScore_Foo() {
+    public function testRowScore() {
         $rowScore = $this->pomsCalc->rowScore($this->alternativasEscolhidas);
+
         $this->assertEquals(4, $rowScore->tensao);
         $this->assertEquals(0, $rowScore->depressao);
         $this->assertEquals(0, $rowScore->raiva);
@@ -29,6 +29,22 @@ class CalcTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(4, $rowScore->confusao);
     }
 
+    public function testTScore() {
+        $rowScore = $this->pomsCalc->rowScore($this->alternativasEscolhidas);
+        $tScore   = $this->pomsCalc->tScore($rowScore);
+
+        # t score
+        $this->assertEquals(46, $tScore->tensao);
+        $this->assertEquals(40, $tScore->depressao);
+        $this->assertEquals(40, $tScore->raiva);
+        $this->assertEquals(40, $tScore->vigor);
+        $this->assertEquals(40, $tScore->fadiga);
+        $this->assertEquals(51, $tScore->confusao);
+    }
+
+    #
+    # Extra
+    #
     public function testRowScore_CalculoSimples() {
         $rowScore = $this->pomsCalc->rowScore("1-5");
         $this->assertEquals(4, $rowScore->vigor);
@@ -51,58 +67,5 @@ class CalcTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * Alternativa 22 soma de forma diferente
-     *
-     * Executa `subtrairSomaQuatro()`
-     */
-    public function testRowScore_Alternativa22SomaDiferente() {
-        $rowScore = $this->pomsCalc->rowScore("22-5");
-        # 0 - (5 - 1) + 4
-        $this->assertEquals(0, $rowScore->tensao);
 
-        $rowScore = $this->pomsCalc->rowScore("22-4");
-        # 0 - (4 - 1) + 4
-        $this->assertEquals(1, $rowScore->tensao);
-
-        $rowScore = $this->pomsCalc->rowScore("22-3");
-        # 0 - (3 - 1) + 4
-        $this->assertEquals(2, $rowScore->tensao);
-
-        $rowScore = $this->pomsCalc->rowScore("22-2");
-        # 0 - (2 - 1) + 4
-        $this->assertEquals(3, $rowScore->tensao);
-
-        $rowScore = $this->pomsCalc->rowScore("22-1");
-        # 0 - (1 - 1) + 4
-        $this->assertEquals(4, $rowScore->tensao);
-    }
-
-    /**
-     * Alternativa 54 soma de forma diferente
-     *
-     * Executa `subtrairSomaQuatro()`
-     *
-     */
-    public function testRowScore_Alternativa54SomaDiferente() {
-        $rowScore = $this->pomsCalc->rowScore("54-5");
-        # 0 - (5 - 1) + 4
-        $this->assertEquals(0, $rowScore->confusao);
-
-        $rowScore = $this->pomsCalc->rowScore("54-4");
-        # 0 - (4 - 1) + 4
-        $this->assertEquals(1, $rowScore->confusao);
-
-        $rowScore = $this->pomsCalc->rowScore("54-3");
-        # 0 - (3 - 1) + 4
-        $this->assertEquals(2, $rowScore->confusao);
-
-        $rowScore = $this->pomsCalc->rowScore("54-2");
-        # 0 - (2 - 1) + 4
-        $this->assertEquals(3, $rowScore->confusao);
-
-        $rowScore = $this->pomsCalc->rowScore("54-1");
-        # 0 - (1 - 1) + 4
-        $this->assertEquals(4, $rowScore->confusao);
-    }
 }
