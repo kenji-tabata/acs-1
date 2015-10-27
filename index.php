@@ -4,14 +4,12 @@ require 'vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$app->get('/'   , 'get');
-$app->post('/'  , 'post');
-$app->put('/'   , 'put');
-$app->delete('/', 'delete');
+$app->get('/', 'emitir_formulario');
+$app->get('/design1/', 'design1');
 
 $app->run();
 
-function get() {
+function emitir_formulario() {
     require_once "poms/Relatorio.php";
     require_once "poms/Pesquisado.php";
     require_once "poms/Laudos.php";
@@ -50,14 +48,6 @@ function get() {
     echo "get\n";
 }
 
-function post() {
-    echo "post";
-}
-
-function put() {
-    echo "put";
-}
-
-function delete() {
-    echo "delete";
+function design1() {
+    require "design1.html";
 }
