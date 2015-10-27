@@ -1,13 +1,20 @@
 <?php
-
 require 'vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$app->get('/', 'emitir_formulario');
-$app->get('/design1/', 'design1');
+$app->get( '/', 'index');
+$app->get( '/poms/profissionais/listar/',     'listarProfissionaisPoms');
+$app->get( '/poms/profissionais/formulario/', 'abrirFormularioPoms');
+$app->get( '/poms/formulario/',               'formularioEmBranco');
+$app->post('/poms/formulario/salvar/',        'salvarFormulario');
+$app->get( '/formulario-poms/',               'formularioPomsExterno');
 
 $app->run();
+
+function index() {
+    echo "index";
+}
 
 function emitir_formulario() {
     require_once "poms/Relatorio.php";
@@ -48,6 +55,55 @@ function emitir_formulario() {
     echo "get\n";
 }
 
-function design1() {
-    require "design1.html";
+function formularioEmBranco() {
+    require_once "poms/Formulario.php";
+    require "poms-formulario-interno.php";
+}
+
+function salvarFormulario() {
+    $app = new \Slim\Slim();
+    var_dump($app->request->post('nome'));
+    var_dump($app->request->post('email'));
+    var_dump($app->request->post('cpf'));
+    var_dump($app->request->post('genero'));
+    var_dump($app->request->post('depois-de-salvar'));
+    var_dump($app->request->post('adjetivos'));
+}
+
+
+function listarProfissionaisPoms() {
+    require "poms/Profissional.php";
+    
+    $profis = new Profissional();
+    $profis->nome   = "Fulano";
+    $profis->email  = "fulano@email";
+    $profis->cpf    = "123.456.789.99";
+    $profis->genero = "m";
+
+    $profissionais = array();
+    
+    $profis->id      = 100;
+    $profissionais[] = clone $profis;
+
+    $profis->id      = 200;
+    $profissionais[] = clone $profis;
+
+    $profis->id      = 300;
+    $profissionais[] = clone $profis;
+
+    $profis->id      = 400;
+    $profissionais[] = clone $profis;
+    // var_dump($profissionais);
+
+
+    require "poms-lista-profissionais.php";
+}
+
+function abrirFormularioPoms() {
+    echo "abrirFormularioPoms";
+}
+
+function formularioPomsExterno() {
+    echo "formularioPomsExterno";
+    require "poms-formulario-externo.php";
 }
