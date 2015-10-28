@@ -1,7 +1,7 @@
 <?php
 
 require_once "poms/Relatorio.php";
-require_once "poms/Pesquisado.php";
+require_once "poms/Profissional.php";
 require_once "poms/Laudos.php";
 require_once "poms/Grafico.php";
 require_once "poms/TScore.php";
@@ -9,16 +9,16 @@ require_once "poms/RowScore.php";
 
 
 class RelatorioTest extends PHPUnit_Framework_TestCase {
-    protected $pesquisado;
+    protected $profissional;
     protected $laudos;
 
     protected function setUp() {
 
-        $this->pesquisado = new Pesquisado();
-        $this->pesquisado->nome  = "Fulano";
-        $this->pesquisado->cpf   = "111.2222.333.45";
-        $this->pesquisado->email = "fulano@qualquer.com.br";
-        $this->pesquisado->sexo  = "masculino";
+        $this->profissional = new Profissional();
+        $this->profissional->nome  = "Fulano";
+        $this->profissional->cpf   = "111.2222.333.45";
+        $this->profissional->email = "fulano@qualquer.com.br";
+        $this->profissional->sexo  = "masculino";
 
         $tScore = new TScore();
         $tScore->tensao    = 46;
@@ -49,7 +49,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
 
     public function testGeradorDoRelatorioPoms() {
 
-        $relatorio = new Relatorio($this->pesquisado, $this->laudo);
+        $relatorio = new Relatorio($this->profissional, $this->laudo);
         $relatorio->setGrafico($this->grafico->getNomeArquivo());
         $relatorio->gerar();
         $relatorio->gravar();
@@ -88,7 +88,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
 
         foreach($laudos as $laudo) {
             // echo $laudo->titulo_a3 . "\n";
-            $relatorio = new Relatorio($this->pesquisado, $laudo);
+            $relatorio = new Relatorio($this->profissional, $laudo);
             $relatorio->setGrafico($this->grafico->getNomeArquivo());
             $relatorio->gerar();
             $relatorio->gravar();

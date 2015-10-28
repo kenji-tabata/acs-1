@@ -33,18 +33,18 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
 
     public function testEmissaoRelatorioPoms() {
         require_once "poms/Relatorio.php";
-        require_once "poms/Pesquisado.php";
+        require_once "poms/Profissional.php";
         require_once "poms/Laudos.php";
         require_once "poms/Grafico.php";
         require_once "poms/Calc.php";
         require_once "poms/RowScore.php";
         require_once "poms/TScore.php";
 
-        $pesquisado = new Pesquisado();
-        $pesquisado->nome  = "Fulano";
-        $pesquisado->cpf   = "111.2222.333.45";
-        $pesquisado->email = "fulano@qualquer.com.br";
-        $pesquisado->sexo  = "masculino";
+        $profissional = new Profissional();
+        $profissional->nome  = "Fulano";
+        $profissional->cpf   = "111.2222.333.45";
+        $profissional->email = "fulano@qualquer.com.br";
+        $profissional->sexo  = "masculino";
 
         $alternativasEscolhidas = "1-1, 2-1, 3-1, 4-1, 5-1, 6-1, 7-1, 8-1, 9-1, 10-1, "
             . "11-1, 12-1, 13-1, 14-1, 15-1, 16-1, 17-1, 18-1, 19-1, 20-1,"
@@ -58,7 +58,7 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
         $grafico    = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
         $laudo      = Laudos::laudo($perfilPoms->tScore);
 
-        $relatorio = new Relatorio($pesquisado, $laudo);
+        $relatorio = new Relatorio($profissional, $laudo);
         $relatorio->setGrafico($grafico->getNomeArquivo());
         $relatorio->gerar();
 
