@@ -8,7 +8,26 @@ $app->get( '/poms/profissionais/listar/',     'listarProfissionaisPoms');
 $app->get( '/poms/profissionais/formulario/', 'abrirFormularioPoms');
 $app->get( '/poms/formulario/',               'formularioEmBranco');
 $app->post('/poms/formulario/salvar/',        'salvarFormulario');
+
+# formulário poms externo
 $app->get( '/formulario-poms/',               'formularioPomsExterno');
+
+// POST   http://localhost/person    # para criar um registro (create)
+// GET    http://localhost/person/1  # para recuperar um registro (read)
+// PUT    http://localhost/person/1  # para atualizar um registro (update)
+// DELETE http://localhost/person/1  # para apagar um registro (delete)
+
+# API rest profissional
+$app->post(  '/poms/profissional/',    'profissionaisCreate');
+$app->get(   '/poms/profissional/',    'profissionaisRead');
+$app->put(   '/poms/profissional/:id', 'profissionaisUpdate');
+$app->delete('/poms/profissional/:id', 'profissionaisDelete');
+
+# API rest preenchimento
+$app->post(  '/poms/preencher/',    'preenchPomsCreate');
+$app->get(   '/poms/preencher/:id', 'preenchPomsRead');
+$app->put(   '/poms/preencher/:id', 'preenchPomsUpdate');
+$app->delete('/poms/preencher/:id', 'preenchPomsDelete');
 
 $app->run();
 
@@ -107,4 +126,53 @@ function abrirFormularioPoms() {
 function formularioPomsExterno() {
     echo "formularioPomsExterno";
     require "poms-formulario-externo.php";
+}
+
+
+#
+# API para profissionais
+#
+function profissionaisCreate() {
+    $request = \Slim\Slim::getInstance()->request();
+    $profissionais = json_decode($request->getBody());
+    //var_dump($profissionais);
+    echo json_encode($profissionais);
+}
+
+function profissionaisRead() {
+    echo "profissionais-Read";
+}
+
+function profissionaisUpdate() {
+    echo "profissionais-Update";
+}
+
+function profissionaisDelete() {
+    echo "profissionais-Delete";
+}
+
+
+#
+# API para preenchimento do formulário POMS
+#
+function preenchPomsCreate() {
+    $request = \Slim\Slim::getInstance()->request();
+    $preenhc = json_decode($request->getBody());
+    //var_dump($preenhc);
+    echo json_encode($preenhc);
+}
+
+function preenchPomsRead() {
+    echo "preench-Poms-Read";
+}
+
+function preenchPomsUpdate() {
+    $request = \Slim\Slim::getInstance()->request();
+    $preenhc = json_decode($request->getBody());
+    //var_dump($preenhc);
+    echo json_encode($preenhc);
+}
+
+function preenchPomsDelete() {
+    echo "preench-Poms-Delete";
 }
