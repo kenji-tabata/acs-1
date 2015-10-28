@@ -100,7 +100,8 @@ function listarProfissionaisPoms() {
 }
 
 function abrirFormularioPoms() {
-    echo "abrirFormularioPoms";
+    require_once "poms/Formulario.php";
+    require "poms-formulario-interno.php";
 }
 
 function formularioPomsExterno() {
