@@ -36,10 +36,11 @@
                     <th>quando preencheu</th>
                     <th>controles</th>
                 </tr>
-                <?php foreach($profissionais as $profissional): ?>
+
+                <% for(var prof in profissionais) { %>
                     <tr>
-                        <td><?php echo $profissional->id ?></td>
-                        <td><?php echo $profissional->nome?></td>
+                        <td><%= $prof[id] %></td>
+                        <td><%= $prof[nome] %></td>
                         <td>email</td>
                         <td>cpf</td>
                         <td>sexo</td>
@@ -58,7 +59,7 @@
                             </div>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <% } %>
             </table>
 
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

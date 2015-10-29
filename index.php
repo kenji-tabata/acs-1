@@ -21,17 +21,65 @@
     </head>
     <body>
 
+
+
         <div class="container" style="margin-bottom: 200px;">
 
             <div class="jumbotron">
-                <h1>ACS</h1>
-                <p>Sitemas ACS</p>
             </div>
 
-            <div></div>
+            <div id="content"></div>
 
+
+
+                script type="text/template" id="lista-poms-profissionais">
+                        <table class="table">
+                            <tr>
+                                <th>id</th>
+                                <th>nome</th>
+                                <th>email</th>
+                                <th>cpf</th>
+                                <th>sexo</th>
+                                <th>quando preencheu</th>
+                                <th>controles</th>
+                            </tr>
+            //                 <% for(var prof in profissionais) { %>
+                            <% _.each(profissionais, function(prof) { %>
+                                <tr>
+                                    <td><%= prof.id %></td>
+                                    <td><%= prof.nome %></td>
+                                    <td>email</td>
+                                    <td>cpf</td>
+                                    <td>sexo</td>
+                                    <td>quando preencheu</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-default" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span
+                                            </button>
+                                            <button type="button" class="btn btn-default" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+            //                 <% } %>
+                        </table>
+            </script>
+
+
+
+
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
             <!-- Include all compiled plugins (below), or include individual files as needed -->
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </body>
