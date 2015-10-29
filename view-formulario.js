@@ -2,9 +2,25 @@ Profissional = Backbone.Model.extend({
     urlRoot: '/_acs/poms/profissional/'
 });
 
-Preencher = Backbone.Model.extend({
-    urlRoot: '/_acs/poms/preencher/'
+Formulario = Backbone.Model.extend({
+    urlRoot: '/_acs/poms/formulario/',   
 });
+
+var prof = new Profissional(
+    {
+        name:      $("#txt-nome").val(),
+        email:     $("#txt-email").val(),
+        cpf:       $("#txt-cpf").val(),
+        genero:    $('input[name=genero]:checked').val(),
+    }
+);
+var formulario = new Formulario(
+    {
+        id: 123,
+        adjetivos: "string-separada-por-virgula, ex: 1-1, 2-1, 3-1, etc...",
+        eDepois: $('input[name=depois-de-salvar]:checked').val(),
+    }
+);
 
 var FormularioView = Backbone.View.extend({
     el: $("form"),  
@@ -21,16 +37,7 @@ var FormularioView = Backbone.View.extend({
     },
     salvar_dados: function(event) {
         event.preventDefault();
-        var prof = new Profissional(
-            {
-                name:      $("#txt-nome").val(),
-                email:     $("#txt-email").val(),
-                cpf:       $("#txt-cpf").val(),
-                genero:    $('input[name=genero]:checked').val(),
-            }
-        );
-        //console.log(prof.attributes);
-        prof.save({}, {
+        this.model.prof.save({}, {
             success: function() {
                 console.log('profissional salvo com suceso!');
             },
@@ -41,15 +48,10 @@ var FormularioView = Backbone.View.extend({
     },
     salvar_e: function(event) {
         event.preventDefault();
-        var preench = new Preencher(
-            {
-                id:        123,
-                adjetivos: this.converteCampoAdjetivosEmString($('input[name="adjetivos[]"]')),
-                eDepois:   $('input[name=depois-de-salvar]:checked').val(),
-            }
-        );
-        //console.log(preench.attributes);
-        preench.save({}, {
+        this.model.formulario.set(
+            {'adjetivos': this.converteCampoAdjetivosEmString($('input[name="adjetivos[]"]'))}
+        )
+        this.model.formulario.save({}, {
             success: function() {
                 console.log('preenchimento salvo com suceso!');
             },
@@ -71,7 +73,15 @@ var FormularioView = Backbone.View.extend({
             }
         }
         return adjetivos.join(', ');
-    }
+    } 
 });
 
-var formulario_view = new FormularioView();
+// var formulario_view = new FormularioView({model: [prof]});
+var formulario_view = new FormularioView(
+    {
+        model: {
+            prof: prof,
+            formulario: formulario
+        }
+    }
+);
