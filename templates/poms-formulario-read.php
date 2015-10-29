@@ -28,7 +28,7 @@
                 <p>Formulário Interno</p>
             </div>
 
-            <form action="/poms/formulario/salvar/" method="post">
+            <form action="salvar/" method="post">
                 <div class="panel panel-primary">
                     <div class="panel-heading">Preencha os dados</div>
                     <div class="panel-body">
@@ -68,8 +68,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <button type="submit" class="btn btn-success col-md-offset-6 col-xs-offset-4" id="btn-salvar-dados">Salvar dados</button>
                     </div>
                 </div>
 
@@ -98,12 +96,12 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-5 col-md-2">
-                            <button type="submit" class="btn btn-success btn-block" id="btn-salvar-e" />Salvar e...</button>
+                            <button type="submit" class="btn btn-success btn-block" id="btn-salvar" />Salvar e...</button>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-offset-5 col-md-2">
+                        <div class="col-md-offset-5 col-md-3">
                             <div class="radio">
                                 <label><input type="radio" name="depois-de-salvar" value="voltar-para-lista" checked="checked" />...voltar para lista.</label>
                             </div>
@@ -111,7 +109,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-offset-5 col-md-2">
+                        <div class="col-md-offset-5 col-md-3">
                             <div class="radio">
                                 <label><input type="radio" name="depois-de-salvar" value="ver-laudo" />...ver laudo.</label>
                             </div>
@@ -119,7 +117,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-offset-5 col-md-2">
+                        <div class="col-md-offset-5 col-md-3">
                             <div class="radio">
                                 <label><input type="radio" name="depois-de-salvar" value="continuar-inserindo" />...continuar inserindo.</label>
                             </div>
@@ -128,10 +126,10 @@
                 </div>
             </form>
 
-    
+
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>            
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
             <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
             <!-- Include all compiled plugins (below), or include individual files as needed -->

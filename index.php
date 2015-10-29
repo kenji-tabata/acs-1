@@ -1,58 +1,46 @@
-<?php
-require 'vendor/autoload.php';
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>ACS</title>
 
-$app = new \Slim\Slim();
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-$app->get('/', 'index');
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
 
-// POST   http://localhost/person    # para criar um registro (create)
-// GET    http://localhost/person/1  # para recuperar um registro (read)
-// PUT    http://localhost/person/1  # para atualizar um registro (update)
-// DELETE http://localhost/person/1  # para apagar um registro (delete)
+        <div class="container" style="margin-bottom: 200px;">
 
-#
-# Poms
-#
+            <div class="jumbotron">
+                <h1>ACS</h1>
+                <p>Sitemas ACS</p>
+            </div>
 
-// $app->get( '/formulario-poms/',           'poms_formulario_externo');
-// $app->get( '/poms/profissionais/listar/', 'poms_profissionais_listar');
-// $app->get( '/poms/relatorio/:id',         'poms_relatorio');
-// //$app->get( '/poms/relatorio/grupo/:id/:id/:id', 'poms_relatorio_foo');
+            <div></div>
 
-// $app->post(  '/poms/profissional/',    'poms_profissional_create');
-// $app->get(   '/poms/profissional/:id', 'poms_profissional_read');
-// $app->put(   '/poms/profissional/:id', 'poms_profissional_update');
-// $app->delete('/poms/profissional/:id', 'poms_profissional_delete');
-
-// $app->post(  '/poms/formulario/',    'poms_formulario_create');
-$app->get(   '/poms/formulario/',    'poms_formulario_new');
-// $app->get(   '/poms/formulario/:id', 'poms_formulario_read');
-// $app->put(   '/poms/formulario/:id', 'poms_formulario_update');
-// $app->delete('/poms/formulario/:id', 'poms_formulario_delete');
-
-#
-# ???
-#
-// $app->get( '/poms/profissionais/formulario/', 'abrirFormularioPoms');
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </body>
+</html>
 
 
 
-$app->run();
 
-function index() {
-    echo "index";
-}
 
-function debug() {
-    $request = \Slim\Slim::getInstance()->request();
-    $foo = json_decode($request->getBody());
-    //var_dump($foo);
-    echo json_encode($foo);
-}
 
-function poms_formulario_new() {
-    require_once "poms/Formulario.php";
-    require "poms-formulario-read.php";
-    //debug();
-}
-// require "control/poms.php";
+
+

@@ -10,19 +10,21 @@ $app->get('/', 'index');
 // $app->get('/poms/relatorio/:id',               'poms_relatorio');
 // $app->get('/poms/relatorio/grupo/:id/:id/:id', 'poms_relatorio_foo');
 
-$app->post(  '/profissional/',    'poms_profissional_create');
-// $app->get(   '/poms/profissional/:id', 'poms_profissional_read');
-// $app->put(   '/poms/profissional/:id', 'poms_profissional_update');
-// $app->delete('/poms/profissional/:id', 'poms_profissional_delete');
+$app->get(   '/formulario',     'poms_formulario_new');
 
-$app->get(   '/formulario/',    'poms_formulario_new');
 $app->post(  '/formulario/',    'poms_formulario_create');
-// $app->get(   '/poms/formulario/:id', 'poms_formulario_read');
+$app->get(   '/formulario/:id', 'poms_formulario_read');
 $app->put(   '/formulario/:id', 'poms_formulario_update');
-// $app->delete('/poms/formulario/:id', 'poms_formulario_delete');
+$app->delete('/formulario/:id', 'poms_formulario_delete');
 
 $app->run();
 
+function debug() {
+    $request = \Slim\Slim::getInstance()->request();
+    $foo = json_decode($request->getBody());
+    //var_dump($foo);
+    echo json_encode($foo);
+}
 function index() {
     require "../poms/Profissional.php";
 
@@ -89,45 +91,21 @@ function poms_relatorio() {
     echo "get\n";
 }
 
-// #
-// #
-// #
-function poms_profissional_create() {
-    echo "{}";
-}
 
-// function poms_profissional_read() {
-//     echo "poms_profissional_read";
-// }
-
-// function poms_profissional_update() {
-//     echo "poms_profissional_update";
-// }
-
-// function poms_profissional_delete() {
-//     echo "poms_profissional_delete";
-// }
-
-
-#
-#
-#
 function poms_formulario_new() {
     require_once "../poms/Formulario.php";
     require "../templates/poms-formulario-read.php";
 }
 
 function poms_formulario_create() {
-    echo "{}";
+    echo json_encode(array('create' => $id));
 }
-
-// function poms_formulario_read() {
-// }
-
+function poms_formulario_read($id) {
+    echo json_encode(array('read' => $id));
+}
 function poms_formulario_update($id) {
-    echo json_encode(array($id));
+    echo json_encode(array('update' => $id));
 }
-
-// function poms_formulario_delete() {
-//     echo "preench-Poms-Delete";
-// }
+function poms_formulario_delete($id) {
+    echo json_encode(array('delete' => $id));
+}

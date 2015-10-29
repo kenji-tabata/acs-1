@@ -1,24 +1,16 @@
-Profissional = Backbone.Model.extend({
-    urlRoot: '/_acs/poms/profissional/'
-});
-
 Formulario = Backbone.Model.extend({
     urlRoot: '/_acs/poms/formulario/',   
 });
 
-var prof = new Profissional(
+var formulario = new Formulario(
     {
+//         id: 123,
         name:      $("#txt-nome").val(),
         email:     $("#txt-email").val(),
         cpf:       $("#txt-cpf").val(),
-        genero:    $('input[name=genero]:checked').val(),
-    }
-);
-var formulario = new Formulario(
-    {
-        id: 123,
+        genero:    $('input[name=genero]:checked').val(),        
         adjetivos: "string-separada-por-virgula, ex: 1-1, 2-1, 3-1, etc...",
-        eDepois: $('input[name=depois-de-salvar]:checked').val(),
+        eDepois:   $('input[name=depois-de-salvar]:checked').val(),
     }
 );
 
@@ -32,33 +24,21 @@ var FormularioView = Backbone.View.extend({
 //         this.$el.html( this.template );
     },
     events: {
-        "click #btn-salvar-dados": "salvar_dados",
-        "click #btn-salvar-e":     "salvar_e"
+        "click #btn-salvar": "salvar"
     },
-    salvar_dados: function(event) {
+    salvar: function(event) {
         event.preventDefault();
-        this.model.prof.save({}, {
+        this.model.set(
+            {'adjetivos': this.converteCampoAdjetivosEmString($('input[name="adjetivos[]"]'))}
+        )
+        this.model.save({}, {
             success: function() {
-                console.log('profissional salvo com suceso!');
+                console.log('formulário salvo com suceso!');
             },
             error: function() {
                 console.log('falho ao salvar profissional!');
             }
         });  
-    },
-    salvar_e: function(event) {
-        event.preventDefault();
-        this.model.formulario.set(
-            {'adjetivos': this.converteCampoAdjetivosEmString($('input[name="adjetivos[]"]'))}
-        )
-        this.model.formulario.save({}, {
-            success: function() {
-                console.log('preenchimento salvo com suceso!');
-            },
-            error: function() {
-                console.log('falho ao salvar o preenchimento!');
-            }
-        });          
     },
     converteCampoAdjetivosEmString: function(ColectionJquery) {
         var adjetivos = [];
@@ -67,21 +47,15 @@ var FormularioView = Backbone.View.extend({
             if (ColectionJquery[i]) {
                 if(ColectionJquery[i].value) {
                     adjetivos.push((i+1) + '-' + ColectionJquery[i].value);
-                } else {
-                    adjetivos.push((i+1) + '-0');
                 }
+//                 else {
+//                     adjetivos.push((i+1) + '-0');
+//                 }
             }
         }
         return adjetivos.join(', ');
     } 
 });
 
-// var formulario_view = new FormularioView({model: [prof]});
-var formulario_view = new FormularioView(
-    {
-        model: {
-            prof: prof,
-            formulario: formulario
-        }
-    }
-);
+var formulario_view = new FormularioView({model: formulario});
+
