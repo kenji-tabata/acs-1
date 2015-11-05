@@ -17,6 +17,17 @@ var JumbotronView = Backbone.View.extend({
     }
 });
 
+var ProfissionalModel = Backbone.Model.extend({});
+
+var PomsPreenchidos = new Backbone.Collection(
+    [
+        new ProfissionalModel({id: 1, nome: 'john'}), 
+        new ProfissionalModel({id: 2, nome: 'paul'}), 
+        new ProfissionalModel({id: 3, nome: 'george'}), 
+        new ProfissionalModel({id: 4, nome: 'ringo'})
+    ]
+);
+
 var ListaView = Backbone.View.extend({
     tagName: "table",
     className: "table",
@@ -25,20 +36,11 @@ var ListaView = Backbone.View.extend({
         this.render();
     },
     render: function() {
-        this.$el.html(this.template({profissionais: []}));
+        this.$el.html(this.template({profissionais: PomsPreenchidos.models}));
         return this;
     }
 });
 
-var Profissional = Backbone.Model.extend({});
-var PomsPreenchidos = new Backbone.Collection(
-    [
-        new Profissional({id: 1, nome: 'john'}), 
-        new Profissional({id: 2, nome: 'paul'}), 
-        new Profissional({id: 3, nome: 'george'}), 
-        new Profissional({id: 4, nome: 'ringo'})
-    ]
-);
 
 Formulario = Backbone.Model.extend({
     urlRoot: '/_acs/poms/formulario/',   
@@ -113,7 +115,7 @@ var AppRouter = Backbone.Router.extend({
             }
         );
         var jumbo_view      = new JumbotronView({'model': jumbo_model});        
-        var formulario_view = new FormularioView({model: formulario});
+        var formulario_view = new FormularioView({'model': formulario});
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
