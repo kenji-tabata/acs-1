@@ -1,3 +1,4 @@
+<?php require "poms/Formulario.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,7 +27,7 @@
             <div id="content"></div>
         </div>
 
-        <script type="text/template" id="lista-poms-profissionais">
+        <script type="text/template" id="poms-lista-de-profissionais">
             <table class="table">
                 <tr>
                     <th>id</th>
@@ -37,7 +38,7 @@
                     <th>quando preencheu</th>
                     <th>controles</th>
                 </tr>
-                /*<% for(var prof in profissionais) { %>*/
+                <!--<% for(var prof in profissionais) { %>-->
                 <% _.each(profissionais, function(prof) { %>
                     <tr>
                         <td><%= prof.id %></td>
@@ -61,10 +62,109 @@
                         </td>
                     </tr>
                 <% }); %>
-                /*<% } %>*/
+                <!--<% } %>*-->
             </table>
         </script>
 
+        <script type="text/template" id="poms-formulario">
+            <form action="salvar/" method="post">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Preencha os dados</div>
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label for="txt-nome">Nome</label>
+                                    <input type="text" class="form-control" name="nome" id="txt-nome" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label for="txt-email">Email</label>
+                                    <input type="text" class="form-control" name="email" id="txt-email" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="txt-cpf">CPF</label>
+                                    <input type="text" class="form-control" name="cpf" id="txt-cpf" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="radio">
+                                    <label><input type="radio" name="genero" id="genero-mas" value="m">Masculino</label>
+                                    <label><input type="radio" name="genero" id="genero-fem" value="f">Feminino</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <p>Preencha todos as palavras com valores de 1 a 5, conforme a legenda abaixo.</p>
+                    <ul>
+                        <li>1 = Extremamente baixo.</li>
+                        <li>2 = Baixo.</li>
+                        <li>3 = Médio.</li>
+                        <li>4 = Alto.</li>
+                        <li>5 = Extremamente alto.</li>
+                    </ul>
+                </div>
+
+                <div class="form-horizontal">
+
+                    <?php foreach (FormularioPoms::adjetivos() as $key => $adjetivo): ?>
+                        <div class="form-group">
+                            <label for="" class="col-md-offset-2 col-sm-4 col-xs-8 control-label"><?php echo $key . ". " . ucfirst($adjetivo) ?></label>
+                            <div class="col-sm-1 col-xs-3">
+                                <input type="text" class="form-control" name="adjetivos[]" />
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-5 col-md-2">
+                            <button type="submit" class="btn btn-success btn-block" id="btn-salvar" />Salvar e...</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-offset-5 col-md-3">
+                            <div class="radio">
+                                <label><input type="radio" name="depois-de-salvar" value="voltar-para-lista" checked="checked" />...voltar para lista.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-offset-5 col-md-3">
+                            <div class="radio">
+                                <label><input type="radio" name="depois-de-salvar" value="ver-laudo" />...ver laudo.</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-offset-5 col-md-3">
+                            <div class="radio">
+                                <label><input type="radio" name="depois-de-salvar" value="continuar-inserindo" />...continuar inserindo.</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
