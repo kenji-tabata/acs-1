@@ -61,6 +61,7 @@ var PomsListaItemView = Backbone.View.extend({
     },
     formulario: function() {
         console.log("abrir-formulario:" + this.model.get('id'));
+        window.location.hash = "#poms-formulario/" + this.model.get('id');
     }
 });
 
@@ -172,6 +173,8 @@ var AppRouter = Backbone.Router.extend({
             }
         );
         var jumbo_view = new JumbotronView({'model': jumbo_model});        
+        var formulario_view = new FormularioView({'model': formulario});
+        $('#content').html(formulario_view.el);        
     },
 });
 
