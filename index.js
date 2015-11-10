@@ -1,3 +1,7 @@
+Backbone.sync = function(method, model, success, error){
+   console.log(method + " model.id=" + model.id);
+};
+
 var JumbotronModel = Backbone.Model.extend({
     defaults: {
         titulo:    'ACS',
@@ -17,9 +21,14 @@ var JumbotronView = Backbone.View.extend({
     }
 });
 
-var ProfissionalModel = Backbone.Model.extend({});
+var ProfissionalModel = Backbone.Model.extend({
+    url: "poms/"
+});
 
 var poms_preenchidos = new Backbone.Collection(
+    //
+    // carregar lista de pessoas que preencheram poms
+    //
     [
         new ProfissionalModel({id: 1, nome: 'john'}), 
         new ProfissionalModel({id: 2, nome: 'paul'}), 
@@ -37,6 +46,21 @@ var PomsListaItemView = Backbone.View.extend({
     render: function () {
         this.$el.html(this.template({prof: this.model}));
         return this;
+    },
+    events: {
+        'click .btn-delete'    : 'unrender',
+        'click .btn-relatorio' : 'relatorio',
+        'click .btn-formulario': 'formulario'
+    },
+    unrender: function() {
+        this.remove();
+        this.model.destroy();
+    },
+    relatorio: function() {
+        console.log("emitir-relatorio:" + this.model.get('id'));
+    },
+    formulario: function() {
+        console.log("abrir-formulario:" + this.model.get('id'));
     }
 });
 
@@ -113,6 +137,7 @@ var AppRouter = Backbone.Router.extend({
             }
         );
         var jumbo_view = new JumbotronView({'model': jumbo_model});         
+        $('#content').html(null);
     },
     listar_profissionais: function () {
         console.log('listar_profissionais()');

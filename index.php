@@ -36,13 +36,13 @@
             <td>quando preencheu</td>
             <td>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                    <button type="button" class="btn btn-default btn-delete" aria-label="Left Align">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
-                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                    <button type="button" class="btn btn-default btn-relatorio" aria-label="Left Align">
                         <span class="glyphicon glyphicon-file" aria-hidden="true"></span
                     </button>
-                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                    <button type="button" class="btn btn-default btn-formulario" aria-label="Left Align">
                         <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
                     </button>
                 </div>
