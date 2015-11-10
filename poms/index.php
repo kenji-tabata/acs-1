@@ -25,6 +25,7 @@ function debug() {
     //var_dump($foo);
     echo json_encode($foo);
 }
+
 function index() {
     require "../poms/Profissional.php";
 

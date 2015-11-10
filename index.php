@@ -27,42 +27,42 @@
             <div id="content"></div>
         </div>
 
-        <script type="text/template" id="poms-lista-de-profissionais">
+        <script type="text/template" id="poms-lista-item">
+            <td><%= prof.id %></td>
+            <td><%= prof.nome %></td>
+            <td>email</td>
+            <td>cpf</td>
+            <td>sexo</td>
+            <td>quando preencheu</td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </td>
+        </script>
+
+        <script type="text/template" id="poms-lista">
             <table class="table">
-                <tr>
-                    <th>id</th>
-                    <th>nome</th>
-                    <th>email</th>
-                    <th>cpf</th>
-                    <th>sexo</th>
-                    <th>quando preencheu</th>
-                    <th>controles</th>
-                </tr>
-                <!--<% for(var prof in profissionais) { %>-->
-                <% _.each(profissionais, function(prof) { %>
+                <thead>
                     <tr>
-                        <td><%= prof.id %></td>
-                        <td><%= prof.nome %></td>
-                        <td>email</td>
-                        <td>cpf</td>
-                        <td>sexo</td>
-                        <td>quando preencheu</td>
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                </button>
-                                <button type="button" class="btn btn-default" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span
-                                </button>
-                                <button type="button" class="btn btn-default" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                                </button>
-                            </div>
-                        </td>
+                        <th>id</th>
+                        <th>nome</th>
+                        <th>email</th>
+                        <th>cpf</th>
+                        <th>sexo</th>
+                        <th>quando preencheu</th>
+                        <th>controles</th>
                     </tr>
-                <% }); %>
-                <!--<% } %>*-->
+                </thead>
+                <tbody></tbody>
             </table>
         </script>
 

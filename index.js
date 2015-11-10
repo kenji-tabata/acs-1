@@ -19,7 +19,7 @@ var JumbotronView = Backbone.View.extend({
 
 var ProfissionalModel = Backbone.Model.extend({});
 
-var PomsPreenchidos = new Backbone.Collection(
+var poms_preenchidos = new Backbone.Collection(
     [
         new ProfissionalModel({id: 1, nome: 'john'}), 
         new ProfissionalModel({id: 2, nome: 'paul'}), 
@@ -28,19 +28,39 @@ var PomsPreenchidos = new Backbone.Collection(
     ]
 );
 
-var ListaView = Backbone.View.extend({
-    tagName: "table",
-    className: "table",
-    template: _.template($("#poms-lista-de-profissionais").html()),
+var PomsListaItemView = Backbone.View.extend({
+    tagName: "tr",
+    className:"",
+    template: _.template($("#poms-lista-item").html()),
     initialize: function () {
-        this.render();
     },
-    render: function() {
-        this.$el.html(this.template({profissionais: PomsPreenchidos.models}));
+    render: function () {
+        this.$el.html(this.template({prof: this.model}));
         return this;
     }
 });
 
+var PomsListaView = Backbone.View.extend({
+    tagName: "table",
+    className: "table",
+    template: _.template($("#poms-lista").html()),
+    initialize: function () {
+        this.render();
+    },
+    render: function() {
+        var me = this,
+            elem_tbody = {},
+            item_view  = {};
+        
+        me.$el.html(this.template);
+        elem_tbody = this.$el.find('tbody');
+        poms_preenchidos.forEach(function(profissional, index) {
+            item_view = new PomsListaItemView({model: profissional})
+            elem_tbody.append(item_view.render().el);
+        });
+        return this;
+    }
+});
 
 Formulario = Backbone.Model.extend({
     urlRoot: '/_acs/poms/formulario/',   
@@ -64,7 +84,7 @@ var FormularioView = Backbone.View.extend({
         "action": "salvar/",
         "method": "post"
     },    
-    template: _.template( $("#poms-formulario").html()),
+    template: _.template($("#poms-formulario").html()),
     initialize: function(){
         this.render();
     },
@@ -92,7 +112,7 @@ var AppRouter = Backbone.Router.extend({
                 'paragrafo': "Poms, ACS 1"
             }
         );
-        var jumbo_view    = new JumbotronView({'model': jumbo_model});         
+        var jumbo_view = new JumbotronView({'model': jumbo_model});         
     },
     listar_profissionais: function () {
         console.log('listar_profissionais()');
@@ -103,7 +123,7 @@ var AppRouter = Backbone.Router.extend({
             }
         );
         var jumbo_view = new JumbotronView({'model': jumbo_model});        
-        var lista_view = new ListaView();
+        var lista_view = new PomsListaView();
         $('#content').html(lista_view.el);
     },
     formulario_poms: function () {
@@ -126,7 +146,7 @@ var AppRouter = Backbone.Router.extend({
                 'paragrafo': "Abrindo formulário POMS."
             }
         );
-        var jumbo_view  = new JumbotronView({'model': jumbo_model});        
+        var jumbo_view = new JumbotronView({'model': jumbo_model});        
     },
 });
 
