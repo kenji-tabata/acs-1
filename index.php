@@ -135,7 +135,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-5 col-md-2">
-                            <button type="submit" class="btn btn-success btn-block" id="btn-salvar" />Salvar e...</button>
+                            <button type="submit" class="btn btn-success btn-block" id="btn-salvar" >Salvar e...</button>
                         </div>
                     </div>
 
