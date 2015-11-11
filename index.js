@@ -1,5 +1,5 @@
 Backbone.sync = function (method, model, success, error) {
-    console.log(method + " model.id=" + model.id);
+    console.log("Backbone.sync(" + method + ")" + " model.id=" + model.id);
 };
 
 var JumbotronModel = Backbone.Model.extend({
@@ -25,17 +25,15 @@ var ProfissionalModel = Backbone.Model.extend({
     url: "poms/"
 });
 
-var poms_preenchidos = new Backbone.Collection(
-    //
-    // carregar lista de pessoas que preencheram poms
-    //
-    [
+//
+// carregar lista de pessoas que preencheram poms
+//
+var poms_preenchidos = new Backbone.Collection([
         new ProfissionalModel({id: 1, nome: 'john'}),
         new ProfissionalModel({id: 2, nome: 'paul'}),
         new ProfissionalModel({id: 3, nome: 'george'}),
         new ProfissionalModel({id: 4, nome: 'ringo'})
-    ]
-);
+]);
 
 var PomsListaItemView = Backbone.View.extend({
     tagName:   "tr",
@@ -117,6 +115,10 @@ var FormularioView = Backbone.View.extend({
     },
     template: _.template($("#poms-formulario").html()),
     initialize: function () {
+        if (this.id) {
+            console.log('ler dados formulário');
+            this.bind(this.id);
+        }
         this.render();
     },
     render: function () {
@@ -124,6 +126,20 @@ var FormularioView = Backbone.View.extend({
     },
     events: {
         "click #btn-salvar": "salvar"
+    },
+    bind: function(id) {
+        console.log('carregando dados...');
+        this.model = new FormularioModel({id: id});
+        this.model.fetch({
+            success: function (model_resposta) {
+                console.log("OK");
+                // estamos exibindo o retorno da requisição
+                console.log(model_resposta.get('nome'));
+            },
+            error: function (model, xhr, options) {
+                console.log("Erro");
+            }
+        });          
     },
     serialize: function() {
         this.model = new FormularioModel({
@@ -157,6 +173,7 @@ var FormularioView = Backbone.View.extend({
         
         if (this.model.isValid()) {
             console.log('salvar-model');
+            //console.log(this.model.get('adjetivos'));
             switch (this.model.get('eDepois')) {
                 case "voltar-para-lista":
                     console.log('faça voltar para a lista')
@@ -171,8 +188,6 @@ var FormularioView = Backbone.View.extend({
         } else {
             console.log(this.model.validationError);
         }
-        
-        
     }
 });
 
@@ -227,7 +242,7 @@ var AppRouter = Backbone.Router.extend({
                 }
         );
         var jumbo_view = new JumbotronView({'model': jumbo_model});
-        var formulario_view = new FormularioView();
+        var formulario_view = new FormularioView({id: id});
         $('#content').html(formulario_view.el);
     },
 });
