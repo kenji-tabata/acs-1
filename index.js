@@ -90,7 +90,7 @@ var PomsListaView = Backbone.View.extend({
 FormularioModel = Backbone.Model.extend({
     urlRoot: '/_acs/poms/formulario/',
     defaults: {
-        name:      '',
+        nome:      '',
         email:     '',
         cpf:       '',
         genero:    '', // m ou f
@@ -127,13 +127,13 @@ var FormularioView = Backbone.View.extend({
     },
     serialize: function() {
         this.model = new FormularioModel({
-            name:      $("#txt-nome").val(),
+            nome:      $("#txt-nome").val(),
             email:     $("#txt-email").val(),
             cpf:       $("#txt-cpf").val(),
             genero:    $('input[name=genero]:checked').val(),
             adjetivos: this.serializeAdjetivos($('input[name="adjetivos[]"]')),
             eDepois:   $('input[name=depois-de-salvar]:checked').val(),
-        });        
+        });
     },
     serializeAdjetivos: function(ColectionJquery) {
         var adjetivos = [];
@@ -152,11 +152,22 @@ var FormularioView = Backbone.View.extend({
     },
     salvar: function(evt) {
         evt.preventDefault();
-        console.log('salvar-formulario');
+        console.log('FormularioView.salvando...');
         this.serialize();
         
         if (this.model.isValid()) {
             console.log('salvar-model');
+            switch (this.model.get('eDepois')) {
+                case "voltar-para-lista":
+                    console.log('faça voltar para a lista')
+                    break;
+                case "ver-laudo":
+                    console.log('emitir laudo')
+                    break;
+                case "continuar-inserindo":
+                    console.log('limpe o formulário')
+                    break;
+            }
         } else {
             console.log(this.model.validationError);
         }
