@@ -38,9 +38,9 @@ var poms_preenchidos = new Backbone.Collection(
 );
 
 var PomsListaItemView = Backbone.View.extend({
-    tagName: "tr",
+    tagName:   "tr",
     className: "",
-    template: _.template($("#poms-lista-item").html()),
+    template:  _.template($("#poms-lista-item").html()),
     initialize: function () {
     },
     render: function () {
@@ -87,7 +87,7 @@ var PomsListaView = Backbone.View.extend({
     }
 });
 
-Formulario = Backbone.Model.extend({
+FormularioModel = Backbone.Model.extend({
     urlRoot: '/_acs/poms/formulario/',
     defaults: {
         name:      '',
@@ -126,7 +126,7 @@ var FormularioView = Backbone.View.extend({
         "click #btn-salvar": "salvar"
     },
     serialize: function() {
-        this.model = new Formulario({
+        this.model = new FormularioModel({
             name:      $("#txt-nome").val(),
             email:     $("#txt-email").val(),
             cpf:       $("#txt-cpf").val(),
@@ -164,7 +164,6 @@ var FormularioView = Backbone.View.extend({
         
     }
 });
-
 
 var AppRouter = Backbone.Router.extend({
     routes: {
