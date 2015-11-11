@@ -89,19 +89,25 @@ var PomsListaView = Backbone.View.extend({
 
 Formulario = Backbone.Model.extend({
     urlRoot: '/_acs/poms/formulario/',
-});
-
-var formulario = new Formulario(
-        {
-//         id: 123,
-            name:      $("#txt-nome").val(),
-            email:     $("#txt-email").val(),
-            cpf:       $("#txt-cpf").val(),
-            genero:    $('input[name=genero]:checked').val(),
-            adjetivos: "string-separada-por-virgula, ex: 1-1, 2-1, 3-1, etc...",
-            eDepois:   $('input[name=depois-de-salvar]:checked').val(),
+    defaults: {
+        name:      '',
+        email:     '',
+        cpf:       '',
+        genero:    '', // m ou f
+        adjetivos: '', // string-separada-por-virgula, ex: 1-1, 2-1, 3-1, etc...
+        eDepois:   '', // depois de salvar o que fazer ?
+    },
+    validate: function(attrs, options) {
+        err = [];
+        if (!attrs.nome) {
+            err.push({
+                'oque'  : 'nome',
+                'porque': 'Campo \"nome\" requirido!'
+            });
+            return err;
         }
-);
+    }    
+});
 
 var FormularioView = Backbone.View.extend({
     tagName: "form",
@@ -118,6 +124,44 @@ var FormularioView = Backbone.View.extend({
     },
     events: {
         "click #btn-salvar": "salvar"
+    },
+    serialize: function() {
+        this.model = new Formulario({
+            name:      $("#txt-nome").val(),
+            email:     $("#txt-email").val(),
+            cpf:       $("#txt-cpf").val(),
+            genero:    $('input[name=genero]:checked').val(),
+            adjetivos: this.serializeAdjetivos($('input[name="adjetivos[]"]')),
+            eDepois:   $('input[name=depois-de-salvar]:checked').val(),
+        });        
+    },
+    serializeAdjetivos: function(ColectionJquery) {
+        var adjetivos = [];
+        var i = 0;
+        for (; i < 66; i++) {
+            if (ColectionJquery[i]) {
+                if(ColectionJquery[i].value) {
+                    adjetivos.push((i+1) + '-' + ColectionJquery[i].value);
+                }
+                //else {
+                //    adjetivos.push((i+1) + '-0');
+                //}
+            }
+        }
+        return adjetivos.join(', ');
+    },
+    salvar: function(evt) {
+        evt.preventDefault();
+        console.log('salvar-formulario');
+        this.serialize();
+        
+        if (this.model.isValid()) {
+            console.log('salvar-model');
+        } else {
+            console.log(this.model.validationError);
+        }
+        
+        
     }
 });
 
@@ -161,7 +205,7 @@ var AppRouter = Backbone.Router.extend({
                 }
         );
         var jumbo_view = new JumbotronView({'model': jumbo_model});
-        var formulario_view = new FormularioView({'model': formulario});
+        var formulario_view = new FormularioView();
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
@@ -173,7 +217,7 @@ var AppRouter = Backbone.Router.extend({
                 }
         );
         var jumbo_view = new JumbotronView({'model': jumbo_model});
-        var formulario_view = new FormularioView({'model': formulario});
+        var formulario_view = new FormularioView();
         $('#content').html(formulario_view.el);
     },
 });
