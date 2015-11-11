@@ -29,10 +29,10 @@ var ProfissionalModel = Backbone.Model.extend({
 // carregar lista de pessoas que preencheram poms
 //
 var poms_preenchidos = new Backbone.Collection([
-        new ProfissionalModel({id: 1, nome: 'john'}),
-        new ProfissionalModel({id: 2, nome: 'paul'}),
-        new ProfissionalModel({id: 3, nome: 'george'}),
-        new ProfissionalModel({id: 4, nome: 'ringo'})
+    new ProfissionalModel({id: 1, nome: 'john'}),
+    new ProfissionalModel({id: 2, nome: 'paul'}),
+    new ProfissionalModel({id: 3, nome: 'george'}),
+    new ProfissionalModel({id: 4, nome: 'ringo'})
 ]);
 
 var PomsListaItemView = Backbone.View.extend({
