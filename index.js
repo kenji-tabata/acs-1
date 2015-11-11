@@ -124,7 +124,7 @@ var FormularioView = Backbone.View.extend({
 
 var AppRouter = Backbone.Router.extend({
     routes: {
-        '': 'index',
+        '':                     'index',
         'poms':                 'listar_profissionais',
         'poms-formulario':      'formulario_poms',
         'poms-formulario/:id':  'abrir_formulario_poms',
