@@ -102,7 +102,7 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <div class="radio">
-                                    <label><input type="radio" name="genero" id="genero-mas" value="m">Masculino</label>
+                                    <label><input type="radio" name="genero" id="genero-masc" value="m">Masculino</label>
                                     <label><input type="radio" name="genero" id="genero-fem" value="f">Feminino</label>
                                 </div>
                             </div>
