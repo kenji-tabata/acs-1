@@ -55,10 +55,10 @@ var PomsListaItemView = Backbone.View.extend({
         this.model.destroy();
     },
     relatorio: function () {
-        console.log("emitir-relatorio:" + this.model.get('id'));
+        console.log("PomsListaItemView: emitir-relatorio:" + this.model.get('id'));
     },
     formulario: function () {
-        console.log("abrir-formulario:" + this.model.get('id'));
+        console.log("PomsListaItemView: abrir-formulario:" + this.model.get('id'));
         window.location.hash = "#poms-formulario/" + this.model.get('id');
     }
 });
@@ -102,8 +102,14 @@ FormularioModel = Backbone.Model.extend({
                 'oque'  : 'nome',
                 'porque': 'Campo \"nome\" requirido!'
             });
-            return err;
         }
+        if (!attrs.adjetivos) {
+            err.push({
+                'oque'  : 'adjetivos',
+                'porque': 'Faltou adjetivos!'
+            });
+        }
+        if (err) return err;
     }    
 });
 
@@ -143,7 +149,7 @@ var FormularioView = Backbone.View.extend({
                 } else {
                     $('#genero-fem').checked();                    
                 }
-                this.unserializeAdjetivos($('input[name="adjetivos[]"]'))
+                this.unserializeAdjetivos("1-5, 2-5, 3-5", $('input[name="adjetivos[]"]'));
             },
             error: function (model, xhr, options) {
                 console.log("Erro");
@@ -192,6 +198,11 @@ var FormularioView = Backbone.View.extend({
         
         if (this.model.isValid()) {
             console.log('salvar-model');
+            this.model.save({}, {
+                success: function() {
+                    console.log('OK');
+                }
+            });            
             //console.log(this.model.get('adjetivos'));
             switch (this.model.get('eDepois')) {
                 case "voltar-para-lista":
@@ -218,7 +229,7 @@ var AppRouter = Backbone.Router.extend({
         'poms-formulario/:id':  'abrir_formulario_poms',
     },
     index: function () {
-        console.log('index()');
+        console.log('AppRouter: index()');
         var jumbo_model = new JumbotronModel(
                 {
                     'titulo': "Sistemas ACS",
@@ -229,7 +240,7 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(null);
     },
     listar_profissionais: function () {
-        console.log('listar_profissionais()');
+        console.log('AppRouter: listar_profissionais()');
         var jumbo_model = new JumbotronModel(
                 {
                     'titulo':    "POMS",
@@ -241,7 +252,7 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(lista_view.el);
     },
     formulario_poms: function () {
-        console.log('formulario_poms()');
+        console.log('AppRouter: formulario_poms()');
         var jumbo_model = new JumbotronModel(
                 {
                     'titulo':    "POMS",
@@ -253,7 +264,7 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
-        console.log('abrir_formulario_poms:' + id);
+        console.log('AppRouter: abrir_formulario_poms:' + id);
         var jumbo_model = new JumbotronModel(
                 {
                     'titulo':    "POMS",
