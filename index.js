@@ -1,6 +1,6 @@
-Backbone.sync = function (method, model, success, error) {
-    console.log("Backbone.sync(" + method + ")" + " model.id=" + model.id);
-};
+// Backbone.sync = function (method, model, success, error) {
+//     console.log("Backbone.sync(" + method + ")" + " model.id=" + model.id);
+// };
 
 var JumbotronModel = Backbone.Model.extend({
     defaults: {
@@ -28,7 +28,11 @@ var ProfissionalModel = Backbone.Model.extend({
 //
 // carregar lista de pessoas que preencheram poms
 //
-var poms_preenchidos = new Backbone.Collection([
+var PomsColecction = Backbone.Collection.extend({
+    url: "poms/"
+});
+    
+var poms_preenchidos = new PomsColecction([
     new ProfissionalModel({id: 1, nome: 'john'}),
     new ProfissionalModel({id: 2, nome: 'paul'}),
     new ProfissionalModel({id: 3, nome: 'george'}),
@@ -41,14 +45,14 @@ var PomsListaItemView = Backbone.View.extend({
     template:  _.template($("#poms-lista-item").html()),
     initialize: function () {
     },
-    render: function () {
-        this.$el.html(this.template({prof: this.model}));
-        return this;
-    },
     events: {
         'click .btn-delete':     'unrender',
         'click .btn-relatorio':  'relatorio',
         'click .btn-formulario': 'formulario'
+    },
+    render: function () {
+        this.$el.html(this.template({prof: this.model}));
+        return this;
     },
     unrender: function () {
         this.remove();
@@ -68,6 +72,15 @@ var PomsListaView = Backbone.View.extend({
     className: "table",
     template: _.template($("#poms-lista").html()),
     initialize: function () {
+        poms_preenchidos.fetch({
+            success: function (collection, response) {
+                console.log('bakcend: lista poms carregada!');
+                console.log(JSON.stringify(poms_preenchidos.toJSON()));
+            },
+            error: function (collection, response) {
+                console.log('bakcend: falha a carregar lista poms!');
+            },
+        });        
         this.render();
     },
     render: function () {
