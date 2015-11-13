@@ -3,19 +3,19 @@ require '../vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$app->get('/', 'index');
-
-// $app->get('/formulario-poms/',                 'poms_formulario_externo');
-// $app->get('/poms/profissionais/listar/',       '');
-// $app->get('/poms/relatorio/:id',               'poms_relatorio');
-// $app->get('/poms/relatorio/grupo/:id/:id/:id', 'poms_relatorio_foo');
-
-$app->get(   '/formulario',     'poms_formulario_new');
+$app->post(  '/',    'poms_create');
+$app->get(   '/',    'poms_read');   # index
+$app->put(   '/:id', 'poms_update');
+$app->delete('/:id', 'poms_delete');
 
 $app->post(  '/formulario/',    'poms_formulario_create');
 $app->get(   '/formulario/:id', 'poms_formulario_read');
 $app->put(   '/formulario/:id', 'poms_formulario_update');
 $app->delete('/formulario/:id', 'poms_formulario_delete');
+
+// $app->get('/formulario-poms/',                 'poms_formulario_externo');
+$app->get('/relatorio/:id',               'poms_relatorio');
+// $app->get('/poms/relatorio/grupo/:id/:id/:id', 'poms_relatorio_foo');
 
 $app->run();
 
@@ -26,41 +26,52 @@ function debug() {
     echo json_encode($foo);
 }
 
-function index() {
-    require "../poms/Profissional.php";
+function poms_create() {
+    echo json_encode(array('create' => 'sem-id'));
+}
+function poms_read() {
+    echo json_encode(array('listar' => 'poms'));
+    // require "../poms/Profissional.php";
 
-    $profis = new Profissional();
-    $profis->nome   = "Fulano";
-    $profis->email  = "fulano@email";
-    $profis->cpf    = "123.456.789.99";
-    $profis->genero = "m";
+    // $profis = new Profissional();
+    // $profis->nome   = "Fulano";
+    // $profis->email  = "fulano@email";
+    // $profis->cpf    = "123.456.789.99";
+    // $profis->genero = "m";
 
-    $profissionais = array();
+    // $profissionais = array();
 
-    $profis->id      = 100;
-    $profissionais[] = clone $profis;
+    // $profis->id      = 100;
+    // $profissionais[] = clone $profis;
 
-    $profis->id      = 200;
-    $profissionais[] = clone $profis;
+    // $profis->id      = 200;
+    // $profissionais[] = clone $profis;
 
-    $profis->id      = 300;
-    $profissionais[] = clone $profis;
+    // $profis->id      = 300;
+    // $profissionais[] = clone $profis;
 
-    $profis->id      = 400;
-    $profissionais[] = clone $profis;
-    // var_dump($profissionais);
+    // $profis->id      = 400;
+    // $profissionais[] = clone $profis;
+    // // var_dump($profissionais);
 
-    require "../templates/poms-profissionais-listar.php";
+    // require "../templates/poms-profissionais-listar.php";
+}
+
+function poms_update($id) {
+    echo json_encode(array('update' => $id));
+}
+function poms_delete($id) {
+    echo json_encode(array('delete' => $id));
 }
 
 function poms_relatorio() {
-    require_once "poms/Relatorio.php";
-    require_once "poms/Pesquisado.php";
-    require_once "poms/Laudos.php";
-    require_once "poms/Grafico.php";
-    require_once "poms/Calc.php";
-    require_once "poms/RowScore.php";
-    require_once "poms/TScore.php";
+    require_once "Relatorio.php";
+    require_once "Pesquisado.php";
+    require_once "Laudos.php";
+    require_once "Grafico.php";
+    require_once "Calc.php";
+    require_once "RowScore.php";
+    require_once "TScore.php";
 
     $pesquisado = new Pesquisado();
     $pesquisado->nome  = "Fulano";
@@ -85,11 +96,10 @@ function poms_relatorio() {
     $relatorio->gerar();
 
     #
-    # $relatorio->download();
+    $relatorio->download();
     #
 
     $grafico->deletar_imagem();
-    echo "get\n";
 }
 
 
@@ -99,7 +109,7 @@ function poms_formulario_new() {
 }
 
 function poms_formulario_create() {
-    echo json_encode(array('create' => $id));
+    echo json_encode(array('create' => 'sem-id'));
 }
 function poms_formulario_read($id) {
     echo json_encode(array('read' => $id));

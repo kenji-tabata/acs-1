@@ -1,7 +1,7 @@
 <?php
 
-require_once "includes/pdf/fpdf.php";
-require_once "includes/pdf/pdfwritetag.php";
+require_once "../includes/pdf/fpdf.php";
+require_once "../includes/pdf/pdfwritetag.php";
 
 class Relatorio {
 

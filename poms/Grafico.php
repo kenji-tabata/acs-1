@@ -19,7 +19,7 @@ class Grafico {
     }
 
     public function setNomeArquivo() {
-        $this->imagem['nome'] = 'files-temp/' . uniqid() . '.png';
+        $this->imagem['nome'] = '../files-temp/' . uniqid() . '.png';
     }
 
     public function getNomeArquivo() {
@@ -67,7 +67,7 @@ class Grafico {
         $cores['azul'] = imagecolorallocate($im, 0, 0, 255);
 
         # fonts
-        $font = "fonts/arial.ttf";
+        $font = "../fonts/arial.ttf";
 
         # Aqui começa a grade
         $marSup = 15;

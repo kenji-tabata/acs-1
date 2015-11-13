@@ -22,14 +22,20 @@ var JumbotronView = Backbone.View.extend({
 });
 
 var ProfissionalModel = Backbone.Model.extend({
-    url: "poms/"
+    urlRoot: '/_acs/poms/',
+    defaults: {
+        nome:      '',
+        email:     '',
+        cpf:       '',
+        genero:    '' // m ou f
+    },
 });
 
 //
 // carregar lista de pessoas que preencheram poms
 //
 var PomsColecction = Backbone.Collection.extend({
-    url: "poms/"
+    url: "/_acs/poms/"
 });
     
 var poms_preenchidos = new PomsColecction([
@@ -60,6 +66,7 @@ var PomsListaItemView = Backbone.View.extend({
     },
     relatorio: function () {
         console.log("PomsListaItemView: emitir-relatorio:" + this.model.get('id'));
+        window.location.href = "poms/relatorio/" + this.model.get('id');
     },
     formulario: function () {
         console.log("PomsListaItemView: abrir-formulario:" + this.model.get('id'));
@@ -122,7 +129,7 @@ FormularioModel = Backbone.Model.extend({
                 'porque': 'Faltou adjetivos!'
             });
         }
-        if (err) return err;
+        if (err.length > 0) return err;
     }    
 });
 
@@ -148,6 +155,7 @@ var FormularioView = Backbone.View.extend({
     },
     bind: function(id) {
         console.log('carregando dados...');
+        var self = this;
         this.model = new FormularioModel({id: id});
         this.model.fetch({
             success: function (model_resposta) {
@@ -158,11 +166,11 @@ var FormularioView = Backbone.View.extend({
                 $("#txt-email").val(model_resposta.get('email'));
                 $("#txt-cpf").val(model_resposta.get('cpf'));
                 if (model_resposta.get('genero') == "masc") {
-                    $('#genero-masc').checked();
+                    $('#genero-masc').prop("checked", true);
                 } else {
-                    $('#genero-fem').checked();                    
+                    $('#genero-fem').prop("checked", true);                    
                 }
-                this.unserializeAdjetivos("1-5, 2-5, 3-5", $('input[name="adjetivos[]"]'));
+                self.unserializeAdjetivos("1-5, 2-5, 3-5", $('input[name="adjetivos[]"]'));
             },
             error: function (model, xhr, options) {
                 console.log("Erro");
@@ -289,6 +297,5 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(formulario_view.el);
     },
 });
-
 var app_router = new AppRouter();
 Backbone.history.start();
