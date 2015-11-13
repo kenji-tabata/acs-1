@@ -102,12 +102,6 @@ function poms_relatorio() {
     $grafico->deletar_imagem();
 }
 
-
-function poms_formulario_new() {
-    require_once "../poms/Formulario.php";
-    require "../templates/poms-formulario-read.php";
-}
-
 function poms_formulario_create() {
     echo json_encode(array('create' => 'sem-id'));
 }
