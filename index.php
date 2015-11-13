@@ -76,7 +76,7 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label for="txt-nome">Nome</label>
-                                    <input type="text" class="form-control" name="nome" id="txt-nome" />
+                                    <input type="text" class="form-control" name="nome" id="txt-nome" maxlength="200"/>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label for="txt-email">Email</label>
-                                    <input type="text" class="form-control" name="email" id="txt-email" />
+                                    <input type="text" class="form-control" name="email" id="txt-email" maxlength="200"/>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="txt-cpf">CPF</label>
-                                    <input type="text" class="form-control" name="cpf" id="txt-cpf" />
+                                    <input type="text" class="form-control" name="cpf" id="txt-cpf" maxlength="14"/>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                             <div class="col-xs-4">
                                 <div class="radio">
                                     <label><input type="radio" name="genero" id="genero-masc" value="m">Masculino</label>
-                                    <label><input type="radio" name="genero" id="genero-fem" value="f">Feminino</label>
+                                    <label><input type="radio" name="genero" id="genero-fem" value="f" checked="checked">Feminino</label>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                         <div class="form-group">
                             <label for="" class="col-md-offset-2 col-sm-4 col-xs-8 control-label"><?php echo $key . ". " . ucfirst($adjetivo) ?></label>
                             <div class="col-sm-1 col-xs-3">
-                                <input type="text" class="form-control" name="adjetivos[]" />
+                                <input type="text" class="form-control" name="adjetivos[]" maxlength="1"/>
                             </div>
                         </div>
                     <?php endforeach; ?>
