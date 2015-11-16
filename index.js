@@ -173,10 +173,11 @@ var FormularioView = Backbone.View.extend({
             console.log('ler dados formulário');
             this.bind(this.id);
         }
+        this.model = new FormularioModel();
         this.render();
     },
     render: function () {
-        this.$el.html(this.template);
+        this.$el.html(this.template(this.model.attributes));
     },
     events: {
         "click #btn-salvar": "salvar"
@@ -193,12 +194,13 @@ var FormularioView = Backbone.View.extend({
                 $("#txt-nome").val(model_resposta.get('nome'));
                 $("#txt-email").val(model_resposta.get('email'));
                 $("#txt-cpf").val(model_resposta.get('cpf'));
-                if (model_resposta.get('genero') == "masc") {
+                if (model_resposta.get('genero') == "m") {
                     $('#genero-masc').prop("checked", true);
                 } else {
                     $('#genero-fem').prop("checked", true);                    
                 }
-                self.unserializeAdjetivos("1-5, 2-5, 3-5", $('input[name="adjetivos[]"]'));
+                self.unserializeAdjetivos(model_resposta.get('adjetivos'), $('input[name="adjetivos[]"]'));
+                
             },
             error: function (model, xhr, options) {
                 console.log("Erro");

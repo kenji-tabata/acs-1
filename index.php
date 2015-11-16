@@ -76,7 +76,7 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="control-label form-group" for="txt-nome">Nome</label>
-                                    <input type="text" class="form-control" name="nome" id="txt-nome" maxlength="200"/>
+                                    <input type="text" class="form-control" name="nome" id="txt-nome" maxlength="200" value="<%= nome %>"/>
                                 </div>
                             </div>
                         </div>

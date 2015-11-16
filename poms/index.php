@@ -105,7 +105,16 @@ function poms_formulario_create() {
     echo json_encode(array('create' => 'sem-id'));
 }
 function poms_formulario_read($id) {
-    echo json_encode(array('read' => $id));
+    require "../poms/Profissional.php";    
+    $profis = new Profissional();
+    $profis->id      = $id;
+    $profis->nome    = "Fulano";
+    $profis->email   = "fulano@email";
+    $profis->cpf     = "123.456.789.99";
+    $profis->genero  = "m";
+    $profis->preench = "01/01/2001";
+    $profis->adjetivos ="1-5, 2-5, 3-5, 4-3, 5-2";
+    echo json_encode($profis);
 }
 function poms_formulario_update($id) {
     echo json_encode(array('update' => $id));
