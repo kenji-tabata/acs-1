@@ -30,31 +30,30 @@ function poms_create() {
     echo json_encode(array('create' => 'sem-id'));
 }
 function poms_read() {
-    echo json_encode(array('listar' => 'poms'));
-    // require "../poms/Profissional.php";
+    require "../poms/Profissional.php";
 
-    // $profis = new Profissional();
-    // $profis->nome   = "Fulano";
-    // $profis->email  = "fulano@email";
-    // $profis->cpf    = "123.456.789.99";
-    // $profis->genero = "m";
+    $profis = new Profissional();
+    $profis->nome    = "Fulano";
+    $profis->email   = "fulano@email";
+    $profis->cpf     = "123.456.789.99";
+    $profis->genero  = "m";
+    $profis->preench = "01/01/2001";
 
-    // $profissionais = array();
+    $profissionais = array();
 
-    // $profis->id      = 100;
-    // $profissionais[] = clone $profis;
+    $profis->id      = 100;
+    $profissionais[] = clone $profis;
 
-    // $profis->id      = 200;
-    // $profissionais[] = clone $profis;
+    $profis->id      = 200;
+    $profissionais[] = clone $profis;
 
-    // $profis->id      = 300;
-    // $profissionais[] = clone $profis;
+    $profis->id      = 300;
+    $profissionais[] = clone $profis;
 
-    // $profis->id      = 400;
-    // $profissionais[] = clone $profis;
-    // // var_dump($profissionais);
-
-    // require "../templates/poms-profissionais-listar.php";
+    $profis->id      = 400;
+    $profissionais[] = clone $profis;
+    // var_dump($profissionais);
+    echo json_encode($profissionais);
 }
 
 function poms_update($id) {

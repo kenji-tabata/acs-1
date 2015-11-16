@@ -35,16 +35,10 @@ var ProfissionalModel = Backbone.Model.extend({
 // carregar lista de pessoas que preencheram poms
 //
 var PomsColecction = Backbone.Collection.extend({
-    url: "/_acs/poms/"
+    url: "/_acs/poms/",
+    model: ProfissionalModel
 });
     
-var poms_preenchidos = new PomsColecction([
-    new ProfissionalModel({id: 1, nome: 'john'}),
-    new ProfissionalModel({id: 2, nome: 'paul'}),
-    new ProfissionalModel({id: 3, nome: 'george'}),
-    new ProfissionalModel({id: 4, nome: 'ringo'})
-]);
-
 var PomsListaItemView = Backbone.View.extend({
     tagName:   "tr",
     className: "",
@@ -57,7 +51,7 @@ var PomsListaItemView = Backbone.View.extend({
         'click .btn-formulario': 'formulario'
     },
     render: function () {
-        this.$el.html(this.template({prof: this.model}));
+        this.$el.html(this.template({prof: this.model.attributes}));
         return this;
     },
     unrender: function () {
@@ -79,16 +73,18 @@ var PomsListaView = Backbone.View.extend({
     className: "table",
     template: _.template($("#poms-lista").html()),
     initialize: function () {
-        poms_preenchidos.fetch({
+        var self = this;
+        self.collection = new PomsColecction();        
+        self.collection.fetch({
             success: function (collection, response) {
                 console.log('xhr: lista poms carregada!');
-                console.log(JSON.stringify(poms_preenchidos.toJSON()));
+//                 console.log(JSON.stringify(self.collection.toJSON()));
+                self.render();
             },
             error: function (collection, response) {
                 console.log('xhr: falha a carregar lista poms!');
             },
         });        
-        this.render();
     },
     render: function () {
         var me = this,
@@ -97,7 +93,8 @@ var PomsListaView = Backbone.View.extend({
 
         me.$el.html(this.template);
         elem_tbody = this.$el.find('tbody');
-        poms_preenchidos.forEach(function (profissional, index) {
+        this.collection.forEach(function (profissional, index) {
+//             console.log(profissional.attributes);
             item_view = new PomsListaItemView({model: profissional})
             elem_tbody.append(item_view.render().el);
         });

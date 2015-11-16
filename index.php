@@ -30,10 +30,10 @@
         <script type="text/template" id="poms-lista-item">
             <td><%= prof.id %></td>
             <td><%= prof.nome %></td>
-            <td>email</td>
-            <td>cpf</td>
-            <td>sexo</td>
-            <td>quando preencheu</td>
+            <td><%= prof.email %></td>
+            <td><%= prof.cpf %></td>
+            <td><%= prof.genero %></td>
+            <td><%= prof.preench %></td>
             <td>
                 <div class="btn-group">
                     <button type="button" class="btn btn-default btn-delete" aria-label="Left Align">
