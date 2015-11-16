@@ -284,14 +284,13 @@ var FormularioView = Backbone.View.extend({
                 case "voltar-para-lista":
                     console.log('FormularioView.salvar(): faça voltar para a lista')
                     window.location.hash = "#poms";
-                    //AppRouter.listar_profissionais();
                     break;
                 case "ver-laudo":
                     console.log('FormularioView.salvar(): emitir laudo!')
                     if (this.model.get('id')) {
                         window.location.href = "poms/relatorio/" + this.model.get('id');
                     } else {
-                        console.log('FormularioView.salvar(): sem id!');
+                        console.log('FormularioView.salvar(): ... mas não temos o id!');
                     }
                     break;
                 case "continuar-inserindo":
