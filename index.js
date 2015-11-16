@@ -135,7 +135,7 @@ FormularioModel = Backbone.Model.extend({
             // OK, vieram todos! Então...
             // vou checar o valor de cada adjetivo
             var indice, valor, invalidos = [], self = this;
-            adjetivos.forEach(function (value, key) {
+            adjetivos.forEach(function(value, key) {
                 indice = value.split('-')[0];
                 value  = value.split('-')[1];
                 //console.log(indice + "-" + value);
@@ -144,7 +144,7 @@ FormularioModel = Backbone.Model.extend({
                 }
             });
             // há algum inválido ?
-            if (invalidos.length > 0) {
+            if (invalidos.length > 0){
                 keys = keys.join(', ');
                 err.push({
                     'oque'   : 'adjetivos',
@@ -184,7 +184,7 @@ var FormularioView = Backbone.View.extend({
     events: {
         "click #btn-salvar": "salvar"
     },
-    bind: function (id) {
+    bind: function(id) {
         console.log('carregando dados...');
         var self = this;
         this.model = new FormularioModel({id: id});
@@ -208,7 +208,7 @@ var FormularioView = Backbone.View.extend({
             }
         });
     },
-    serialize: function () {
+    serialize: function() {
         this.model = new FormularioModel({
             nome:      $("#txt-nome").val(),
             email:     $("#txt-email").val(),
@@ -223,8 +223,8 @@ var FormularioView = Backbone.View.extend({
         var i = 0;
         for (; i < 66; i++) {
             if (ColectionJquery[i]) {
-                if (ColectionJquery[i].value) {
-                    adjetivos.push((i + 1) + '-' + ColectionJquery[i].value);
+                if(ColectionJquery[i].value) {
+                    adjetivos.push((i+1) + '-' + ColectionJquery[i].value);
                 }
                 //else {
                 //    adjetivos.push((i+1) + '-0');
@@ -233,29 +233,39 @@ var FormularioView = Backbone.View.extend({
         }
         return adjetivos.join(', ');
     },
-    unserializeAdjetivos: function (strForm, ColectionJquery) {
+    unserializeAdjetivos: function(strForm, ColectionJquery) {
         var indice, valor, adjetivos = strForm.split(', ');
-        adjetivos.forEach(function (value, key) {
+        adjetivos.forEach(function(value, key) {
             indice = value.split('-')[0];
             value  = value.split('-')[1];
             //console.log(indice + "-" + value);
-            ColectionJquery[indice - 1].value = value;
+            ColectionJquery[indice-1].value = value;
         });
     },
     // Esta função apenas sinaliza os erros, 
     // quem valida de fato é o modelo.
     assinalar_erros: function() {
         var self = this;
-        $.each($('input[name="adjetivos[]"]'), function (index, value) {
-            var controle = $(value).parent().parent();
-            var valor    = $(value).val();
+        var controle = {};        
+        
+        controle = $('input[name="adjetivos[]"]');
+        var elem, valor;
+        $.each(controle, function (index, value) {
+            elem  = $(value).parent().parent();
+            valor = $(value).val();
             if (self.model.validar_adjetivo(valor)) {
-                controle.removeClass('has-error');
+                elem.removeClass('has-error');
             } else {
-                controle.addClass('has-error');
+                elem.addClass('has-error');
             }
         });
-       
+        
+        controle = $("#txt-nome");
+        if(controle.val()) {
+            controle.parent().removeClass('has-error');
+        } else {
+            controle.parent().addClass('has-error');
+        }
     },
     salvar: function(evt) {
         evt.preventDefault();
@@ -265,7 +275,7 @@ var FormularioView = Backbone.View.extend({
         if (this.model.isValid()) {
             console.log('FormularioView.salvar(): salvando modelo!');
             this.model.save({}, {
-                success: function () {
+                success: function() {
                     console.log('xhr: formulário salvo com sucesso!');
                 }
             });            
@@ -290,7 +300,7 @@ var FormularioView = Backbone.View.extend({
                     break;
             }
         } else {
-            console.log('FormularioView.salvar(): Formulário não validou...');
+            console.log('FormularioView.salvar(): Formulário não validou! Erros:');
             console.log(this.model.validationError);
             this.assinalar_erros();
         }

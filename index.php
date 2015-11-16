@@ -75,7 +75,7 @@
                         <div class="row">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <label for="txt-nome">Nome</label>
+                                    <label class="control-label form-group" for="txt-nome">Nome</label>
                                     <input type="text" class="form-control" name="nome" id="txt-nome" maxlength="200"/>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="form-group">
-                                    <label for="txt-email">Email</label>
+                                    <label class="control-label form-group" for="txt-email">Email</label>
                                     <input type="text" class="form-control" name="email" id="txt-email" maxlength="200"/>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="txt-cpf">CPF</label>
+                                    <label class="control-label form-group" for="txt-cpf">CPF</label>
                                     <input type="text" class="form-control" name="cpf" id="txt-cpf" maxlength="14"/>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
 
                         <div class="row">
                             <div class="col-xs-4">
-                                <div class="radio">
+                                <div class="radio form-group">
                                     <label><input type="radio" name="genero" id="genero-masc" value="m">Masculino</label>
                                     <label><input type="radio" name="genero" id="genero-fem" value="f" checked="checked">Feminino</label>
                                 </div>
