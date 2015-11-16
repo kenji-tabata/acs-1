@@ -81,11 +81,11 @@ var PomsListaView = Backbone.View.extend({
     initialize: function () {
         poms_preenchidos.fetch({
             success: function (collection, response) {
-                console.log('bakcend: lista poms carregada!');
+                console.log('xhr: lista poms carregada!');
                 console.log(JSON.stringify(poms_preenchidos.toJSON()));
             },
             error: function (collection, response) {
-                console.log('bakcend: falha a carregar lista poms!');
+                console.log('xhr: falha a carregar lista poms!');
             },
         });        
         this.render();
@@ -159,7 +159,7 @@ var FormularioView = Backbone.View.extend({
         this.model = new FormularioModel({id: id});
         this.model.fetch({
             success: function (model_resposta) {
-                console.log("backend: formulário retornado com sucesso!");
+                console.log("xhr: formulário retornado com sucesso!");
                 // estamos exibindo o retorno da requisição
                 console.log(model_resposta.get('nome'));
                 $("#txt-nome").val(model_resposta.get('nome'));
@@ -214,29 +214,38 @@ var FormularioView = Backbone.View.extend({
     },
     salvar: function(evt) {
         evt.preventDefault();
-        console.log('FormularioView.salvando...');
+        console.log('FormularioView.salvar()');
         this.serialize();
         
         if (this.model.isValid()) {
-            console.log('salvar-model');
+            console.log('FormularioView.salvar(): salvando modelo!');
             this.model.save({}, {
                 success: function() {
-                    console.log('OK');
+                    console.log('xhr: formulário salvo com sucesso!');
                 }
             });            
             //console.log(this.model.get('adjetivos'));
             switch (this.model.get('eDepois')) {
                 case "voltar-para-lista":
-                    console.log('faça voltar para a lista')
+                    console.log('FormularioView.salvar(): faça voltar para a lista')
+                    window.location.hash = "#poms";
+                    //AppRouter.listar_profissionais();
                     break;
                 case "ver-laudo":
-                    console.log('emitir laudo')
+                    console.log('FormularioView.salvar(): emitir laudo!')
+                    if (this.model.get('id')) {
+                        window.location.href = "poms/relatorio/" + this.model.get('id');
+                    } else {
+                        console.log('FormularioView.salvar(): sem id!');
+                    }
                     break;
                 case "continuar-inserindo":
-                    console.log('limpe o formulário')
+                    console.log('FormularioView.salvar(): limpe o formulário')
+                    window.location.hash = "#poms-formulario";
                     break;
             }
         } else {
+            console.log('FormularioView.salvar(): Formulário não validou...');
             console.log(this.model.validationError);
         }
     }
