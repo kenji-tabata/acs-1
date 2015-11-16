@@ -116,21 +116,52 @@ FormularioModel = Backbone.Model.extend({
         eDepois:   '', // depois de salvar o que fazer ?
     },
     validate: function(attrs, options) {
-        err = [];
+        var err = [];
         if (!attrs.nome) {
             err.push({
-                'oque'  : 'nome',
-                'porque': 'Campo \"nome\" requirido!'
+                'oque'   : 'nome',
+                'porque' : 'Campo \"nome\" requirido!',
             });
         }
-        if (!attrs.adjetivos) {
+
+        // vieram todos os 65 adjetivos ?
+        adjetivos = attrs.adjetivos.split(', ')
+        if (adjetivos.length != 3) {
             err.push({
-                'oque'  : 'adjetivos',
-                'porque': 'Faltou adjetivos!'
+                'oque'   : 'adjetivos',
+                'porque' : 'Faltaram alguns adjetivos!',
             });
+        } else {
+            // OK, vieram todos! Então...
+            // vou checar o valor de cada adjetivo
+            var indice, valor, invalidos = [], self = this;
+            adjetivos.forEach(function(value, key) {
+                indice = value.split('-')[0];
+                value  = value.split('-')[1];
+                //console.log(indice + "-" + value);
+                if (!self.validar_adjetivo(value)) {
+                    invalidos.push(indice);
+                }
+            });
+            // há algum inválido ?
+            if (invalidos.length > 0){
+                keys = keys.join(', ');
+                err.push({
+                    'oque'   : 'adjetivos',
+                    'porque' : 'Adjetivos com valores inválidos [' + keys + ']',
+                });        
+            }
         }
+        
         if (err.length > 0) return err;
-    }    
+    },
+    validar_adjetivo: function (valor) {
+        if (valor > 0 && valor < 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }     
 });
 
 var FormularioView = Backbone.View.extend({
@@ -175,7 +206,7 @@ var FormularioView = Backbone.View.extend({
             error: function (model, xhr, options) {
                 console.log("Erro");
             }
-        });          
+        });
     },
     serialize: function() {
         this.model = new FormularioModel({
@@ -203,14 +234,28 @@ var FormularioView = Backbone.View.extend({
         return adjetivos.join(', ');
     },
     unserializeAdjetivos: function(strForm, ColectionJquery) {
-        var adjetivos = strForm.split(', ');
-        var indice, valor;
-            adjetivos.forEach(function(value, key) {
+        var indice, valor, adjetivos = strForm.split(', ');
+        adjetivos.forEach(function(value, key) {
             indice = value.split('-')[0];
             value  = value.split('-')[1];
             //console.log(indice + "-" + value);
             ColectionJquery[indice-1].value = value;
         });
+    },
+    // Esta função apenas sinaliza os erros, 
+    // quem valida de fato é o modelo.
+    assinalar_erros: function() {
+        var self = this;
+        $.each($('input[name="adjetivos[]"]'), function (index, value) {
+            var controle = $(value).parent().parent();
+            var valor    = $(value).val();
+            if (self.model.validar_adjetivo(valor)) {
+                controle.removeClass('has-error');
+            } else {
+                controle.addClass('has-error');
+            }
+        });
+       
     },
     salvar: function(evt) {
         evt.preventDefault();
@@ -247,6 +292,7 @@ var FormularioView = Backbone.View.extend({
         } else {
             console.log('FormularioView.salvar(): Formulário não validou...');
             console.log(this.model.validationError);
+            this.assinalar_erros();
         }
     }
 });
