@@ -55,7 +55,7 @@ function poms_formulario_read($id) {
     $profis->cpf     = "123.456.789.99";
     $profis->genero  = "m";
     $profis->preench = "01/01/2001";
-    $profis->adjetivos ="1-5, 2-5, 3-5, 4-3, 5-2";
+    $profis->adjetivos ="1-5, 2-5, 3-5";
     echo json_encode($profis);
 }
 
