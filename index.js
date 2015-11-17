@@ -183,7 +183,7 @@ var FormularioView = Backbone.View.extend({
     template: _.template($("#poms-formulario").html()),
     initialize: function () {
         if (this.id) {
-            console.log('ler dados formulário');
+            console.log('ler dados formulário:' + this.id);
             this.bind(this.id);
         }
         this.model = new FormularioModel();
@@ -199,10 +199,11 @@ var FormularioView = Backbone.View.extend({
         console.log('carregando dados...');
         var self = this;
         this.model = new FormularioModel({id: id});
+        console.log(self.model.attributes);
         this.model.fetch({
             success: function (model_resposta) {
                 console.log("xhr: formulário retornado com sucesso!");
-                // self.model.set('id', model_resposta.get('id'));
+                self.model.set('id', model_resposta.get('id'));
                 $("#txt-nome").val(model_resposta.get('nome'));
                 $("#txt-email").val(model_resposta.get('email'));
                 $("#txt-cpf").val(model_resposta.get('cpf'));
@@ -212,7 +213,7 @@ var FormularioView = Backbone.View.extend({
                     $('#genero-fem').prop("checked", true);                    
                 }
                 self.unserializeAdjetivos(model_resposta.get('adjetivos'), $('input[name="adjetivos[]"]'));
-                
+                // console.log(self.model.attributes);
             },
             error: function (model, xhr, options) {
                 console.log("Erro");
@@ -220,14 +221,20 @@ var FormularioView = Backbone.View.extend({
         });
     },
     serialize: function() {
-        this.model = new FormularioModel({
-            nome:      $("#txt-nome").val(),
-            email:     $("#txt-email").val(),
-            cpf:       $("#txt-cpf").val(),
-            genero:    $('input[name=genero]:checked').val(),
-            adjetivos: this.serializeAdjetivos($('input[name="adjetivos[]"]')),
-            eDepois:   $('input[name=depois-de-salvar]:checked').val(),
-        });
+        this.model.set('nome',      $("#txt-nome").val());
+        this.model.set('email',     $("#txt-email").val());
+        this.model.set('cpf',       $("#txt-cpf").val());
+        this.model.set('genero',    $('input[name=genero]:checked').val());
+        this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos[]"]')));
+        this.model.set('eDepois',   $('input[name=depois-de-salvar]:checked').val());
+        // this.model = new FormularioModel({
+        //     nome:      $("#txt-nome").val(),
+        //     email:     $("#txt-email").val(),
+        //     cpf:       $("#txt-cpf").val(),
+        //     genero:    $('input[name=genero]:checked').val(),
+        //     adjetivos: this.serializeAdjetivos($('input[name="adjetivos[]"]')),
+        //     eDepois:   $('input[name=depois-de-salvar]:checked').val(),
+        // });
     },
     serializeAdjetivos: function(ColectionJquery) {
         var adjetivos = [];
