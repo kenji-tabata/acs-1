@@ -3,33 +3,19 @@ require '../vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$app->post(  '/',    'poms_create');
-$app->get(   '/',    'poms_read');   # index
-$app->put(   '/:id', 'poms_update');
-$app->delete('/:id', 'poms_delete');
+$app->get(   '/',    'index');
+$app->post(  '/',    'poms_formulario_create'); # c
+$app->get(   '/:id', 'poms_formulario_read');   # r
+$app->put(   '/:id', 'poms_formulario_update'); # u
+$app->delete('/:id', 'poms_formulario_delete'); # d
 
-$app->post(  '/formulario/',    'poms_formulario_create');
-$app->get(   '/formulario/:id', 'poms_formulario_read');
-$app->put(   '/formulario/:id', 'poms_formulario_update');
-$app->delete('/formulario/:id', 'poms_formulario_delete');
-
-// $app->get('/formulario-poms/',                 'poms_formulario_externo');
-$app->get('/relatorio/:id',               'poms_relatorio');
+$app->get('/relatorio/:id', 'poms_relatorio');
 // $app->get('/poms/relatorio/grupo/:id/:id/:id', 'poms_relatorio_foo');
+// $app->get('/formulario-poms/', 'poms_formulario_externo');
 
 $app->run();
 
-function debug() {
-    $request = \Slim\Slim::getInstance()->request();
-    $foo = json_decode($request->getBody());
-    //var_dump($foo);
-    echo json_encode($foo);
-}
-
-function poms_create() {
-    echo json_encode(array('create' => 'sem-id'));
-}
-function poms_read() {
+function index() {
     require "../poms/Profissional.php";
 
     $profis = new Profissional();
@@ -56,11 +42,29 @@ function poms_read() {
     echo json_encode($profissionais);
 }
 
-function poms_update($id) {
-    echo json_encode(array('update' => $id));
+function poms_formulario_create() {
+    echo json_encode(array('id' => '123'));
 }
-function poms_delete($id) {
+
+function poms_formulario_read($id) {
+    require "../poms/Profissional.php";    
+    $profis = new Profissional();
+    $profis->id      = $id;
+    $profis->nome    = "Fulano";
+    $profis->email   = "fulano@email";
+    $profis->cpf     = "123.456.789.99";
+    $profis->genero  = "m";
+    $profis->preench = "01/01/2001";
+    $profis->adjetivos ="1-5, 2-5, 3-5, 4-3, 5-2";
+    echo json_encode($profis);
+}
+
+function poms_formulario_delete($id) {
     echo json_encode(array('delete' => $id));
+}
+
+function poms_formulario_update($id) {
+    echo json_encode(array('update' => $id));
 }
 
 function poms_relatorio() {
@@ -99,26 +103,4 @@ function poms_relatorio() {
     #
 
     $grafico->deletar_imagem();
-}
-
-function poms_formulario_create() {
-    echo json_encode(array('id' => '123'));
-}
-function poms_formulario_read($id) {
-    require "../poms/Profissional.php";    
-    $profis = new Profissional();
-    $profis->id      = $id;
-    $profis->nome    = "Fulano";
-    $profis->email   = "fulano@email";
-    $profis->cpf     = "123.456.789.99";
-    $profis->genero  = "m";
-    $profis->preench = "01/01/2001";
-    $profis->adjetivos ="1-5, 2-5, 3-5, 4-3, 5-2";
-    echo json_encode($profis);
-}
-function poms_formulario_update($id) {
-    echo json_encode(array('update' => $id));
-}
-function poms_formulario_delete($id) {
-    echo json_encode(array('delete' => $id));
 }

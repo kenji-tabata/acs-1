@@ -116,7 +116,7 @@ var PomsListaView = Backbone.View.extend({
 });
 
 FormularioModel = Backbone.Model.extend({
-    urlRoot: '/_acs/poms/formulario/',
+    urlRoot: '/_acs/poms/',
     defaults: {
         nome:      '',
         email:     '',
