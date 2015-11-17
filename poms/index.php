@@ -65,18 +65,18 @@ function poms_delete($id) {
 
 function poms_relatorio() {
     require_once "Relatorio.php";
-    require_once "Pesquisado.php";
+    require_once "Profissional.php";
     require_once "Laudos.php";
     require_once "Grafico.php";
     require_once "Calc.php";
     require_once "RowScore.php";
     require_once "TScore.php";
 
-    $pesquisado = new Pesquisado();
-    $pesquisado->nome  = "Fulano";
-    $pesquisado->cpf   = "111.2222.333.45";
-    $pesquisado->email = "fulano@qualquer.com.br";
-    $pesquisado->sexo  = "masculino";
+    $prof = new Profissional();
+    $prof->nome  = "Fulano";
+    $prof->cpf   = "111.2222.333.45";
+    $prof->email = "fulano@qualquer.com.br";
+    $prof->sexo  = "masculino";
 
     $alternativasEscolhidas = "1-1, 2-1, 3-1, 4-1, 5-1, 6-1, 7-1, 8-1, 9-1, 10-1, "
         . "11-1, 12-1, 13-1, 14-1, 15-1, 16-1, 17-1, 18-1, 19-1, 20-1,"
@@ -90,7 +90,7 @@ function poms_relatorio() {
     $grafico    = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
     $laudo      = Laudos::laudo($perfilPoms->tScore);
 
-    $relatorio = new Relatorio($pesquisado, $laudo);
+    $relatorio = new Relatorio($prof, $laudo);
     $relatorio->setGrafico($grafico->getNomeArquivo());
     $relatorio->gerar();
 
