@@ -203,7 +203,6 @@ var FormularioView = Backbone.View.extend({
             success: function (model_resposta) {
                 console.log("xhr: formulário retornado com sucesso!");
                 // estamos exibindo o retorno da requisição
-                console.log(model_resposta.get('nome'));
                 $("#txt-nome").val(model_resposta.get('nome'));
                 $("#txt-email").val(model_resposta.get('email'));
                 $("#txt-cpf").val(model_resposta.get('cpf'));
@@ -292,8 +291,6 @@ var FormularioView = Backbone.View.extend({
                 success: function(modeloResposta) {
                     console.log('xhr: formulário salvo com sucesso!');
                     // console.log(modeloResposta.attributes);
-                    self.model.set('id', modeloResposta.get('id'));
-
                     //console.log(self.model.get('adjetivos'));
                     switch (self.model.get('eDepois')) {
                         case "voltar-para-lista":
@@ -302,6 +299,7 @@ var FormularioView = Backbone.View.extend({
                             break;
                         case "ver-laudo":
                             console.log('FormularioView.salvar(): emitir laudo!')
+                            self.model.set('id', modeloResposta.get('id'));
                             if (self.model.get('id')) {
                                 window.location.href = "poms/relatorio/" + self.model.get('id');
                             } else {
