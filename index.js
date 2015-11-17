@@ -282,34 +282,39 @@ var FormularioView = Backbone.View.extend({
     salvar: function(evt) {
         evt.preventDefault();
         console.log('FormularioView.salvar()');
+
+        self = this;
         this.serialize();
         
         if (this.model.isValid()) {
             console.log('FormularioView.salvar(): salvando modelo!');
             this.model.save({}, {
-                success: function() {
+                success: function(modeloResposta) {
                     console.log('xhr: formulário salvo com sucesso!');
-                }
-            });            
-            //console.log(this.model.get('adjetivos'));
-            switch (this.model.get('eDepois')) {
-                case "voltar-para-lista":
-                    console.log('FormularioView.salvar(): faça voltar para a lista')
-                    window.location.hash = "#poms";
-                    break;
-                case "ver-laudo":
-                    console.log('FormularioView.salvar(): emitir laudo!')
-                    if (this.model.get('id')) {
-                        window.location.href = "poms/relatorio/" + this.model.get('id');
-                    } else {
-                        console.log('FormularioView.salvar(): ... mas não temos o id!');
+                    // console.log(modeloResposta.attributes);
+                    self.model.set('id', modeloResposta.get('id'));
+
+                    //console.log(self.model.get('adjetivos'));
+                    switch (self.model.get('eDepois')) {
+                        case "voltar-para-lista":
+                            console.log('FormularioView.salvar(): faça voltar para a lista')
+                            window.location.hash = "#poms";
+                            break;
+                        case "ver-laudo":
+                            console.log('FormularioView.salvar(): emitir laudo!')
+                            if (self.model.get('id')) {
+                                window.location.href = "poms/relatorio/" + self.model.get('id');
+                            } else {
+                                console.log('FormularioView.salvar(): ... mas não temos o id!');
+                            }
+                            break;
+                        case "continuar-inserindo":
+                            console.log('FormularioView.salvar(): limpe o formulário')
+                            window.location.hash = "#poms-formulario";
+                            break;
                     }
-                    break;
-                case "continuar-inserindo":
-                    console.log('FormularioView.salvar(): limpe o formulário')
-                    window.location.hash = "#poms-formulario";
-                    break;
-            }
+                }
+            });
         } else {
             console.log('FormularioView.salvar(): Formulário não validou! Erros:');
             console.log(this.model.validationError);

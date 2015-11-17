@@ -102,7 +102,7 @@ function poms_relatorio() {
 }
 
 function poms_formulario_create() {
-    echo json_encode(array('create' => 'sem-id'));
+    echo json_encode(array('id' => '123'));
 }
 function poms_formulario_read($id) {
     require "../poms/Profissional.php";    
