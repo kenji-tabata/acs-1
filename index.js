@@ -21,6 +21,18 @@ var JumbotronView = Backbone.View.extend({
     }
 });
 
+var JumbotronGenericView = Backbone.View.extend({
+    el: $('.jumbotron'),
+    templates: [],
+    initialize: function () {
+        this.template = _.template("<%= content %>");
+    },
+    render: function (dados) {
+        this.$el.html(this.template(dados));
+        return this;
+    }
+});
+
 var ProfissionalModel = Backbone.Model.extend({
     urlRoot: '/_acs/poms/',
     defaults: {
@@ -55,6 +67,7 @@ var PomsListaItemView = Backbone.View.extend({
         return this;
     },
     unrender: function () {
+        console.log('PomsListaItemView: deletando:' + this.model.get('id'))
         this.remove();
         this.model.destroy();
     },
@@ -325,13 +338,13 @@ var AppRouter = Backbone.Router.extend({
     },
     listar_profissionais: function () {
         console.log('AppRouter: listar_profissionais()');
-        var jumbo_model = new JumbotronModel(
-                {
-                    'titulo':    "POMS",
-                    'paragrafo': "Lista de profissionais que preencheram o formulário POMS."
-                }
-        );
-        var jumbo_view = new JumbotronView({'model': jumbo_model});
+        var jumbo_view = new JumbotronGenericView();
+        jumbo_view.render({
+                'content': 
+                    '<h1>POMS</h1>' +
+                    '<p>Lista de profissionais que preencheram o formulário POMS.</p>' +
+                    '<p><a href="#poms-formulario">Preencher formulário</a>'
+        });
         var lista_view = new PomsListaView();
         $('#content').html(lista_view.el);
     },
