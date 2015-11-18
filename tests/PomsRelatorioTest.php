@@ -18,7 +18,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->profissional->nome  = "Fulano";
         $this->profissional->cpf   = "111.2222.333.45";
         $this->profissional->email = "fulano@qualquer.com.br";
-        $this->profissional->sexo  = "masculino";
+        $this->profissional->genero = "masculino";
 
         $tScore = new TScore();
         $tScore->tensao    = 46;
