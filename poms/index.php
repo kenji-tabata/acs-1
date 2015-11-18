@@ -16,55 +16,54 @@ $app->get('/relatorio/:id', 'poms_relatorio');
 $app->run();
 
 function index() {
-    require "../poms/Profissional.php";
+    require "../includes/DBpdo.php";
+    require "Model.php";
 
-    $profis = new Profissional();
-    $profis->nome    = "Fulano";
-    $profis->email   = "fulano@email";
-    $profis->cpf     = "123.456.789.99";
-    $profis->genero  = "m";
-    $profis->preench = "01/01/2001";
-
-    $profissionais = array();
-
-    $profis->id      = 100;
-    $profissionais[] = clone $profis;
-
-    $profis->id      = 200;
-    $profissionais[] = clone $profis;
-
-    $profis->id      = 300;
-    $profissionais[] = clone $profis;
-
-    $profis->id      = 400;
-    $profissionais[] = clone $profis;
-    // var_dump($profissionais);
-    echo json_encode($profissionais);
+    $model = new PomsModel();
+    echo json_encode($model->ret_lista_profissionais(), JSON_UNESCAPED_SLASHES);
 }
 
 function poms_formulario_create() {
-    echo json_encode(array('id' => '123'));
+    require "../includes/DBpdo.php";
+    require "Model.php";
+
+    $request = \Slim\Slim::getInstance()->request();
+    $profissional = json_decode($request->getBody());
+
+    $model = new PomsModel();
+    $profissional = $model->insert_profissional($profissional);
+
+    echo json_encode(array('profissional' => $profissional->id, 'poms' => $profissional->poms_id));
 }
 
 function poms_formulario_read($id) {
-    require "../poms/Profissional.php";    
-    $profis = new Profissional();
-    $profis->id      = $id;
-    $profis->nome    = "Fulano";
-    $profis->email   = "fulano@email";
-    $profis->cpf     = "123.456.789.99";
-    $profis->genero  = "m";
-    $profis->preench = "01/01/2001";
-    $profis->adjetivos ="1-5, 2-5, 3-5";
-    echo json_encode($profis);
-}
+    require "../includes/DBpdo.php";
+    require "Model.php";
 
-function poms_formulario_delete($id) {
-    echo json_encode(array('delete' => $id));
+    $model = new PomsModel();
+    echo json_encode($model->read_profissional($id)[0], JSON_UNESCAPED_SLASHES);
 }
 
 function poms_formulario_update($id) {
-    echo json_encode(array('update' => $id));
+    require "../includes/DBpdo.php";
+    require "Model.php";
+
+    $request = \Slim\Slim::getInstance()->request();
+    $profissional = json_decode($request->getBody());
+    $profissional->id = $id;
+
+    $model = new PomsModel();
+    $profissional = $model->update_profissional($profissional);
+
+    echo json_encode(array('profissional' => $profissional->id));
+}
+
+function poms_formulario_delete($id) {
+    require "../includes/DBpdo.php";
+    require "Model.php";
+
+    $model = new PomsModel();
+    echo json_encode(array('deletado' => $model->deletar_profissional($id)), JSON_UNESCAPED_SLASHES);
 }
 
 function poms_relatorio() {
