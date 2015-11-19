@@ -338,13 +338,17 @@ var AppRouter = Backbone.Router.extend({
     },
     index: function () {
         console.log('AppRouter: index()');
-        var jumbo_model = new JumbotronModel(
-                {
-                    'titulo': "Sistemas ACS",
-                    'paragrafo': "Poms, ACS 1"
-                }
-        );
-        var jumbo_view = new JumbotronView({'model': jumbo_model});
+        var jumbo_view = new JumbotronGenericView();
+        jumbo_view.render({
+                'content': 
+                    '<h1>Sistmeas ACS</h1>' +
+                    '<p>' + 
+                        '<ul>' +
+                            '<li><a href="#poms">POMS</a></li>' +
+                            '<li><a href="#acs-1">ACS -1</a></li>' +
+                        '</ul>' +
+                    '</p>'
+        });
         $('#content').html(null);
     },
     listar_profissionais: function () {
