@@ -30,7 +30,7 @@ ALTER TABLE `poms`
 --
 -- Views
 --
-drop view viewPoms;
+-- drop view viewPoms;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW viewPoms AS
 select pr.id, pr.nome, pr.email, pr.cpf, pr.genero,
 date_format(poms.preenchido_em, '%d/%m/%Y') as `preench`,
