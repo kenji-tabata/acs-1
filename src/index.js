@@ -34,7 +34,7 @@ var JumbotronGenericView = Backbone.View.extend({
 });
 
 var ProfissionalModel = Backbone.Model.extend({
-    urlRoot: '/_acs/poms/',
+    urlRoot: 'poms/',
     defaults: {
         nome:      '',
         email:     '',
@@ -47,7 +47,7 @@ var ProfissionalModel = Backbone.Model.extend({
 // carregar lista de pessoas que preencheram poms
 //
 var PomsColecction = Backbone.Collection.extend({
-    url: "/_acs/poms/",
+    url: "poms/",
     model: ProfissionalModel
 });
     
@@ -116,7 +116,7 @@ var PomsListaView = Backbone.View.extend({
 });
 
 FormularioModel = Backbone.Model.extend({
-    urlRoot: '/_acs/poms/',
+    urlRoot: 'poms/',
     defaults: {
         nome:      '',
         email:     '',
