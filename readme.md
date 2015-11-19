@@ -9,11 +9,8 @@ Instalação.
 
 Configuração (banco de dados).
 
-    // Crie a base de dados segundo o script abaixo
-    db.sql
-
-    // Atualize o arquivo abaixo
-    src/includes/DBpdo.php
+1. Crie a base de dados segundo o script [db.sql](db.sql)
+2. Atualize o arquivo [src/includes/DBpdo.php](src/includes/DBpdo.php)
 
 Testes.
 
