@@ -1,6 +1,5 @@
 <?php
 
-// echo dirname(__FILE__) . "\n";
 require_once dirname(__FILE__) . "/../poms/Relatorio.php";
 require_once dirname(__FILE__) . "/../poms/Profissional.php";
 require_once dirname(__FILE__) . "/../poms/Laudos.php";

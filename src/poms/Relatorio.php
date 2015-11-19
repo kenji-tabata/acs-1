@@ -1,6 +1,5 @@
 <?php
 
-// testes
 require_once dirname(__FILE__) . "/../includes/pdf/fpdf.php";
 require_once dirname(__FILE__) . "/../includes/pdf/pdfwritetag.php";
 
