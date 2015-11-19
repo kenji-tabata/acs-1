@@ -7,6 +7,14 @@ Instalação.
     cd _acs/
     composer install
 
+Configuração (banco de dados).
+
+    // Crie a base de dados segundo o script abaixo
+    db.sql
+
+    // Atualize o arquivo abaixo
+    src/includes/DBpdo.php
+
 Testes.
 
     cd _acs/
