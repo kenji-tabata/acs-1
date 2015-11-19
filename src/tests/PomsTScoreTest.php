@@ -1,7 +1,7 @@
 <?php
 
-require_once "poms/RowScore.php";
-require_once "poms/TScore.php";
+require_once dirname(__FILE__) . "/../poms/RowScore.php";
+require_once dirname(__FILE__) . "/../poms/TScore.php";
 
 class RowTScoreTest extends PHPUnit_Framework_TestCase {
 

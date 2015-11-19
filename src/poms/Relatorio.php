@@ -1,12 +1,8 @@
 <?php
 
-// front end
-require_once "../includes/pdf/fpdf.php";
-require_once "../includes/pdf/pdfwritetag.php";
-
 // testes
-//require_once "includes/pdf/fpdf.php";
-//require_once "includes/pdf/pdfwritetag.php";
+require_once dirname(__FILE__) . "/../includes/pdf/fpdf.php";
+require_once dirname(__FILE__) . "/../includes/pdf/pdfwritetag.php";
 
 class Relatorio {
 
@@ -163,7 +159,7 @@ class Relatorio {
     }
 
     function getNomeArquivo() {
-        return "files-temp/laudo.pdf";
+        return dirname(__FILE__) . "/../files-temp/laudo.pdf";
     }
 
     function gravar() {

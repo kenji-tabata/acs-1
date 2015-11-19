@@ -20,7 +20,7 @@ class Grafico {
 
     public function setNomeArquivo() {
         // front end
-         $this->imagem['nome'] = '../files-temp/' . uniqid() . '.png';
+         $this->imagem['nome'] = dirname(__FILE__) . '/../files-temp/' . uniqid() . '.png';
         // tests
         // $this->imagem['nome'] = 'files-temp/' . uniqid() . '.png';
     }
@@ -70,10 +70,7 @@ class Grafico {
         $cores['azul'] = imagecolorallocate($im, 0, 0, 255);
 
         # fonts
-        // front end
-         $font = "../fonts/arial.ttf";
-        // tests
-        // $font = "fonts/arial.ttf";
+        $font = dirname(__FILE__) . "/../fonts/arial.ttf";
 
         # Aqui começa a grade
         $marSup = 15;

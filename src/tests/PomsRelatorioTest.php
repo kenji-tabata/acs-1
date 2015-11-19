@@ -1,11 +1,12 @@
 <?php
 
-require_once "poms/Relatorio.php";
-require_once "poms/Profissional.php";
-require_once "poms/Laudos.php";
-require_once "poms/Grafico.php";
-require_once "poms/TScore.php";
-require_once "poms/RowScore.php";
+// echo dirname(__FILE__) . "\n";
+require_once dirname(__FILE__) . "/../poms/Relatorio.php";
+require_once dirname(__FILE__) . "/../poms/Profissional.php";
+require_once dirname(__FILE__) . "/../poms/Laudos.php";
+require_once dirname(__FILE__) . "/../poms/Grafico.php";
+require_once dirname(__FILE__) . "/../poms/TScore.php";
+require_once dirname(__FILE__) . "/../poms/RowScore.php";
 
 
 class RelatorioTest extends PHPUnit_Framework_TestCase {

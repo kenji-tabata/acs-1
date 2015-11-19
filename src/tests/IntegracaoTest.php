@@ -1,23 +1,26 @@
 <?php
 
 class IntegracaoTest extends PHPUnit_Framework_TestCase {
+    protected function setUp() {
+        $this->root = dirname(__FILE__);
+    }
 
     public function testSeArquivoDeFontesParaPDfExiste() {
-        $this->assertTrue(file_exists("fonts/arial.ttf"));
+        $this->assertTrue(file_exists($this->root . "/../fonts/arial.ttf"));
     }
 
     public function testSePastaFilesTempExiste() {
-        $this->assertTrue(file_exists("files-temp/"));
+        $this->assertTrue(file_exists($this->root . "/../files-temp/"));
     }
 
     public function testHaPermissaoDeEscreitaNaPastaFilesTemp() {
-        $this->assertTrue(is_writable("files-temp/"));
+        $this->assertTrue(is_writable($this->root . "/../files-temp/"));
     }
 
     public function testCalculoPerfilPoms() {
-        require_once "poms/Calc.php";
-        require_once "poms/RowScore.php";
-        require_once "poms/TScore.php";
+        require_once $this->root . "/../poms/Calc.php";
+        require_once $this->root . "/../poms/RowScore.php";
+        require_once $this->root . "/../poms/TScore.php";
 
         $alternativasEscolhidas = "1-1, 2-1, 3-1, 4-1, 5-1, 6-1, 7-1, 8-1, 9-1, 10-1, "
             . "11-1, 12-1, 13-1, 14-1, 15-1, 16-1, 17-1, 18-1, 19-1, 20-1,"
@@ -32,19 +35,19 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testEmissaoRelatorioPoms() {
-        require_once "poms/Relatorio.php";
-        require_once "poms/Profissional.php";
-        require_once "poms/Laudos.php";
-        require_once "poms/Grafico.php";
-        require_once "poms/Calc.php";
-        require_once "poms/RowScore.php";
-        require_once "poms/TScore.php";
+        require_once $this->root . "/../poms/Relatorio.php";
+        require_once $this->root . "/../poms/Profissional.php";
+        require_once $this->root . "/../poms/Laudos.php";
+        require_once $this->root . "/../poms/Grafico.php";
+        require_once $this->root . "/../poms/Calc.php";
+        require_once $this->root . "/../poms/RowScore.php";
+        require_once $this->root . "/../poms/TScore.php";
 
         $profissional = new Profissional();
         $profissional->nome  = "Fulano";
         $profissional->cpf   = "111.2222.333.45";
         $profissional->email = "fulano@qualquer.com.br";
-        $profissional->sexo  = "masculino";
+        $profissional->genero  = "masculino";
 
         $alternativasEscolhidas = "1-1, 2-1, 3-1, 4-1, 5-1, 6-1, 7-1, 8-1, 9-1, 10-1, "
             . "11-1, 12-1, 13-1, 14-1, 15-1, 16-1, 17-1, 18-1, 19-1, 20-1,"
