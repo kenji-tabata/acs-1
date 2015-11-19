@@ -16,85 +16,75 @@ $app->get('/relatorio/:id', 'poms_relatorio');
 $app->run();
 
 function index() {
-    require "../poms/Profissional.php";
+    require "../includes/DBpdo.php";
+    require "Model.php";
 
-    $profis = new Profissional();
-    $profis->nome    = "Fulano";
-    $profis->email   = "fulano@email";
-    $profis->cpf     = "123.456.789.99";
-    $profis->genero  = "m";
-    $profis->preench = "01/01/2001";
-
-    $profissionais = array();
-
-    $profis->id      = 100;
-    $profissionais[] = clone $profis;
-
-    $profis->id      = 200;
-    $profissionais[] = clone $profis;
-
-    $profis->id      = 300;
-    $profissionais[] = clone $profis;
-
-    $profis->id      = 400;
-    $profissionais[] = clone $profis;
-    // var_dump($profissionais);
-    echo json_encode($profissionais);
+    $model = new PomsModel();
+    echo json_encode($model->ret_lista_profissionais(), JSON_UNESCAPED_SLASHES);
 }
 
 function poms_formulario_create() {
-    echo json_encode(array('id' => '123'));
+    require "../includes/DBpdo.php";
+    require "Model.php";
+
+    $request = \Slim\Slim::getInstance()->request();
+    $profissional = json_decode($request->getBody());
+
+    $model = new PomsModel();
+    $profissional = $model->insert_profissional($profissional);
+
+    echo json_encode(array('profissional' => $profissional->id, 'poms' => $profissional->poms_id));
 }
 
 function poms_formulario_read($id) {
-    require "../poms/Profissional.php";    
-    $profis = new Profissional();
-    $profis->id      = $id;
-    $profis->nome    = "Fulano";
-    $profis->email   = "fulano@email";
-    $profis->cpf     = "123.456.789.99";
-    $profis->genero  = "m";
-    $profis->preench = "01/01/2001";
-    $profis->adjetivos ="1-5, 2-5, 3-5";
-    echo json_encode($profis);
-}
+    require "../includes/DBpdo.php";
+    require "Model.php";
 
-function poms_formulario_delete($id) {
-    echo json_encode(array('delete' => $id));
+    $model = new PomsModel();
+    echo json_encode($model->read_profissional($id)[0], JSON_UNESCAPED_SLASHES);
 }
 
 function poms_formulario_update($id) {
-    echo json_encode(array('update' => $id));
+    require "../includes/DBpdo.php";
+    require "Model.php";
+
+    $request = \Slim\Slim::getInstance()->request();
+    $profissional = json_decode($request->getBody());
+    $profissional->id = $id;
+
+    $model = new PomsModel();
+    $profissional = $model->update_profissional($profissional);
+
+    echo json_encode(array('profissional' => $profissional->id));
 }
 
-function poms_relatorio() {
-    require_once "Relatorio.php";
-    require_once "Profissional.php";
-    require_once "Laudos.php";
-    require_once "Grafico.php";
-    require_once "Calc.php";
-    require_once "RowScore.php";
-    require_once "TScore.php";
+function poms_formulario_delete($id) {
+    require "../includes/DBpdo.php";
+    require "Model.php";
 
-    $prof = new Profissional();
-    $prof->nome  = "Fulano";
-    $prof->cpf   = "111.2222.333.45";
-    $prof->email = "fulano@qualquer.com.br";
-    $prof->sexo  = "masculino";
+    $model = new PomsModel();
+    echo json_encode(array('deletado' => $model->deletar_profissional($id)), JSON_UNESCAPED_SLASHES);
+}
 
-    $alternativasEscolhidas = "1-1, 2-1, 3-1, 4-1, 5-1, 6-1, 7-1, 8-1, 9-1, 10-1, "
-        . "11-1, 12-1, 13-1, 14-1, 15-1, 16-1, 17-1, 18-1, 19-1, 20-1,"
-        . "21-1, 22-1, 23-1, 24-1, 25-1, 26-1, 27-1, 28-1, 29-1, 30-1,"
-        . "31-1, 32-1, 33-1, 34-1, 35-1, 36-1, 37-1, 38-1, 39-1, 40-1,"
-        . "41-1, 42-1, 43-1, 44-1, 45-1, 46-1, 47-1, 48-1, 49-1, 50-1,"
-        . "51-1, 52-1, 53-1, 54-1, 55-1, 56-1, 57-1, 58-1, 59-1, 60-1,"
-        . "61-1, 62-1, 63-1, 64-1, 65-1";
+function poms_relatorio($id) {
+    require "Relatorio.php";
+    require "Profissional.php";
+    require "Laudos.php";
+    require "Grafico.php";
+    require "Calc.php";
+    require "RowScore.php";
+    require "TScore.php";
+    require "Model.php";
+    require "../includes/DBpdo.php";
 
-    $perfilPoms = Calc::perfilPoms($alternativasEscolhidas);
+    $model = new PomsModel();
+    $profissional = $model->read_profissional($id)[0];
+
+    $perfilPoms = Calc::perfilPoms($profissional->adjetivos);
     $grafico    = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
     $laudo      = Laudos::laudo($perfilPoms->tScore);
 
-    $relatorio = new Relatorio($prof, $laudo);
+    $relatorio = new Relatorio($profissional, $laudo);
     $relatorio->setGrafico($grafico->getNomeArquivo());
     $relatorio->gerar();
 

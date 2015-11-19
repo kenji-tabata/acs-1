@@ -21,7 +21,7 @@ class Relatorio {
                 'nome'  => $pesquisado->nome,
                 'cpf'   => $pesquisado->cpf,
                 'email' => $pesquisado->email,
-                'sexo'  => $pesquisado->sexo,
+                'sexo'  => $pesquisado->genero,
             ),
             'sub-titulo-1' => "1. Descrição do Dispositivo de diagnóstico e métricas de avaliação \"POMS\" \- "
                             . "Profile of Moode State (de MacNair, Loor y Dropleman (1971)).",
