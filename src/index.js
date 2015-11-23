@@ -80,12 +80,12 @@ app.views['poms-lista-item'] = Backbone.View.extend({
         this.model.destroy();
     },
     relatorio: function () {
-        console.log("view: emitir-relatorio:" + this.model.get('id'));
+        console.log("view: emitir relatorio:" + this.model.get('id'));
         window.location.href = "poms/relatorio/" + this.model.get('id');
     },
     formulario: function () {
-        console.log("view: abrir-formulario:" + this.model.get('id'));
-        app.router.navigate("#poms-formulario/" + this.model.get('id'), {trigger: true});
+        console.log("view: abrir formulario:" + this.model.get('id'));
+        app.workspace.navigate("#poms-formulario/" + this.model.get('id'), {trigger: true});
     }
 });
 
@@ -310,7 +310,7 @@ app.views['formulario'] = Backbone.View.extend({
                     switch (self.model.get('eDepois')) {
                         case "voltar-para-lista":
                             console.log('view.salvar(): faça voltar para a lista')
-                            app.router.navigate("#poms", {trigger: true});
+                            app.workspace.navigate("#poms", {trigger: true});
                             // window.location.hash = "#poms";
                             break;
                         case "ver-laudo":
@@ -318,7 +318,7 @@ app.views['formulario'] = Backbone.View.extend({
                             self.model.set('id', modeloResposta.get('id'));
                             if (self.model.get('id')) {
                                 window.location.href = "poms/relatorio/" + self.model.get('id');
-                                app.router.navigate("#poms-formulario/" + self.model.get('id'), {trigger: true});
+                                app.workspace.navigate("#poms-formulario/" + self.model.get('id'), {trigger: true});
                                 // window.location.hash = "#poms-formulario/" + self.model.get('id');
                             } else {
                                 console.log('view.salvar(): ... mas não temos o id!');
@@ -326,7 +326,7 @@ app.views['formulario'] = Backbone.View.extend({
                             break;
                         case "continuar-inserindo":
                             console.log('view.salvar(): limpe o formulário')
-                            app.router.navigate("#poms-formulario", {trigger: true});
+                            app.workspace.navigate("#poms-formulario", {trigger: true});
                             // window.location.hash = "#poms-formulario";
                             break;
                     }
