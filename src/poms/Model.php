@@ -41,6 +41,7 @@ class PomsModel {
     # Insert profissional  e poms
     #
     function insert_profissional($profissional) {
+        date_default_timezone_set ("America/Sao_Paulo");
         $query = "INSERT INTO profissionais (nome, email, cpf, genero) VALUES (:nome, :email, :cpf, :genero)";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
@@ -70,7 +71,7 @@ class PomsModel {
     # Update profissional  e poms
     #
     function update_profissional($profissional) {
-        // var_dump($profissional);
+        date_default_timezone_set ("America/Sao_Paulo");
         $query = "UPDATE profissionais  SET nome=:nome, email=:email, cpf=:cpf, genero=:genero WHERE id=:id";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
