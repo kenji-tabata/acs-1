@@ -99,7 +99,7 @@ app.views['poms-lista'] = Backbone.View.extend({
         self.collection.fetch({
             success: function (collection, response) {
                 console.log('xhr: lista poms carregada!');
-//                 console.log(JSON.stringify(self.collection.toJSON()));
+                // console.log(JSON.stringify(self.collection.toJSON()));
                 self.render();
             },
             error: function (collection, response) {
@@ -115,7 +115,7 @@ app.views['poms-lista'] = Backbone.View.extend({
         me.$el.html(this.template);
         elem_tbody = this.$el.find('tbody');
         this.collection.forEach(function (profissional, index) {
-//             console.log(profissional.attributes);
+            // console.log(profissional.attributes);
             item_view = new app.views['poms-lista-item']({model: profissional})
             elem_tbody.append(item_view.render().el);
         });
