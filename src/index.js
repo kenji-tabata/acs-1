@@ -143,7 +143,7 @@ app.models['formulario'] = Backbone.Model.extend({
         }
 
         // vieram todos os 65 adjetivos ?
-        adjetivos = attrs.adjetivos.split(', ')
+        var adjetivos = attrs.adjetivos.split(', ')
         if (adjetivos.length != 65) {
             err.push({
                 'oque'   : 'adjetivos',
@@ -235,14 +235,6 @@ app.views['formulario'] = Backbone.View.extend({
         this.model.set('genero',    $('input[name=genero]:checked').val());
         this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos[]"]')));
         this.model.set('eDepois',   $('input[name=depois-de-salvar]:checked').val());
-        // this.model = new app.models['formulario']({
-        //     nome:      $("#txt-nome").val(),
-        //     email:     $("#txt-email").val(),
-        //     cpf:       $("#txt-cpf").val(),
-        //     genero:    $('input[name=genero]:checked').val(),
-        //     adjetivos: this.serializeAdjetivos($('input[name="adjetivos[]"]')),
-        //     eDepois:   $('input[name=depois-de-salvar]:checked').val(),
-        // });
     },
     serializeAdjetivos: function(ColectionJquery) {
         var adjetivos = [];
