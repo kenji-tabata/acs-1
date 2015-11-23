@@ -3,8 +3,8 @@ ACS
 
 Instalação.
 
-    git clone https://github.com/dom-brasil/_acs.git
-    cd _acs/
+    git clone https://github.com/dom-brasil/acs.git
+    cd acs/
     composer install
 
 Configuração (banco de dados).
@@ -14,13 +14,13 @@ Configuração (banco de dados).
 
 Testes.
 
-    cd _acs/
+    cd acs/
     phpunit src/testes/
 
 
 No browser.
 
-    http://localhost/_acs/src/
+    http://localhost/acs/src/
 
 Requerimentos.
 
