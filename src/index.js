@@ -77,7 +77,7 @@ var PomsListaItemView = Backbone.View.extend({
     },
     formulario: function () {
         console.log("PomsListaItemView: abrir-formulario:" + this.model.get('id'));
-        window.location.hash = "#poms-formulario/" + this.model.get('id');
+        app.navigate("#poms-formulario/" + this.model.get('id'), {trigger: true});
     }
 });
 
@@ -302,21 +302,24 @@ var FormularioView = Backbone.View.extend({
                     switch (self.model.get('eDepois')) {
                         case "voltar-para-lista":
                             console.log('FormularioView.salvar(): faça voltar para a lista')
-                            window.location.hash = "#poms";
+                            app.navigate("#poms/", {trigger: true});
+                            // window.location.hash = "#poms";
                             break;
                         case "ver-laudo":
                             console.log('FormularioView.salvar(): emitir laudo!')
                             self.model.set('id', modeloResposta.get('id'));
                             if (self.model.get('id')) {
                                 window.location.href = "poms/relatorio/" + self.model.get('id');
-                                window.location.hash = "#poms-formulario/" + self.model.get('id');
+                                app.navigate("#poms-formulario/" + self.model.get('id'), {trigger: true});
+                                // window.location.hash = "#poms-formulario/" + self.model.get('id');
                             } else {
                                 console.log('FormularioView.salvar(): ... mas não temos o id!');
                             }
                             break;
                         case "continuar-inserindo":
                             console.log('FormularioView.salvar(): limpe o formulário')
-                            window.location.hash = "#poms-formulario";
+                            app.navigate("#poms-formulario", {trigger: true});
+                            // window.location.hash = "#poms-formulario";
                             break;
                     }
                 }
@@ -388,5 +391,5 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(formulario_view.el);
     },
 });
-var app_router = new AppRouter();
+var app = new AppRouter();
 Backbone.history.start();
