@@ -136,7 +136,7 @@ FormularioModel = Backbone.Model.extend({
 
         // vieram todos os 65 adjetivos ?
         adjetivos = attrs.adjetivos.split(', ')
-        if (adjetivos.length != 3) {
+        if (adjetivos.length != 65) {
             err.push({
                 'oque'   : 'adjetivos',
                 'porque' : 'Faltaram alguns adjetivos!',
