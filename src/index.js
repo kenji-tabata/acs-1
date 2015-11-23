@@ -75,16 +75,16 @@ app.views['poms-lista-item'] = Backbone.View.extend({
         return this;
     },
     unrender: function () {
-        console.log('PomsListaItemView: deletando:' + this.model.get('id'))
+        console.log('view: deletando:' + this.model.get('id'))
         this.remove();
         this.model.destroy();
     },
     relatorio: function () {
-        console.log("PomsListaItemView: emitir-relatorio:" + this.model.get('id'));
+        console.log("view: emitir-relatorio:" + this.model.get('id'));
         window.location.href = "poms/relatorio/" + this.model.get('id');
     },
     formulario: function () {
-        console.log("PomsListaItemView: abrir-formulario:" + this.model.get('id'));
+        console.log("view: abrir-formulario:" + this.model.get('id'));
         app.router.navigate("#poms-formulario/" + this.model.get('id'), {trigger: true});
     }
 });
@@ -295,13 +295,13 @@ app.views['formulario'] = Backbone.View.extend({
     },
     salvar: function(evt) {
         evt.preventDefault();
-        console.log('FormularioView.salvar()');
+        console.log('view.salvar()');
 
         self = this;
         this.serialize();
         
         if (this.model.isValid()) {
-            console.log('FormularioView.salvar(): salvando modelo!');
+            console.log('view.salvar(): salvando modelo!');
             this.model.save({}, {
                 success: function(modeloResposta) {
                     console.log('xhr: formulário salvo com sucesso!');
@@ -309,23 +309,23 @@ app.views['formulario'] = Backbone.View.extend({
                     // console.log(self.model.get('adjetivos'));
                     switch (self.model.get('eDepois')) {
                         case "voltar-para-lista":
-                            console.log('FormularioView.salvar(): faça voltar para a lista')
+                            console.log('view.salvar(): faça voltar para a lista')
                             app.router.navigate("#poms", {trigger: true});
                             // window.location.hash = "#poms";
                             break;
                         case "ver-laudo":
-                            console.log('FormularioView.salvar(): emitir laudo!')
+                            console.log('view.salvar(): emitir laudo!')
                             self.model.set('id', modeloResposta.get('id'));
                             if (self.model.get('id')) {
                                 window.location.href = "poms/relatorio/" + self.model.get('id');
                                 app.router.navigate("#poms-formulario/" + self.model.get('id'), {trigger: true});
                                 // window.location.hash = "#poms-formulario/" + self.model.get('id');
                             } else {
-                                console.log('FormularioView.salvar(): ... mas não temos o id!');
+                                console.log('view.salvar(): ... mas não temos o id!');
                             }
                             break;
                         case "continuar-inserindo":
-                            console.log('FormularioView.salvar(): limpe o formulário')
+                            console.log('view.salvar(): limpe o formulário')
                             app.router.navigate("#poms-formulario", {trigger: true});
                             // window.location.hash = "#poms-formulario";
                             break;
@@ -333,7 +333,7 @@ app.views['formulario'] = Backbone.View.extend({
                 }
             });
         } else {
-            console.log('FormularioView.salvar(): Formulário não validou! Erros:');
+            console.log('view.salvar(): Formulário não validou! Erros:');
             console.log(this.model.validationError);
             this.assinalar_erros();
         }
@@ -348,7 +348,7 @@ app.routers['main'] = Backbone.Router.extend({
         'poms-formulario/:id':  'abrir_formulario_poms',
     },
     index: function () {
-        console.log('AppRouter: index()');
+        console.log('router: index()');
         var jumbo_view = new app.views['jumbotron-generic']();
         jumbo_view.render({
                 'content': 
@@ -363,7 +363,7 @@ app.routers['main'] = Backbone.Router.extend({
         $('#content').html(null);
     },
     listar_profissionais: function () {
-        console.log('AppRouter: listar_profissionais()');
+        console.log('router: listar_profissionais()');
         var jumbo_view = new app.views['jumbotron-generic']();
         jumbo_view.render({
                 'content': 
@@ -375,7 +375,7 @@ app.routers['main'] = Backbone.Router.extend({
         $('#content').html(lista_view.el);
     },
     formulario_poms: function () {
-        console.log('AppRouter: formulario_poms()');
+        console.log('router: formulario_poms()');
         var jumbo_model = new app.models['jumbotron'](
                 {
                     'titulo':    "POMS",
@@ -387,7 +387,7 @@ app.routers['main'] = Backbone.Router.extend({
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
-        console.log('AppRouter: abrir_formulario_poms:' + id);
+        console.log('router: abrir_formulario_poms:' + id);
         var jumbo_model = new app.models['jumbotron'](
                 {
                     'titulo':    "POMS",
