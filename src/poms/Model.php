@@ -6,7 +6,7 @@ class PomsModel {
     # Lista de profissionais que preencheram o poms
     #
     function ret_lista_profissionais($where='') {
-        $sql  = "SELECT * FROM viewPoms $where";
+        $sql  = "SELECT * FROM acsViewPoms $where";
         $stmt = DBpdo::conectar()->query($sql);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
@@ -17,7 +17,7 @@ class PomsModel {
     function read_profissional($id=null) {
         if (!$id) return null;
 
-        $sql  = "SELECT * FROM viewPoms where id = $id";
+        $sql  = "SELECT * FROM acsViewPoms where id = $id";
         $stmt = DBpdo::conectar()->query($sql);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
@@ -26,7 +26,7 @@ class PomsModel {
     # Deletar profissional e poms
     #
     function deletar_profissional($id) {
-        $query = "DELETE from profissionais WHERE id = :id";
+        $query = "DELETE from acsProfissionais WHERE id = :id";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
         $sth->bindParam(':id', $id);
@@ -42,7 +42,7 @@ class PomsModel {
     #
     function insert_profissional($profissional) {
         date_default_timezone_set ("America/Sao_Paulo");
-        $query = "INSERT INTO profissionais (nome, email, cpf, genero) VALUES (:nome, :email, :cpf, :genero)";
+        $query = "INSERT INTO acsProfissionais (nome, email, cpf, genero) VALUES (:nome, :email, :cpf, :genero)";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
         $sth->bindParam(':nome',   $profissional->nome);
@@ -54,7 +54,7 @@ class PomsModel {
         $profissional->id      = $pdo->lastInsertId();
         $profissional->preench = date("Y-m-d H:i:s");
 
-        $query = "INSERT INTO poms (id_prof, formulario, preenchido_em) VALUES (:id_prof, :formulario, :preenchido_em)";
+        $query = "INSERT INTO acsPoms (id_prof, formulario, preenchido_em) VALUES (:id_prof, :formulario, :preenchido_em)";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
         $sth->bindParam(':id_prof',       $profissional->id);
@@ -72,7 +72,7 @@ class PomsModel {
     #
     function update_profissional($profissional) {
         date_default_timezone_set ("America/Sao_Paulo");
-        $query = "UPDATE profissionais  SET nome=:nome, email=:email, cpf=:cpf, genero=:genero WHERE id=:id";
+        $query = "UPDATE acsProfissionais  SET nome=:nome, email=:email, cpf=:cpf, genero=:genero WHERE id=:id";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
         $sth->bindParam(':id',     $profissional->id);
@@ -84,7 +84,7 @@ class PomsModel {
 
         $profissional->preench = date("Y-m-d H:i:s");
 
-        $query = "UPDATE poms SET formulario=:formulario, preenchido_em=:preenchido_em WHERE id_prof = :id_prof";
+        $query = "UPDATE acsPoms SET formulario=:formulario, preenchido_em=:preenchido_em WHERE id_prof = :id_prof";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
         $sth->bindParam(':id_prof',       $profissional->id);
