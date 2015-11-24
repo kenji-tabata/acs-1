@@ -307,13 +307,15 @@ app.views['formulario'] = Backbone.View.extend({
                             break;
                         case "ver-laudo":
                             console.log('view.salvar(): emitir laudo!')
-                            self.model.set('id', modeloResposta.get('id'));
-                            if (self.model.get('id')) {
-                                window.location.href = "poms/relatorio/" + self.model.get('id');
-                                app.workspace.navigate("#poms-formulario/" + self.model.get('id'), {trigger: true});
-                                // window.location.hash = "#poms-formulario/" + self.model.get('id');
+                            self.model.set('id', modeloResposta.get('id_profissional'));
+                            if (self.model.get('id_profissional')) {
+                                window.location.href = "poms/relatorio/" + self.model.get('id_profissional');
+                                app.workspace.navigate("#poms-formulario/" + self.model.get('id_profissional'), {trigger: true});
+                                // window.location.hash = "#poms-formulario/" + self.model.get('id_profissional');
                             } else {
                                 console.log('view.salvar(): ... mas não temos o id!');
+                                console.log(modeloResposta.attributes);
+                                console.log(self.model.get('adjetivos'));
                             }
                             break;
                         case "continuar-inserindo":

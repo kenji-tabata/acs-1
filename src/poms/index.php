@@ -33,7 +33,7 @@ function poms_formulario_create() {
     $model = new PomsModel();
     $profissional = $model->insert_profissional($profissional);
 
-    echo json_encode(array('profissional' => $profissional->id, 'poms' => $profissional->poms_id));
+    echo json_encode(array('id_profissional' => $profissional->id, 'id_poms' => $profissional->poms_id));
 }
 
 function poms_formulario_read($id) {
