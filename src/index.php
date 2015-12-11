@@ -36,13 +36,13 @@
             <td><%= prof.preench %></td>
             <td>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-delete" aria-label="Left Align">
+                    <button type="button" class="btn btn-default btn-delete" aria-label="Left Align" title="Deletar">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
-                    <button type="button" class="btn btn-default btn-relatorio" aria-label="Left Align">
+                    <button type="button" class="btn btn-default btn-relatorio" aria-label="Left Align" title="Relatório">
                         <span class="glyphicon glyphicon-file" aria-hidden="true"></span
                     </button>
-                    <button type="button" class="btn btn-default btn-formulario" aria-label="Left Align">
+                    <button type="button" class="btn btn-default btn-formulario" aria-label="Left Align" title="Formulário">
                         <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -173,6 +173,6 @@
         <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script src="poms.js"></script>        
+        <script src="poms.js"></script>
     </body>
 </html>
