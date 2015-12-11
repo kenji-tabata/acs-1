@@ -89,7 +89,7 @@ function poms_relatorio($id) {
     $relatorio->gerar();
 
     #
-    $relatorio->download();
+    $relatorio->download($profissional->nome);
     #
 
     $grafico->deletar_imagem();
