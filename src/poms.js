@@ -58,7 +58,7 @@ app.collections['poms'] = Backbone.Collection.extend({
     url: "poms/",
     model: app.views['profissional']
 });
-    
+
 app.views['poms-lista-item'] = Backbone.View.extend({
     tagName:   "tr",
     className: "",
@@ -95,7 +95,7 @@ app.views['poms-lista'] = Backbone.View.extend({
     template: _.template($("#poms-lista").html()),
     initialize: function () {
         var self = this;
-        self.collection = new app.collections['poms']();        
+        self.collection = new app.collections['poms']();
         self.collection.fetch({
             success: function (collection, response) {
                 console.log('xhr: lista poms carregada!');
@@ -105,7 +105,7 @@ app.views['poms-lista'] = Backbone.View.extend({
             error: function (collection, response) {
                 console.log('xhr: falha a carregar lista poms!');
             },
-        });        
+        });
     },
     render: function () {
         var me = this,
@@ -167,10 +167,10 @@ app.models['formulario'] = Backbone.Model.extend({
                 err.push({
                     'oque'   : 'adjetivos',
                     'porque' : 'Adjetivos com valores inválidos [' + keys + ']',
-                });        
+                });
             }
         }
-        
+
         if (err.length > 0) return err;
     },
     validar_adjetivo: function (valor) {
@@ -179,7 +179,7 @@ app.models['formulario'] = Backbone.Model.extend({
         } else {
             return false;
         }
-    }     
+    }
 });
 
 app.views['formulario'] = Backbone.View.extend({
@@ -218,7 +218,7 @@ app.views['formulario'] = Backbone.View.extend({
                 if (model_resposta.get('genero') == "m") {
                     $('#genero-masc').prop("checked", true);
                 } else {
-                    $('#genero-fem').prop("checked", true);                    
+                    $('#genero-fem').prop("checked", true);
                 }
                 self.unserializeAdjetivos(model_resposta.get('adjetivos'), $('input[name="adjetivos[]"]'));
                 // console.log(self.model.attributes);
@@ -260,12 +260,12 @@ app.views['formulario'] = Backbone.View.extend({
             ColectionJquery[indice-1].value = value;
         });
     },
-    // Esta função apenas sinaliza os erros, 
+    // Esta função apenas sinaliza os erros,
     // quem valida de fato é o modelo.
     assinalar_erros: function() {
         var self = this;
-        var controle = {};        
-        
+        var controle = {};
+
         controle = $('input[name="adjetivos[]"]');
         var elem, valor;
         $.each(controle, function (index, value) {
@@ -277,7 +277,7 @@ app.views['formulario'] = Backbone.View.extend({
                 elem.addClass('has-error');
             }
         });
-        
+
         controle = $("#txt-nome");
         if(controle.val()) {
             controle.parent().removeClass('has-error');
@@ -291,7 +291,7 @@ app.views['formulario'] = Backbone.View.extend({
 
         self = this;
         this.serialize();
-        
+
         if (this.model.isValid()) {
             console.log('view.salvar(): salvando modelo!');
             this.model.save({}, {
@@ -345,9 +345,9 @@ app.routers['main'] = Backbone.Router.extend({
         console.log('router: index()');
         var jumbo_view = new app.views['jumbotron-generic']();
         jumbo_view.render({
-                'content': 
+                'content':
                     '<h1>Sistemas ACS</h1>' +
-                    '<p>' + 
+                    '<p>' +
                         '<ul>' +
                             '<li><a href="#poms">POMS</a></li>' +
                             '<li><a href="#acs-1">ACS -1</a></li>' +
@@ -360,7 +360,7 @@ app.routers['main'] = Backbone.Router.extend({
         console.log('router: listar_profissionais()');
         var jumbo_view = new app.views['jumbotron-generic']();
         jumbo_view.render({
-                'content': 
+                'content':
                     '<h1>POMS</h1>' +
                     '<p>Lista de profissionais que preencheram o formulário POMS.</p>' +
                     '<p><a href="#poms-formulario">Preencher formulário</a>'
@@ -376,7 +376,7 @@ app.routers['main'] = Backbone.Router.extend({
                     'paragrafo': "Formulário POMS."
                 }
         );
-        var jumbo_view = new app.models['jumbotron']({'model': jumbo_model});
+        var jumbo_view = new app.views['jumbotron']({'model': jumbo_model});
         var formulario_view = new app.views['formulario']();
         $('#content').html(formulario_view.el);
     },
@@ -388,7 +388,7 @@ app.routers['main'] = Backbone.Router.extend({
                     'paragrafo': "Abrindo formulário POMS."
                 }
         );
-        var jumbo_view = new app.models['jumbotron']({'model': jumbo_model});
+        var jumbo_view = new app.views['jumbotron']({'model': jumbo_model});
         var formulario_view = new app.views['formulario']({id: id});
         $('#content').html(formulario_view.el);
     },
