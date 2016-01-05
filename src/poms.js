@@ -4,7 +4,6 @@
 
 var App = {
     views:       [],
-    collections: [],
     routers:     [],
     workspace:   {},
 };
@@ -53,7 +52,7 @@ App.views['profissional'] = Backbone.Model.extend({
 //
 // carregar lista de pessoas que preencheram poms
 //
-App.collections['poms'] = Backbone.Collection.extend({
+App.Poms = Backbone.Collection.extend({
     url: "poms/",
     model: App.views['profissional']
 });
@@ -94,7 +93,7 @@ App.views['poms-lista'] = Backbone.View.extend({
     template: _.template($("#poms-lista").html()),
     initialize: function () {
         var self = this;
-        self.collection = new App.collections['poms']();        
+        self.collection = new App.Poms();        
         self.collection.fetch({
             success: function (collection, response) {
                 console.log('xhr: lista poms carregada!');
