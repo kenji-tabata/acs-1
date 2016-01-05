@@ -3,7 +3,6 @@
 // };
 
 var App = {
-    views:       [],
     routers:     [],
     workspace:   {},
 };
@@ -15,7 +14,7 @@ App.Jumbotron = Backbone.Model.extend({
     }
 });
 
-App.views['jumbotron'] = Backbone.View.extend({
+App.JumbotronView = Backbone.View.extend({
     el: $('.jumbotron'),
     template: _.template("<h1><%= titulo %></h1><p><%= paragrafo %></p>"),
     initialize: function () {
@@ -27,7 +26,7 @@ App.views['jumbotron'] = Backbone.View.extend({
     }
 });
 
-App.views['jumbotron-generic'] = Backbone.View.extend({
+App.JumbotronGenericView = Backbone.View.extend({
     el: $('.jumbotron'),
     templates: [],
     initialize: function () {
@@ -39,7 +38,7 @@ App.views['jumbotron-generic'] = Backbone.View.extend({
     }
 });
 
-App.views['profissional'] = Backbone.Model.extend({
+App.ProfissionalView = Backbone.Model.extend({
     urlRoot: 'poms/',
     defaults: {
         nome:      '',
@@ -54,10 +53,10 @@ App.views['profissional'] = Backbone.Model.extend({
 //
 App.Poms = Backbone.Collection.extend({
     url: "poms/",
-    model: App.views['profissional']
+    model: App.ProfissionalView
 });
     
-App.views['poms-lista-item'] = Backbone.View.extend({
+App.PomsListaItemView = Backbone.View.extend({
     tagName:   "tr",
     className: "",
     template:  _.template($("#poms-lista-item").html()),
@@ -87,7 +86,7 @@ App.views['poms-lista-item'] = Backbone.View.extend({
     }
 });
 
-App.views['poms-lista'] = Backbone.View.extend({
+App.PomsListaView = Backbone.View.extend({
     tagName: "table",
     className: "table",
     template: _.template($("#poms-lista").html()),
@@ -114,7 +113,7 @@ App.views['poms-lista'] = Backbone.View.extend({
         elem_tbody = this.$el.find('tbody');
         this.collection.forEach(function (profissional, index) {
             // console.log(profissional.attributes);
-            item_view = new App.views['poms-lista-item']({model: profissional})
+            item_view = new App.PomsListaItemView({model: profissional})
             elem_tbody.append(item_view.render().el);
         });
         return this;
@@ -180,7 +179,7 @@ App.Formulario = Backbone.Model.extend({
     }     
 });
 
-App.views['formulario'] = Backbone.View.extend({
+App.FormularioView = Backbone.View.extend({
     tagName: "form",
     attributes: {
         "action": "salvar/",
@@ -341,7 +340,7 @@ App.routers['main'] = Backbone.Router.extend({
     },
     index: function () {
         console.log('router: index()');
-        var jumbo_view = new App.views['jumbotron-generic']();
+        var jumbo_view = new App.JumbotronGenericView();
         jumbo_view.render({
                 'content': 
                     '<h1>Sistemas ACS</h1>' +
@@ -356,14 +355,14 @@ App.routers['main'] = Backbone.Router.extend({
     },
     listar_profissionais: function () {
         console.log('router: listar_profissionais()');
-        var jumbo_view = new App.views['jumbotron-generic']();
+        var jumbo_view = new App.JumbotronGenericView();
         jumbo_view.render({
                 'content': 
                     '<h1>POMS</h1>' +
                     '<p>Lista de profissionais que preencheram o formulário POMS.</p>' +
                     '<p><a href="#poms-formulario">Preencher formulário</a>'
         });
-        var lista_view = new App.views['poms-lista']();
+        var lista_view = new App.PomsListaView();
         $('#content').html(lista_view.el);
     },
     formulario_poms: function () {
@@ -375,7 +374,7 @@ App.routers['main'] = Backbone.Router.extend({
                 }
         );
         var jumbo_view = new App.Jumbotron({'model': jumbo_model});
-        var formulario_view = new App.views['formulario']();
+        var formulario_view = new App.FormularioView();
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
@@ -387,7 +386,7 @@ App.routers['main'] = Backbone.Router.extend({
                 }
         );
         var jumbo_view = new App.Jumbotron({'model': jumbo_model});
-        var formulario_view = new App.views['formulario']({id: id});
+        var formulario_view = new App.FormularioView({id: id});
         $('#content').html(formulario_view.el);
     },
 });
