@@ -2,10 +2,7 @@
 //     console.log("Backbone.sync(" + method + ")" + " model.id=" + model.id);
 // };
 
-var App = {
-    routers:     [],
-    workspace:   {},
-};
+var App = {};
 
 App.Jumbotron = Backbone.Model.extend({
     defaults: {
@@ -82,7 +79,7 @@ App.PomsListaItemView = Backbone.View.extend({
     },
     formulario: function () {
         console.log("view: abrir formulario:" + this.model.get('id'));
-        App.workspace.navigate("#poms-formulario/" + this.model.get('id'), {trigger: true});
+        App.router.navigate("#poms-formulario/" + this.model.get('id'), {trigger: true});
     }
 });
 
@@ -299,7 +296,7 @@ App.FormularioView = Backbone.View.extend({
                     switch (self.model.get('eDepois')) {
                         case "voltar-para-lista":
                             console.log('view.salvar(): faça voltar para a lista')
-                            App.workspace.navigate("#poms", {trigger: true});
+                            App.router.navigate("#poms", {trigger: true});
                             // window.location.hash = "#poms";
                             break;
                         case "ver-laudo":
@@ -307,7 +304,7 @@ App.FormularioView = Backbone.View.extend({
                             self.model.set('id', modeloResposta.get('id_profissional'));
                             if (self.model.get('id_profissional')) {
                                 window.location.href = "poms/relatorio/" + self.model.get('id_profissional');
-                                App.workspace.navigate("#poms-formulario/" + self.model.get('id_profissional'), {trigger: true});
+                                App.router.navigate("#poms-formulario/" + self.model.get('id_profissional'), {trigger: true});
                                 // window.location.hash = "#poms-formulario/" + self.model.get('id_profissional');
                             } else {
                                 console.log('view.salvar(): ... mas não temos o id!');
@@ -317,7 +314,7 @@ App.FormularioView = Backbone.View.extend({
                             break;
                         case "continuar-inserindo":
                             console.log('view.salvar(): limpe o formulário')
-                            App.workspace.navigate("#poms-formulario", {trigger: true});
+                            App.router.navigate("#poms-formulario", {trigger: true});
                             // window.location.hash = "#poms-formulario";
                             break;
                     }
@@ -331,7 +328,7 @@ App.FormularioView = Backbone.View.extend({
     }
 });
 
-App.routers['main'] = Backbone.Router.extend({
+App.Router = Backbone.Router.extend({
     routes: {
         '':                     'index',
         'poms':                 'listar_profissionais',
@@ -391,5 +388,5 @@ App.routers['main'] = Backbone.Router.extend({
     },
 });
 
-App.workspace = new App.routers['main'];
+App.router = new App.Router;
 Backbone.history.start();
