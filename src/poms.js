@@ -2,7 +2,7 @@
 //     console.log("Backbone.sync(" + method + ")" + " model.id=" + model.id);
 // };
 
-var app = {
+var App = {
     models:      [],
     views:       [],
     collections: [],
@@ -10,14 +10,14 @@ var app = {
     workspace:   {},
 };
 
-app.models['jumbotron'] = Backbone.Model.extend({
+App.models['jumbotron'] = Backbone.Model.extend({
     defaults: {
         titulo:    'ACS',
         paragrafo: 'Sistemas ACS'
     }
 });
 
-app.views['jumbotron'] = Backbone.View.extend({
+App.views['jumbotron'] = Backbone.View.extend({
     el: $('.jumbotron'),
     template: _.template("<h1><%= titulo %></h1><p><%= paragrafo %></p>"),
     initialize: function () {
@@ -29,7 +29,7 @@ app.views['jumbotron'] = Backbone.View.extend({
     }
 });
 
-app.views['jumbotron-generic'] = Backbone.View.extend({
+App.views['jumbotron-generic'] = Backbone.View.extend({
     el: $('.jumbotron'),
     templates: [],
     initialize: function () {
@@ -41,7 +41,7 @@ app.views['jumbotron-generic'] = Backbone.View.extend({
     }
 });
 
-app.views['profissional'] = Backbone.Model.extend({
+App.views['profissional'] = Backbone.Model.extend({
     urlRoot: 'poms/',
     defaults: {
         nome:      '',
@@ -54,12 +54,12 @@ app.views['profissional'] = Backbone.Model.extend({
 //
 // carregar lista de pessoas que preencheram poms
 //
-app.collections['poms'] = Backbone.Collection.extend({
+App.collections['poms'] = Backbone.Collection.extend({
     url: "poms/",
-    model: app.views['profissional']
+    model: App.views['profissional']
 });
     
-app.views['poms-lista-item'] = Backbone.View.extend({
+App.views['poms-lista-item'] = Backbone.View.extend({
     tagName:   "tr",
     className: "",
     template:  _.template($("#poms-lista-item").html()),
@@ -85,17 +85,17 @@ app.views['poms-lista-item'] = Backbone.View.extend({
     },
     formulario: function () {
         console.log("view: abrir formulario:" + this.model.get('id'));
-        app.workspace.navigate("#poms-formulario/" + this.model.get('id'), {trigger: true});
+        App.workspace.navigate("#poms-formulario/" + this.model.get('id'), {trigger: true});
     }
 });
 
-app.views['poms-lista'] = Backbone.View.extend({
+App.views['poms-lista'] = Backbone.View.extend({
     tagName: "table",
     className: "table",
     template: _.template($("#poms-lista").html()),
     initialize: function () {
         var self = this;
-        self.collection = new app.collections['poms']();        
+        self.collection = new App.collections['poms']();        
         self.collection.fetch({
             success: function (collection, response) {
                 console.log('xhr: lista poms carregada!');
@@ -116,14 +116,14 @@ app.views['poms-lista'] = Backbone.View.extend({
         elem_tbody = this.$el.find('tbody');
         this.collection.forEach(function (profissional, index) {
             // console.log(profissional.attributes);
-            item_view = new app.views['poms-lista-item']({model: profissional})
+            item_view = new App.views['poms-lista-item']({model: profissional})
             elem_tbody.append(item_view.render().el);
         });
         return this;
     }
 });
 
-app.models['formulario'] = Backbone.Model.extend({
+App.models['formulario'] = Backbone.Model.extend({
     urlRoot: 'poms/',
     defaults: {
         nome:      '',
@@ -182,7 +182,7 @@ app.models['formulario'] = Backbone.Model.extend({
     }     
 });
 
-app.views['formulario'] = Backbone.View.extend({
+App.views['formulario'] = Backbone.View.extend({
     tagName: "form",
     attributes: {
         "action": "salvar/",
@@ -194,7 +194,7 @@ app.views['formulario'] = Backbone.View.extend({
             console.log('ler dados formulário:' + this.id);
             this.bind(this.id);
         }
-        this.model = new app.models['formulario']();
+        this.model = new App.models['formulario']();
         this.render();
     },
     render: function () {
@@ -206,7 +206,7 @@ app.views['formulario'] = Backbone.View.extend({
     bind: function(id) {
         console.log('carregando dados...');
         var self = this;
-        this.model = new app.models['formulario']({id: id});
+        this.model = new App.models['formulario']({id: id});
         console.log(self.model.attributes);
         this.model.fetch({
             success: function (model_resposta) {
@@ -302,7 +302,7 @@ app.views['formulario'] = Backbone.View.extend({
                     switch (self.model.get('eDepois')) {
                         case "voltar-para-lista":
                             console.log('view.salvar(): faça voltar para a lista')
-                            app.workspace.navigate("#poms", {trigger: true});
+                            App.workspace.navigate("#poms", {trigger: true});
                             // window.location.hash = "#poms";
                             break;
                         case "ver-laudo":
@@ -310,7 +310,7 @@ app.views['formulario'] = Backbone.View.extend({
                             self.model.set('id', modeloResposta.get('id_profissional'));
                             if (self.model.get('id_profissional')) {
                                 window.location.href = "poms/relatorio/" + self.model.get('id_profissional');
-                                app.workspace.navigate("#poms-formulario/" + self.model.get('id_profissional'), {trigger: true});
+                                App.workspace.navigate("#poms-formulario/" + self.model.get('id_profissional'), {trigger: true});
                                 // window.location.hash = "#poms-formulario/" + self.model.get('id_profissional');
                             } else {
                                 console.log('view.salvar(): ... mas não temos o id!');
@@ -320,7 +320,7 @@ app.views['formulario'] = Backbone.View.extend({
                             break;
                         case "continuar-inserindo":
                             console.log('view.salvar(): limpe o formulário')
-                            app.workspace.navigate("#poms-formulario", {trigger: true});
+                            App.workspace.navigate("#poms-formulario", {trigger: true});
                             // window.location.hash = "#poms-formulario";
                             break;
                     }
@@ -334,7 +334,7 @@ app.views['formulario'] = Backbone.View.extend({
     }
 });
 
-app.routers['main'] = Backbone.Router.extend({
+App.routers['main'] = Backbone.Router.extend({
     routes: {
         '':                     'index',
         'poms':                 'listar_profissionais',
@@ -343,7 +343,7 @@ app.routers['main'] = Backbone.Router.extend({
     },
     index: function () {
         console.log('router: index()');
-        var jumbo_view = new app.views['jumbotron-generic']();
+        var jumbo_view = new App.views['jumbotron-generic']();
         jumbo_view.render({
                 'content': 
                     '<h1>Sistemas ACS</h1>' +
@@ -358,41 +358,41 @@ app.routers['main'] = Backbone.Router.extend({
     },
     listar_profissionais: function () {
         console.log('router: listar_profissionais()');
-        var jumbo_view = new app.views['jumbotron-generic']();
+        var jumbo_view = new App.views['jumbotron-generic']();
         jumbo_view.render({
                 'content': 
                     '<h1>POMS</h1>' +
                     '<p>Lista de profissionais que preencheram o formulário POMS.</p>' +
                     '<p><a href="#poms-formulario">Preencher formulário</a>'
         });
-        var lista_view = new app.views['poms-lista']();
+        var lista_view = new App.views['poms-lista']();
         $('#content').html(lista_view.el);
     },
     formulario_poms: function () {
         console.log('router: formulario_poms()');
-        var jumbo_model = new app.models['jumbotron'](
+        var jumbo_model = new App.models['jumbotron'](
                 {
                     'titulo':    "POMS",
                     'paragrafo': "Formulário POMS."
                 }
         );
-        var jumbo_view = new app.models['jumbotron']({'model': jumbo_model});
-        var formulario_view = new app.views['formulario']();
+        var jumbo_view = new App.models['jumbotron']({'model': jumbo_model});
+        var formulario_view = new App.views['formulario']();
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
         console.log('router: abrir_formulario_poms:' + id);
-        var jumbo_model = new app.models['jumbotron'](
+        var jumbo_model = new App.models['jumbotron'](
                 {
                     'titulo':    "POMS",
                     'paragrafo': "Abrindo formulário POMS."
                 }
         );
-        var jumbo_view = new app.models['jumbotron']({'model': jumbo_model});
-        var formulario_view = new app.views['formulario']({id: id});
+        var jumbo_view = new App.models['jumbotron']({'model': jumbo_model});
+        var formulario_view = new App.views['formulario']({id: id});
         $('#content').html(formulario_view.el);
     },
 });
 
-app.workspace = new app.routers['main'];
+App.workspace = new App.routers['main'];
 Backbone.history.start();
