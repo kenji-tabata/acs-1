@@ -354,7 +354,7 @@ App.Router = Backbone.Router.extend({
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
-        console.log('router: abrir_formulario_poms:' + id);
+        console.log('router: abrir_formulario_poms(' + id + ')');
         var jumbo_view = new App.JumbotronView({
             'content': 
                 '<h1>POMS</h1>' +
