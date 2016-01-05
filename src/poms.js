@@ -347,7 +347,7 @@ App.Router = Backbone.Router.extend({
         var jumbo_view = new App.JumbotronView({
             'content': 
                 '<h1>POMS</h1>' +
-                '<p>Formulário POMS.</p>' +
+                '<p>Preenchendo formulário POMS.</p>' +
                 '<p><a href="#poms">Voltar para lista</a>'
         });
         var formulario_view = new App.FormularioView();
