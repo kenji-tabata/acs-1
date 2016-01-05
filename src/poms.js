@@ -3,14 +3,13 @@
 // };
 
 var App = {
-    models:      [],
     views:       [],
     collections: [],
     routers:     [],
     workspace:   {},
 };
 
-App.models['jumbotron'] = Backbone.Model.extend({
+App.Jumbotron = Backbone.Model.extend({
     defaults: {
         titulo:    'ACS',
         paragrafo: 'Sistemas ACS'
@@ -123,7 +122,7 @@ App.views['poms-lista'] = Backbone.View.extend({
     }
 });
 
-App.models['formulario'] = Backbone.Model.extend({
+App.Formulario = Backbone.Model.extend({
     urlRoot: 'poms/',
     defaults: {
         nome:      '',
@@ -194,7 +193,7 @@ App.views['formulario'] = Backbone.View.extend({
             console.log('ler dados formulário:' + this.id);
             this.bind(this.id);
         }
-        this.model = new App.models['formulario']();
+        this.model = new App.Formulario();
         this.render();
     },
     render: function () {
@@ -206,7 +205,7 @@ App.views['formulario'] = Backbone.View.extend({
     bind: function(id) {
         console.log('carregando dados...');
         var self = this;
-        this.model = new App.models['formulario']({id: id});
+        this.model = new App.Formulario({id: id});
         console.log(self.model.attributes);
         this.model.fetch({
             success: function (model_resposta) {
@@ -370,25 +369,25 @@ App.routers['main'] = Backbone.Router.extend({
     },
     formulario_poms: function () {
         console.log('router: formulario_poms()');
-        var jumbo_model = new App.models['jumbotron'](
+        var jumbo_model = new App.Jumbotron(
                 {
                     'titulo':    "POMS",
                     'paragrafo': "Formulário POMS."
                 }
         );
-        var jumbo_view = new App.models['jumbotron']({'model': jumbo_model});
+        var jumbo_view = new App.Jumbotron({'model': jumbo_model});
         var formulario_view = new App.views['formulario']();
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
         console.log('router: abrir_formulario_poms:' + id);
-        var jumbo_model = new App.models['jumbotron'](
+        var jumbo_model = new App.Jumbotron(
                 {
                     'titulo':    "POMS",
                     'paragrafo': "Abrindo formulário POMS."
                 }
         );
-        var jumbo_view = new App.models['jumbotron']({'model': jumbo_model});
+        var jumbo_view = new App.Jumbotron({'model': jumbo_model});
         var formulario_view = new App.views['formulario']({id: id});
         $('#content').html(formulario_view.el);
     },
