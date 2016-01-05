@@ -7,11 +7,12 @@ var App = {};
 App.JumbotronView = Backbone.View.extend({
     el: $('.jumbotron'),
     templates: [],
-    initialize: function () {
+    initialize: function (conteudo) {
         this.template = _.template("<%= content %>");
+        this.render(conteudo);
     },
-    render: function (dados) {
-        this.$el.html(this.template(dados));
+    render: function (html) {
+        this.$el.html(this.template(html));
         return this;
     }
 });
@@ -318,51 +319,47 @@ App.Router = Backbone.Router.extend({
     },
     index: function () {
         console.log('router: index()');
-        var jumbo_view = new App.JumbotronView();
-        jumbo_view.render({
-                'content': 
-                    '<h1>Sistemas ACS</h1>' +
-                    '<p>' + 
-                        '<ul>' +
-                            '<li><a href="#poms">POMS</a></li>' +
-                            '<li><a href="#acs-1">ACS -1</a></li>' +
-                        '</ul>' +
-                    '</p>'
+        var jumbo_view = new App.JumbotronView({
+            'content': 
+                '<h1>Sistemas ACS</h1>' +
+                '<p>' + 
+                    '<ul>' +
+                        '<li><a href="#poms">POMS</a></li>' +
+                        '<li><a href="#acs-1">ACS -1</a></li>' +
+                    '</ul>' +
+                '</p>'
         });
         $('#content').html(null);
     },
     listar_profissionais: function () {
         console.log('router: listar_profissionais()');
-        var jumbo_view = new App.JumbotronView();
-        jumbo_view.render({
-                'content': 
-                    '<h1>POMS</h1>' +
-                    '<p>Lista de profissionais que preencheram o formulário POMS.</p>' +
-                    '<p><a href="#poms-formulario">Preencher formulário</a>'
+        var jumbo_view = new App.JumbotronView({
+            'content': 
+                '<h1>POMS</h1>' +
+                '<p>Lista de profissionais que preencheram o formulário POMS.</p>' +
+                '<p><a href="#poms-formulario">Preencher formulário</a>'
         });
         var lista_view = new App.PomsListaView();
         $('#content').html(lista_view.el);
     },
     formulario_poms: function () {
         console.log('router: formulario_poms()');
-        var jumbo_view = new App.JumbotronView();
-        jumbo_view.render({
-                'content': 
-                    '<h1>POMS</h1>' +
-                    '<p>Formulário POMS.</p>' +
-                    '<p><a href="#poms">Voltar para lista</a>'
+        var jumbo_view = new App.JumbotronView({
+            'content': 
+                '<h1>POMS</h1>' +
+                '<p>Formulário POMS.</p>' +
+                '<p><a href="#poms">Voltar para lista</a>'
         });
         var formulario_view = new App.FormularioView();
         $('#content').html(formulario_view.el);
     },
     abrir_formulario_poms: function (id) {
         console.log('router: abrir_formulario_poms:' + id);
-        var jumbo_view = new App.JumbotronView();
-        jumbo_view.render({
-                'content': 
-                    '<h1>POMS</h1>' +
-                    '<p>Abrindo formulário POMS.</p>' +
-                    '<p><a href="#poms">Voltar para lista</a>'
+        var jumbo_view = new App.JumbotronView({
+            'content': 
+                '<h1>POMS</h1>' +
+                '<p>Abrindo formulário POMS.</p>' +
+                '<p><a href="#poms">Voltar para lista</a>'
         });
         var formulario_view = new App.FormularioView({id: id});
         $('#content').html(formulario_view.el);
