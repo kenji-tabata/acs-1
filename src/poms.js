@@ -281,9 +281,8 @@ App.FormularioView = Backbone.View.extend({
         }
     },
     salvar: function(evt) {
-        evt.preventDefault();
         console.log('view.salvar()');
-
+        evt.preventDefault();
         self = this;
         this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos[]"]')));
         console.log(this.model.attributes);
