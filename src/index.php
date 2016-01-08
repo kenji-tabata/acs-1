@@ -85,7 +85,7 @@
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="control-label form-group" for="txt-email">Email</label>
-                                    <input type="text" class="form-control" name="email" id="txt-email" maxlength="200"/>
+                                    <input type="text" class="form-control" name="email" id="txt-email" maxlength="200" value="<%= email %>"/>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label form-group" for="txt-cpf">CPF</label>
-                                    <input type="text" class="form-control" name="cpf" id="txt-cpf" maxlength="14"/>
+                                    <input type="text" class="form-control" name="cpf" id="txt-cpf" maxlength="14"  value="<%= cpf %>"/>
                                 </div>
                             </div>
                         </div>
@@ -102,11 +102,12 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <div class="radio form-group">
-                                    <label><input type="radio" name="genero" id="genero-masc" value="m">Masculino</label>
-                                    <label><input type="radio" name="genero" id="genero-fem" value="f" checked="checked">Feminino</label>
+                                    <label><input type="radio" name="genero" id="genero-masc" value="m" <% if (genero == 'm') { %>checked="checked"<%} %> >Masculino</label>
+                                    <label><input type="radio" name="genero" id="genero-fem" value="f" <% if (genero == 'f') { %>checked="checked"<% } %> >Feminino</label>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

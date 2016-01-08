@@ -109,7 +109,37 @@ App.Formulario = Backbone.Model.extend({
         adjetivos: '', // string-separada-por-virgula, ex: 1-1, 2-1, 3-1, etc...
         eDepois:   '', // depois de salvar o que fazer ?
     },
+    initialize: function() {
+    },
+    // Serve para carregar com ou sem id
+    carregar: function(callback) {
+        this.fetch({
+            success: function (_model) {
+                console.log("model: fetch OK");
+                //console.log(_model.attributes);
+                callback(_model);
+            },
+            error: function (model, xhr, options) {
+                console.log("model: fetch erro");
+            }
+        });        
+    },
+    salvar: function(callback) {
+        this.model.save(null, {
+            success: function(_model) {
+                console.log('xhr: formulário salvo com sucesso!');
+                callback(_model);
+            },
+            error: function(model, xhr, options) {
+                console.log('xhr: erro ao persistir formulário');
+                console.log(this.model.validationError);
+            },
+        });        
+
+    },
     validate: function(attrs, options) {
+        console.log('validate()');
+
         var err = [];
         if (!attrs.nome) {
             err.push({
@@ -155,7 +185,8 @@ App.Formulario = Backbone.Model.extend({
         } else {
             return false;
         }
-    }     
+    },
+
 });
 
 App.FormularioView = Backbone.View.extend({
@@ -166,51 +197,36 @@ App.FormularioView = Backbone.View.extend({
     },
     template: _.template($("#poms-formulario").html()),
     initialize: function () {
-        if (this.id) {
-            console.log('ler dados formulário:' + this.id);
-            this.bind(this.id);
-        }
-        this.model = new App.Formulario();
-        this.render();
+        this.model.on("sync", function(model, validationError) {
+            console.log("model: evento 'sync' disparado");
+            console.log("xhr: formulário retornado com sucesso!");
+            // 'this' é esta visão
+            this.render();
+        }, this); 
+        this.model.on("invalid", function(model, validationError) {
+            console.log('view.salvar(): Formulário não validou! Erros:');
+            console.log(this.model.validationError);
+            // 'this' é esta visão
+            this.assinalar_erros();            
+        }, this);
     },
     render: function () {
+        console.log('view: render()');
         this.$el.html(this.template(this.model.attributes));
+        this.unserializeAdjetivos(this.model.get('adjetivos'), $('input[name="adjetivos[]"]'));
     },
     events: {
+        "change": "change",
         "click #btn-salvar": "salvar"
     },
-    bind: function(id) {
-        console.log('carregando dados...');
-        var self = this;
-        this.model = new App.Formulario({id: id});
-        console.log(self.model.attributes);
-        this.model.fetch({
-            success: function (model_resposta) {
-                console.log("xhr: formulário retornado com sucesso!");
-                self.model.set('id', model_resposta.get('id'));
-                $("#txt-nome").val(model_resposta.get('nome'));
-                $("#txt-email").val(model_resposta.get('email'));
-                $("#txt-cpf").val(model_resposta.get('cpf'));
-                if (model_resposta.get('genero') == "m") {
-                    $('#genero-masc').prop("checked", true);
-                } else {
-                    $('#genero-fem').prop("checked", true);                    
-                }
-                self.unserializeAdjetivos(model_resposta.get('adjetivos'), $('input[name="adjetivos[]"]'));
-                // console.log(self.model.attributes);
-            },
-            error: function (model, xhr, options) {
-                console.log("Erro");
-            }
-        });
-    },
-    serialize: function() {
-        this.model.set('nome',      $("#txt-nome").val());
-        this.model.set('email',     $("#txt-email").val());
-        this.model.set('cpf',       $("#txt-cpf").val());
-        this.model.set('genero',    $('input[name=genero]:checked').val());
-        this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos[]"]')));
-        this.model.set('eDepois',   $('input[name=depois-de-salvar]:checked').val());
+    change: function(event) {
+        var target = event.target;
+        var ctrl = {
+            name:  target.name,
+            value: target.value,
+        }
+        console.log(ctrl);
+        this.model.set(ctrl.name, ctrl.value);
     },
     serializeAdjetivos: function(ColectionJquery) {
         var adjetivos = [];
@@ -228,6 +244,7 @@ App.FormularioView = Backbone.View.extend({
         return adjetivos.join(', ');
     },
     unserializeAdjetivos: function(strForm, ColectionJquery) {
+        if (strForm === "") return null
         var indice, valor, adjetivos = strForm.split(', ');
         adjetivos.forEach(function(value, key) {
             indice = value.split('-')[0];
@@ -242,6 +259,7 @@ App.FormularioView = Backbone.View.extend({
         var self = this;
         var controle = {};        
         
+        // adjetivos
         controle = $('input[name="adjetivos[]"]');
         var elem, valor;
         $.each(controle, function (index, value) {
@@ -254,6 +272,7 @@ App.FormularioView = Backbone.View.extend({
             }
         });
         
+        // nome
         controle = $("#txt-nome");
         if(controle.val()) {
             controle.parent().removeClass('has-error');
@@ -266,47 +285,37 @@ App.FormularioView = Backbone.View.extend({
         console.log('view.salvar()');
 
         self = this;
-        this.serialize();
-        
-        if (this.model.isValid()) {
-            console.log('view.salvar(): salvando modelo!');
-            this.model.save({}, {
-                success: function(modeloResposta) {
-                    console.log('xhr: formulário salvo com sucesso!');
-                    // console.log(modeloResposta.attributes);
-                    // console.log(self.model.get('adjetivos'));
-                    switch (self.model.get('eDepois')) {
-                        case "voltar-para-lista":
-                            console.log('view.salvar(): faça voltar para a lista')
-                            App.router.navigate("#poms", {trigger: true});
-                            // window.location.hash = "#poms";
-                            break;
-                        case "ver-laudo":
-                            console.log('view.salvar(): emitir laudo!')
-                            self.model.set('id', modeloResposta.get('id_profissional'));
-                            if (self.model.get('id_profissional')) {
-                                window.location.href = "poms/relatorio/" + self.model.get('id_profissional');
-                                App.router.navigate("#poms-formulario/" + self.model.get('id_profissional'), {trigger: true});
-                                // window.location.hash = "#poms-formulario/" + self.model.get('id_profissional');
-                            } else {
-                                console.log('view.salvar(): ... mas não temos o id!');
-                                console.log(modeloResposta.attributes);
-                                console.log(self.model.get('adjetivos'));
-                            }
-                            break;
-                        case "continuar-inserindo":
-                            console.log('view.salvar(): limpe o formulário')
-                            App.router.navigate("#poms-formulario", {trigger: true});
-                            // window.location.hash = "#poms-formulario";
-                            break;
+        this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos[]"]')));
+        console.log(this.model.attributes);
+        this.model.salvar(function() {
+            // console.log(modeloResposta.attributes);
+            // console.log(_model.get('adjetivos'));
+            switch (_model.get('eDepois')) {
+                case "voltar-para-lista":
+                    console.log('view.salvar(): faça voltar para a lista')
+                    App.router.navigate("#poms", {trigger: true});
+                    // window.location.hash = "#poms";
+                    break;
+                case "ver-laudo":
+                    console.log('view.salvar(): emitir laudo!')
+                    _model.set('id', modeloResposta.get('id_profissional'));
+                    if (_model.get('id_profissional')) {
+                        window.location.href = "poms/relatorio/" + _model.get('id_profissional');
+                        App.router.navigate("#poms-formulario/" + _model.get('id_profissional'), {trigger: true});
+                        // window.location.hash = "#poms-formulario/" + _model.get('id_profissional');
+                    } else {
+                        console.log('view.salvar(): ... mas não temos o id!');
+                        console.log(modeloResposta.attributes);
+                        console.log(_model.get('adjetivos'));
                     }
-                }
-            });
-        } else {
-            console.log('view.salvar(): Formulário não validou! Erros:');
-            console.log(this.model.validationError);
-            this.assinalar_erros();
-        }
+                    break;
+                case "continuar-inserindo":
+                    console.log('view.salvar(): limpe o formulário')
+                    App.router.navigate("#poms-formulario", {trigger: true});
+                    // window.location.hash = "#poms-formulario";
+                    break;
+            }
+        })
     }
 });
 
@@ -350,8 +359,11 @@ App.Router = Backbone.Router.extend({
                 '<p>Preenchendo formulário POMS.</p>' +
                 '<p><a href="#poms">Voltar para lista</a>'
         });
-        var formulario_view = new App.FormularioView();
-        $('#content').html(formulario_view.el);
+        var formulario = new App.Formulario();
+        formulario.carregar(function() {
+            var formularioView = new App.FormularioView({model: _model});
+            $('#content').html(formularioView.el);            
+        });
     },
     abrir_formulario_poms: function (id) {
         console.log('router: abrir_formulario_poms(' + id + ')');
@@ -361,8 +373,11 @@ App.Router = Backbone.Router.extend({
                 '<p>Abrindo formulário POMS.</p>' +
                 '<p><a href="#poms">Voltar para lista</a>'
         });
-        var formulario_view = new App.FormularioView({id: id});
-        $('#content').html(formulario_view.el);
+        var formulario = new App.Formulario({id: id});
+        formulario.carregar(function(model) {
+            var formularioView = new App.FormularioView({model: model});
+            $('#content').html(formularioView.el);            
+        });
     },
 });
 
