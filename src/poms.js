@@ -27,9 +27,6 @@ App.ProfissionalView = Backbone.Model.extend({
     },
 });
 
-//
-// carregar lista de pessoas que preencheram poms
-//
 App.Poms = Backbone.Collection.extend({
     url: "poms/",
     model: App.ProfissionalView
@@ -71,19 +68,13 @@ App.PomsListaView = Backbone.View.extend({
     template: _.template($("#poms-lista").html()),
     initialize: function () {
         var self = this;
-        self.collection = new App.Poms();        
-        self.collection.fetch({
-            success: function (collection, response) {
-                console.log('xhr: lista poms carregada!');
-                // console.log(JSON.stringify(self.collection.toJSON()));
-                self.render();
-            },
-            error: function (collection, response) {
-                console.log('xhr: falha a carregar lista poms!');
-            },
-        });        
+        this.collection.on("sync", function(model) {
+            console.log("sync", this);
+            self.render();
+        }, this);
     },
     render: function () {
+        console.log('render()');
         var me = this,
             elem_tbody = {},
             item_view  = {};
@@ -347,8 +338,17 @@ App.Router = Backbone.Router.extend({
                 '<p>Lista de profissionais que preencheram o formulário POMS.</p>' +
                 '<p><a href="#poms-formulario">Preencher formulário</a>'
         });
-        var lista_view = new App.PomsListaView();
-        $('#content').html(lista_view.el);
+        App.poms = new App.Poms();
+        App.poms.fetch({
+            success: function (collection, response) {
+                console.log('xhr: lista poms carregada!');
+            },
+            error: function (collection, response) {
+                console.log('xhr: falha ao carregar lista poms!');
+            },
+        });
+        var listaView = new App.PomsListaView({collection: App.poms});
+        $('#content').html(listaView.el);
     },
     formulario_poms: function () {
         console.log('router: formulario_poms()');
