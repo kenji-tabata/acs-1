@@ -116,14 +116,14 @@ App.Formulario = Backbone.Model.extend({
         });        
     },
     salvar: function(callback) {
-        this.model.save(null, {
+        this.save(null, {
             success: function(_model) {
                 console.log('xhr: formulário salvo com sucesso!');
                 callback(_model);
             },
             error: function(model, xhr, options) {
                 console.log('xhr: erro ao persistir formulário');
-                console.log(this.model.validationError);
+                console.log(this.validationError);
             },
         });        
 
@@ -276,9 +276,9 @@ App.FormularioView = Backbone.View.extend({
         evt.preventDefault();
         self = this;
         this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos[]"]')));
-        console.log(this.model.attributes);
-        this.model.salvar(function() {
-            // console.log(modeloResposta.attributes);
+        // console.log(this.model.attributes);
+        this.model.salvar(function(_model) {
+            // console.log(_model.attributes);
             // console.log(_model.get('adjetivos'));
             switch (_model.get('eDepois')) {
                 case "voltar-para-lista":
@@ -358,9 +358,9 @@ App.Router = Backbone.Router.extend({
                 '<p>Preenchendo formulário POMS.</p>' +
                 '<p><a href="#poms">Voltar para lista</a>'
         });
-        var formulario = new App.Formulario();
-        formulario.carregar(function() {
-            var formularioView = new App.FormularioView({model: _model});
+        var formulario = new App.Formulario(); // form sem id
+        formulario.carregar(function(model) {
+            var formularioView = new App.FormularioView({model: model});
             $('#content').html(formularioView.el);            
         });
     },
