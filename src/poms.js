@@ -283,14 +283,14 @@ App.FormularioView = Backbone.View.extend({
                     break;
                 case "ver-laudo":
                     console.log('view.salvar(): emitir laudo!')
-                    _model.set('id', modeloResposta.get('id_profissional'));
+                    _model.set('id', _model.get('id_profissional'));
                     if (_model.get('id_profissional')) {
                         window.location.href = "poms/relatorio/" + _model.get('id_profissional');
                         App.router.navigate("#poms-formulario/" + _model.get('id_profissional'), {trigger: true});
                         // window.location.hash = "#poms-formulario/" + _model.get('id_profissional');
                     } else {
                         console.log('view.salvar(): ... mas não temos o id!');
-                        console.log(modeloResposta.attributes);
+                        console.log(_model.attributes);
                         console.log(_model.get('adjetivos'));
                     }
                     break;
