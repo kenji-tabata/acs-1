@@ -143,7 +143,7 @@
                     <div class="row">
                         <div class="col-md-offset-5 col-md-3">
                             <div class="radio">
-                                <label><input type="radio" name="depois-de-salvar" value="voltar-para-lista" checked="checked" />...voltar para lista.</label>
+                                <label><input type="radio" name="eDepois" value="voltar-para-lista" checked="checked" />...voltar para lista.</label>
                             </div>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                     <div class="row">
                         <div class="col-md-offset-5 col-md-3">
                             <div class="radio">
-                                <label><input type="radio" name="depois-de-salvar" value="ver-laudo" />...ver laudo.</label>
+                                <label><input type="radio" name="eDepois" value="ver-laudo" />...ver laudo.</label>
                             </div>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                     <div class="row">
                         <div class="col-md-offset-5 col-md-3">
                             <div class="radio">
-                                <label><input type="radio" name="depois-de-salvar" value="continuar-inserindo" />...continuar inserindo.</label>
+                                <label><input type="radio" name="eDepois" value="continuar-inserindo" />...continuar inserindo.</label>
                             </div>
                         </div>
                     </div>

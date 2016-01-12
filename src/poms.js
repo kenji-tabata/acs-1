@@ -98,7 +98,7 @@ App.Formulario = Backbone.Model.extend({
         cpf:       '',
         genero:    '', // m ou f
         adjetivos: '', // string-separada-por-virgula, ex: 1-1, 2-1, 3-1, etc...
-        eDepois:   '', // depois de salvar o que fazer ?
+        eDepois:   'voltar-para-lista', // depois de salvar o que fazer ?
     },
     initialize: function() {
     },
@@ -106,23 +106,23 @@ App.Formulario = Backbone.Model.extend({
     carregar: function(callback) {
         this.fetch({
             success: function (_model) {
-                console.log("model: fetch OK");
+                console.log("xhr-fetch: fetch OK");
                 //console.log(_model.attributes);
                 callback(_model);
             },
             error: function (model, xhr, options) {
-                console.log("model: fetch erro");
+                console.log("xhr-fetch: fetch erro");
             }
         });        
     },
     salvar: function(callback) {
         this.save(null, {
             success: function(_model) {
-                console.log('xhr: formulário salvo com sucesso!');
+                console.log('xhr-save: formulário salvo com sucesso!');
                 callback(_model);
             },
             error: function(model, xhr, options) {
-                console.log('xhr: erro ao persistir formulário');
+                console.log('xhr-save: erro ao persistir formulário');
                 console.log(this.validationError);
             },
         });        
@@ -188,12 +188,6 @@ App.FormularioView = Backbone.View.extend({
     },
     template: _.template($("#poms-formulario").html()),
     initialize: function () {
-        this.model.on("sync", function(model, validationError) {
-            console.log("model: evento 'sync' disparado");
-            console.log("xhr: formulário retornado com sucesso!");
-            // 'this' é esta visão
-            this.render();
-        }, this); 
         this.model.on("invalid", function(model, validationError) {
             console.log('view.salvar(): Formulário não validou! Erros:');
             console.log(this.model.validationError);
@@ -202,9 +196,10 @@ App.FormularioView = Backbone.View.extend({
         }, this);
     },
     render: function () {
-        console.log('view: render()');
+        console.log("view: render(" + this.model.id + ")");
         this.$el.html(this.template(this.model.attributes));
-        this.unserializeAdjetivos(this.model.get('adjetivos'), $('input[name="adjetivos[]"]'));
+        var JQuery_questoes = this.$el.find('input[name="adjetivos[]"]');
+        this.unserializeAdjetivos(this.model.get('adjetivos'), JQuery_questoes);
     },
     events: {
         "change": "change",
@@ -278,8 +273,8 @@ App.FormularioView = Backbone.View.extend({
         this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos[]"]')));
         // console.log(this.model.attributes);
         this.model.salvar(function(_model) {
+            // console.log('callback do save');
             // console.log(_model.attributes);
-            // console.log(_model.get('adjetivos'));
             switch (_model.get('eDepois')) {
                 case "voltar-para-lista":
                     console.log('view.salvar(): faça voltar para a lista')
@@ -359,10 +354,9 @@ App.Router = Backbone.Router.extend({
                 '<p><a href="#poms">Voltar para lista</a>'
         });
         var formulario = new App.Formulario(); // form sem id
-        formulario.carregar(function(model) {
-            var formularioView = new App.FormularioView({model: model});
-            $('#content').html(formularioView.el);            
-        });
+        var formularioView = new App.FormularioView({model: formulario});
+        formularioView.render();
+        $('#content').html(formularioView.el);
     },
     abrir_formulario_poms: function (id) {
         console.log('router: abrir_formulario_poms(' + id + ')');
@@ -375,6 +369,7 @@ App.Router = Backbone.Router.extend({
         var formulario = new App.Formulario({id: id});
         formulario.carregar(function(model) {
             var formularioView = new App.FormularioView({model: model});
+            formularioView.render();
             $('#content').html(formularioView.el);            
         });
     },
