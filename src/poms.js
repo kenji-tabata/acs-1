@@ -67,11 +67,7 @@ App.PomsListaView = Backbone.View.extend({
     className: "table",
     template: _.template($("#poms-lista").html()),
     initialize: function () {
-        var self = this;
-        this.collection.on("sync", function(model) {
-            console.log("sync", this);
-            self.render();
-        }, this);
+        this.render();
     },
     render: function () {
         console.log('render()');
@@ -337,13 +333,13 @@ App.Router = Backbone.Router.extend({
         App.poms.fetch({
             success: function (collection, response) {
                 console.log('xhr: lista poms carregada!');
+                var listaView = new App.PomsListaView({collection: App.poms});
+                $('#content').html(listaView.el);
             },
             error: function (collection, response) {
                 console.log('xhr: falha ao carregar lista poms!');
             },
         });
-        var listaView = new App.PomsListaView({collection: App.poms});
-        $('#content').html(listaView.el);
     },
     formulario_poms: function () {
         console.log('router: formulario_poms()');
