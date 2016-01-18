@@ -50,20 +50,18 @@
         </script>
 
         <script type="text/template" id="poms-lista">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>nome</th>
-                        <th>email</th>
-                        <th>cpf</th>
-                        <th>sexo</th>
-                        <th>quando preencheu</th>
-                        <th>controles</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>nome</th>
+                    <th>email</th>
+                    <th>cpf</th>
+                    <th>sexo</th>
+                    <th>quando preencheu</th>
+                    <th>controles</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
         </script>
 
         <script type="text/template" id="poms-formulario">
