@@ -190,6 +190,7 @@ App.FormularioView = Backbone.View.extend({
             // 'this' é esta visão
             this.assinalar_erros();            
         }, this);
+        this.render();
     },
     render: function () {
         console.log("view: render(" + this.model.id + ")");
@@ -351,7 +352,6 @@ App.Router = Backbone.Router.extend({
         });
         var formulario = new App.Formulario(); // form sem id
         var formularioView = new App.FormularioView({model: formulario});
-        formularioView.render();
         $('#content').html(formularioView.el);
     },
     abrir_formulario_poms: function (id) {
@@ -365,7 +365,6 @@ App.Router = Backbone.Router.extend({
         var formulario = new App.Formulario({id: id});
         formulario.carregar(function(model) {
             var formularioView = new App.FormularioView({model: model});
-            formularioView.render();
             $('#content').html(formularioView.el);            
         });
     },
