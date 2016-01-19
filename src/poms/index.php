@@ -3,11 +3,11 @@ require dirname(__FILE__) . '/../../vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$app->get(   '/',    'index');
-$app->post(  '/',    'poms_formulario_create'); # c
-$app->get(   '/:id', 'poms_formulario_read');   # r
-$app->put(   '/:id', 'poms_formulario_update'); # u
-$app->delete('/:id', 'poms_formulario_delete'); # d
+$app->get(   '/:filtro?', 'index');
+$app->post(  '/',        'poms_formulario_create'); # c
+$app->get(   '/:id',     'poms_formulario_read');   # r
+$app->put(   '/:id',     'poms_formulario_update'); # u
+$app->delete('/:id',     'poms_formulario_delete'); # d
 
 $app->get('/relatorio/:id', 'poms_relatorio');
 // $app->get('/poms/relatorio/grupo/:id/:id/:id', 'poms_relatorio_foo');
@@ -15,12 +15,13 @@ $app->get('/relatorio/:id', 'poms_relatorio');
 
 $app->run();
 
-function index() {
+function index($filtro="") {
     require "../includes/DBpdo.php";
     require "Model.php";
 
+    $filtro = json_decode($filtro);
     $model = new PomsModel();
-    echo json_encode($model->ret_lista_profissionais(), JSON_UNESCAPED_SLASHES);
+    echo json_encode($model->ret_lista_profissionais($model->ret_criterios($filtro)), JSON_UNESCAPED_SLASHES);
 }
 
 function poms_formulario_create() {
