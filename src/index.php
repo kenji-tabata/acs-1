@@ -1,16 +1,24 @@
 <?php
-require dirname(__FILE__) . '/../vendor/autoload.php';
 
+define('BASE_DIR', dirname(__FILE__));
+require BASE_DIR . '/../vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-if(false) {
-    require dirname(__FILE__) . '/poms/Control.php';
+function autenticado() {
+    return false;
+}
+
+if (autenticado()) {
+    require BASE_DIR . '/poms/Control.php';
 }
 
 $app->get('/', function ($filtro="") {
-    require 'home.php';
-
+    if (autenticado()) {
+        require BASE_DIR .  '/templates/home.php';
+    } else {
+        require BASE_DIR .  '/templates/login.php';
+    }
 });
 
 $app->run();
