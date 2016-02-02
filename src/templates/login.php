@@ -21,16 +21,15 @@
         <![endif]-->
     </head>
     <body>
+
         <div class="container" style="margin-bottom: 200px;">
-            <form class="form-inline">
+            <form class="navbar-form navbar-right" role="search" action="login/" method="post">
                 <div class="form-group">
-                    <label class="sr-only" for="txt-password">Password</label>
-                    <input type="password" class="form-control" id="txt-password" placeholder="Password">
+                    <input type="password" class="form-control" name='txt-senha'>
                 </div>
-                <button type="submit" class="btn btn-default">Sign in</button>
+                <button type="submit" class="btn btn-default">Sing in</button>
             </form>
         </div>
-
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
