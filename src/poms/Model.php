@@ -5,11 +5,46 @@ class PomsModel {
     #
     # Lista de profissionais que preencheram o poms
     #
-    function ret_lista_profissionais($where='') {
-        $sql  = "SELECT * FROM acsViewPoms $where";
+    function ret_lista_profissionais($sql='') {
+        $sql  = "SELECT * FROM acsViewPoms $sql";
         $stmt = DBpdo::conectar()->query($sql);
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    #
+    #
+    #
+    function ret_criterios($filtro) {
+        $criterios = '';
+        if (isset($filtro->nome)) {
+            $criterios .= 'nome LIKE "%' . $filtro->nome .'%"';
+        }
+        if (isset($filtro->genero)) {
+            $criterios .= $this->ret_criterios_aux($criterios);
+            $criterios .= 'genero = "' . $filtro->genero .'"';
+        }
+        if (isset($filtro->preench_inicio) AND isset($filtro->preench_fim)) {
+            $criterios .= $this->ret_criterios_aux($criterios);
+            $criterios .= 'preench BETWEEN "' . $filtro->preench_inicio .'" AND "' . $filtro->preench_fim .'"';
+        }
+        if ($criterios) {
+            return "WHERE " . $criterios;
+        } else {
+            return "";
+        }
+    }
+
+    #
+    # Auxila a função 'ret_criterios' a definir o operador 'AND'
+    #
+    function ret_criterios_aux($frag) {
+        if($frag) {
+            return " AND ";
+        } else {
+            return "";
+        }
+    }
+
 
     #
     # Read um único profissional
