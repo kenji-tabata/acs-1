@@ -31,7 +31,7 @@ App.Poms = Backbone.Collection.extend({
     url: "poms/",
     model: App.ProfissionalView
 });
-    
+
 App.PomsListaItemView = Backbone.View.extend({
     tagName:   "tr",
     className: "",
@@ -39,9 +39,13 @@ App.PomsListaItemView = Backbone.View.extend({
     initialize: function () {
     },
     events: {
+        'click .btn-selecionar': 'selecionar',
         'click .btn-delete':     'unrender',
         'click .btn-relatorio':  'relatorio',
         'click .btn-formulario': 'formulario'
+    },
+    selecionar: function () {
+        console.log(this.model.id);
     },
     render: function () {
         this.$el.html(this.template({prof: this.model.attributes}));
@@ -109,7 +113,7 @@ App.Formulario = Backbone.Model.extend({
             error: function (model, xhr, options) {
                 console.log("xhr-fetch: fetch erro");
             }
-        });        
+        });
     },
     salvar: function(callback) {
         this.save(null, {
@@ -121,7 +125,7 @@ App.Formulario = Backbone.Model.extend({
                 console.log('xhr-save: erro ao persistir formulário');
                 console.log(this.validationError);
             },
-        });        
+        });
 
     },
     validate: function(attrs, options) {
@@ -160,10 +164,10 @@ App.Formulario = Backbone.Model.extend({
                 err.push({
                     'oque'   : 'adjetivos',
                     'porque' : 'Adjetivos com valores inválidos [' + keys + ']',
-                });        
+                });
             }
         }
-        
+
         if (err.length > 0) return err;
     },
     validar_adjetivo: function (valor) {
@@ -188,7 +192,7 @@ App.FormularioView = Backbone.View.extend({
             console.log('view.salvar(): Formulário não validou! Erros:');
             console.log(this.model.validationError);
             // 'this' é esta visão
-            this.assinalar_erros();            
+            this.assinalar_erros();
         }, this);
         this.render();
     },
@@ -236,12 +240,12 @@ App.FormularioView = Backbone.View.extend({
             ColectionJquery[indice-1].value = value;
         });
     },
-    // Esta função apenas sinaliza os erros, 
+    // Esta função apenas sinaliza os erros,
     // quem valida de fato é o modelo.
     assinalar_erros: function() {
         var self = this;
-        var controle = {};        
-        
+        var controle = {};
+
         // adjetivos
         controle = $('input[name="adjetivos[]"]');
         var elem, valor;
@@ -254,7 +258,7 @@ App.FormularioView = Backbone.View.extend({
                 elem.addClass('has-error');
             }
         });
-        
+
         // nome
         controle = $("#txt-nome");
         if(controle.val()) {
@@ -311,9 +315,9 @@ App.Router = Backbone.Router.extend({
     index: function () {
         console.log('router: index()');
         var jumbo_view = new App.JumbotronView({
-            'content': 
+            'content':
                 '<h1>Sistemas ACS</h1>' +
-                '<p>' + 
+                '<p>' +
                     '<ul>' +
                         '<li><a href="#poms">POMS</a></li>' +
                         '<li><a href="#acs-1">ACS -1</a></li>' +
@@ -325,7 +329,7 @@ App.Router = Backbone.Router.extend({
     listar_profissionais: function () {
         console.log('router: listar_profissionais()');
         var jumbo_view = new App.JumbotronView({
-            'content': 
+            'content':
                 '<h1>POMS</h1>' +
                 '<p>Lista de profissionais que preencheram o formulário POMS.</p>' +
                 '<p><a href="#poms-formulario">Preencher formulário</a>'
@@ -345,7 +349,7 @@ App.Router = Backbone.Router.extend({
     formulario_poms: function () {
         console.log('router: formulario_poms()');
         var jumbo_view = new App.JumbotronView({
-            'content': 
+            'content':
                 '<h1>POMS</h1>' +
                 '<p>Preenchendo formulário POMS.</p>' +
                 '<p><a href="#poms">Voltar para lista</a>'
@@ -357,7 +361,7 @@ App.Router = Backbone.Router.extend({
     abrir_formulario_poms: function (id) {
         console.log('router: abrir_formulario_poms(' + id + ')');
         var jumbo_view = new App.JumbotronView({
-            'content': 
+            'content':
                 '<h1>POMS</h1>' +
                 '<p>Abrindo formulário POMS.</p>' +
                 '<p><a href="#poms">Voltar para lista</a>'
@@ -365,7 +369,7 @@ App.Router = Backbone.Router.extend({
         var formulario = new App.Formulario({id: id});
         formulario.carregar(function(model) {
             var formularioView = new App.FormularioView({model: model});
-            $('#content').html(formularioView.el);            
+            $('#content').html(formularioView.el);
         });
     },
 });

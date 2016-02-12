@@ -103,13 +103,16 @@ $app->get('/poms/relatorio/:id', function ($id) {
     $grafico->deletar_imagem();
 });
 
-#
 # Relatório em grupo
 #
-// $app->get('/poms/relatorio/grupo/:id/:id/:id', 'poms_relatorio_foo');
+# POST http://localhost/acs/src/poms/relatorio/grupo
+# ids[]=1&ids[]=2
+$app->post('/poms/relatorio/grupo', function () {
+    $request = \Slim\Slim::getInstance()->request();
+    var_dump($request->post('ids'));
+});
 
 #
 # Formulário externo
 #
 // $app->get('/formulario-poms/', 'poms_formulario_externo');
-
