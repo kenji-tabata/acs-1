@@ -27,6 +27,21 @@
             <div id="content"></div>
         </div>
 
+        <script type="text/template" id="poms-lista">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>nome</th>
+                    <th>email</th>
+                    <th>cpf</th>
+                    <th>sexo</th>
+                    <th>quando preencheu</th>
+                    <th>controles</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </script>
+
         <script type="text/template" id="poms-lista-item">
             <td><%= prof.id %></td>
             <td><%= prof.nome %></td>
@@ -47,21 +62,6 @@
                     </button>
                 </div>
             </td>
-        </script>
-
-        <script type="text/template" id="poms-lista">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>nome</th>
-                    <th>email</th>
-                    <th>cpf</th>
-                    <th>sexo</th>
-                    <th>quando preencheu</th>
-                    <th>controles</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
         </script>
 
         <script type="text/template" id="poms-formulario">
