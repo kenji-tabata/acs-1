@@ -19,7 +19,6 @@ $app = new \Slim\Slim();
 // unset($_SESSION['auth']);
 // var_dump($_SESSION);
 
-
 #
 # Func aux
 #
@@ -33,15 +32,13 @@ function autenticado() {
 
 function autenticar($senha) {
     if ($senha == '1234') {
-        var_dump('autenticado');
+        //var_dump('autenticado');
         $_SESSION['auth'] = $senha;
     } else {
-        var_dump('na na ni na não');
+        //var_dump('na na ni na não');
         unset($_SESSION['auth']);
     }
 }
-
-
 
 #
 # index
@@ -72,7 +69,6 @@ $app->post('/login/', function () use ($app) {
 if (autenticado()) {
     require BASE_DIR . '/poms/Control.php';
 }
-
 
 #
 # run, run, run!
