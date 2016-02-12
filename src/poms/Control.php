@@ -64,7 +64,7 @@ $app->put('/poms/:id', function ($id) {
 $app->delete('/poms/:id', function ($id) {
     require "includes/DBpdo.php";
     require "Model.php";
-    
+
     var_dump($id);
 
     // $model = new PomsModel();
@@ -74,7 +74,7 @@ $app->delete('/poms/:id', function ($id) {
 #
 # Relatório individual
 #
-$app->get('/relatorio/:id', function ($id) {
+$app->get('/poms/relatorio/:id', function ($id) {
     require "Relatorio.php";
     require "Profissional.php";
     require "Laudos.php";
