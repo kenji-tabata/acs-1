@@ -36,14 +36,8 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $rowScore->fadiga    = 0;
         $rowScore->confusao  = 4;
 
-        $this->grafico = new Grafico();
-        $this->grafico->setPontuacao($tScore, $rowScore);
-        $this->grafico->setNomeArquivo();
-        $this->grafico->setDisplay(Grafico::GRAVAR_NO_DISCO);
-        $this->grafico->display();
-
-        $this->laudo = new Laudos;
-        $this->laudo->descobrir($tScore);
+        $this->grafico = Grafico::gerar($tScore, $rowScore);
+        $this->laudo   = Laudos::laudo($tScore);
 
     }
 
