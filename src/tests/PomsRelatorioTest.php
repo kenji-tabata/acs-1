@@ -58,7 +58,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->relatorio = $relatorio;
     }
 
-    public function testTodosOsLaudos() {
+    public function testSeRenderizaTodosOsLaudos() {
         $laudos = array();
         $laudo  = new Laudos();
 
