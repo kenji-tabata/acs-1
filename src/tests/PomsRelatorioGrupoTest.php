@@ -16,7 +16,15 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
 
         $this->grupo = [];
 
-        # perfil
+        # profissional padrão
+        $this->profissional = new Profissional();
+        $this->profissional->nome   = "Fulano";
+        $this->profissional->cpf    = "111.2222.333.45";
+        $this->profissional->email  = "fulano@qualquer.com.br";
+        $this->profissional->genero = "masculino";
+
+
+        # profissional 1
         $tScore = new TScore();
         $tScore->tensao    = 50;
         $tScore->depressao = 50;
@@ -26,35 +34,51 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
         $tScore->confusao  = 50;
 
         $rowScore = new RowScore();
-        $rowScore->tensao    = 5;
-        $rowScore->depressao = 5;
-        $rowScore->raiva     = 5;
-        $rowScore->vigor     = 8;
-        $rowScore->fadiga    = 5;
-        $rowScore->confusao  = 5;
+        $rowScore->tensao    = 15;
+        $rowScore->depressao = 15;
+        $rowScore->raiva     = 15;
+        $rowScore->vigor     = 15;
+        $rowScore->fadiga    = 15;
+        $rowScore->confusao  = 15;
 
-        # profissional
-        $this->profissional = new Profissional();
-        $this->profissional->nome   = "Fulano";
-        $this->profissional->cpf    = "111.2222.333.45";
-        $this->profissional->email  = "fulano@qualquer.com.br";
-        $this->profissional->genero = "masculino";
-
-        $this->profissional->perfil  = "TScore + RowScore";
-        $this->profissional->laudo   = Laudos::laudo($tScore);
-
+        $this->profissional->rowScore  = $rowScore;
         $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
+        $this->profissional->laudo   = Laudos::laudo($tScore);
         $this->grupo[] = clone $this->profissional;
 
+
+        # profissional 2
+        $tScore = new TScore();
+        $tScore->tensao    = 60;
+        $tScore->depressao = 60;
+        $tScore->raiva     = 60;
+        $tScore->vigor     = 70;
+        $tScore->fadiga    = 60;
+        $tScore->confusao  = 60;
+
+        $rowScore = new RowScore();
+        $rowScore->tensao    = 15;
+        $rowScore->depressao = 15;
+        $rowScore->raiva     = 15;
+        $rowScore->vigor     = 15;
+        $rowScore->fadiga    = 15;
+        $rowScore->confusao  = 15;
+
+        $this->profissional->rowScore  = $rowScore;
         $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
+        $this->profissional->laudo   = Laudos::laudo($tScore);
         $this->grupo[] = clone $this->profissional;
     }
 
     public function testGeradorDoRelatorioGrupoPoms() {
 
-        $relatorio = new RelatorioGrupo();
-        $relatorio->gerar($this->grupo);
-        $relatorio->setMedia();
+        $relatorio = new RelatorioGrupo($this->grupo);
+        $rowScore = $relatorio->retRowScoreMedio();
+
+        // $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
+
+        $relatorio->gerar();
+        // $relatorio->setGrafico($this->grafico->getNomeArquivo());        
         $relatorio->gravar();
 
         $this->assertTrue(file_exists($relatorio->getNomeArquivo()));
@@ -62,6 +86,19 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
 
     }
 
+    public function testSetMedia() {
 
+        $relatorio = new RelatorioGrupo($this->grupo);
+        $rowScore = $relatorio->retRowScoreMedio();
+
+        $this->assertEquals(15, $rowScore->tensao);
+        $this->assertEquals(15, $rowScore->depressao);
+        $this->assertEquals(15, $rowScore->raiva);
+        $this->assertEquals(15, $rowScore->vigor);
+        $this->assertEquals(15, $rowScore->fadiga);
+        $this->assertEquals(15, $rowScore->confusao);
+
+
+    }
 
 }
