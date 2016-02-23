@@ -41,29 +41,24 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
         $this->profissional->genero = "masculino";
 
         $this->profissional->perfil  = "TScore + RowScore";
-        // $this->profissional->grafico = new Grafico();
-        // $this->profissional->laudo   = new Laudos;
-
-        // $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
         $this->profissional->laudo   = Laudos::laudo($tScore);
 
-        $this->grupo[] = $this->profissional;
+        $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
+        $this->grupo[] = clone $this->profissional;
 
+        $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
+        $this->grupo[] = clone $this->profissional;
     }
 
     public function testGeradorDoRelatorioGrupoPoms() {
 
         $relatorio = new RelatorioGrupo();
-        foreach ($this->grupo as $profissional) {
-             $relatorio->add($profissional);
-        }
-
+        $relatorio->gerar($this->grupo);
         $relatorio->setMedia();
-        $relatorio->gerar();
         $relatorio->gravar();
 
-        // $this->assertTrue(file_exists($relatorio->getNomeArquivo()));
-        // $this->relatorio = $relatorio;        
+        $this->assertTrue(file_exists($relatorio->getNomeArquivo()));
+        // $relatorio->deletar_relatorio();
 
     }
 

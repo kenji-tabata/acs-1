@@ -8,16 +8,9 @@ class Relatorio {
     private $fpdf;
 
     static function fabricar($profissional) {
-        // $relatorio = new Relatorio($profissional, $profissional->laudo);
-        // $relatorio->setGrafico($profissional->grafico->getNomeArquivo());
-        // $relatorio->template = new TemplateRelatorio($pdf);
-        // $relatorio->template->body($relatorio->texto);
-        // #
-        // $relatorio->download($profissional->nome);
-        // #
-
-        // $grafico->deletar_imagem();
-        // return $relatorio;
+        $relatorio = new Relatorio($profissional, $profissional->laudo);
+        $relatorio->setGrafico($profissional->grafico->getNomeArquivo());
+        return $relatorio;
     }
 
     function __construct($pesquisado, $laudo) {
@@ -78,9 +71,104 @@ class Relatorio {
         }
     }
 
+    function setPDF($fpdf) {
+        $this->fpdf = $fpdf;
+    }    
+
     function setGrafico($arquivo) {
         $this->nome_arquivo_grafico = $arquivo;
     }
+
+    function header() {
+        # Cabeçalho
+        $this->fpdf->SetFont('Arial','B',12);
+        $this->fpdf->Cell(0, 7, $this->texto['titulo'], 0, 1, "C");
+        $this->fpdf->Cell(0, 7, $this->texto['POMS'], 0, 0, "C");
+        $this->fpdf->Line($x1=10, $y1=24, $x2=200, $y2=24);
+        $this->fpdf->SetY(25);
+    }
+
+    function body($texto) {
+        $this->fpdf->AddPage();
+
+        # Informações do pesquisado
+        $wd = 15; # tamanho dos campos
+        $ht = 5;  # altura das linhas
+
+        $this->fpdf->SetFont('Arial','B', 7);
+        $this->fpdf->Cell($wd, $ht, "Nome :");
+        $this->fpdf->SetFont('Arial','', 7);
+        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['nome'], 0, 1);
+
+        $this->fpdf->SetFont('Arial','B', 7);
+        $this->fpdf->Cell($wd, $ht, "Cpf :");
+        $this->fpdf->SetFont('Arial','', 7);
+        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['cpf'], 0, 1);
+
+        $this->fpdf->SetFont('Arial','B', 7);
+        $this->fpdf->Cell($wd, $ht, "Email: ");
+        $this->fpdf->SetFont('Arial','', 7);
+        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['email'], 0, 1);
+
+        $this->fpdf->SetFont('Arial','B', 7);
+        $this->fpdf->Cell($wd, $ht, "Sexo: ");
+        $this->fpdf->SetFont('Arial','', 7);
+        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['sexo'], 0, 1);
+
+        $this->fpdf->Ln();
+        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0" );
+
+        # Sub título 1
+        $texto = $this->texto['sub-titulo-1'];
+        $this->fpdf->WriteTag($w=0, $h=6,  "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
+        $this->fpdf->Ln();
+
+        # Descrição 1
+        $texto = $this->texto['descricao-1'];
+        $this->fpdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
+        $this->fpdf->Ln(10);
+
+        # Sub título 2
+        $texto = $this->texto['sub-titulo-2'];
+        $this->fpdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
+        $this->fpdf->Ln(8);
+
+        $this->fpdf->Image($this->nome_arquivo_grafico, $x=10, $y=130, $w=70, $h=70);
+
+        # Texto específico do laudo
+        $margem_esquerda = 75;
+        $this->fpdf->SetFont('Arial','B',12);
+
+        $this->fpdf->Cell($margem_esquerda);
+        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a1'], 0, 1);
+
+        $this->fpdf->Cell($margem_esquerda);
+        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a2'], 0, 1);
+
+        $this->fpdf->Cell($margem_esquerda);
+        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a3'], 0, 0);
+        $this->fpdf->Ln(60);
+
+        # corpo do laudo
+        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0");
+        $this->fpdf->WriteTag($w=0, $h=6, "<p>" . $this->texto['laudo']['corpo'] . "</p>", $border=0, $align="J",  $fill=0,  $padding=0);
+
+        $this->fpdf->Ln();
+
+    }
+
+    function footer() {
+        # Rodapé
+        $this->fpdf->Line(10, 269, 200, 269);
+        $this->fpdf->SetY(269 + 1);
+
+        $this->fpdf->SetFont('Arial','',7);
+        $this->fpdf->Cell(10, 2, $this->texto['rodape-esq']);
+
+        $this->fpdf->SetY(269 - 1.5);
+        $this->fpdf->SetX(180);
+        $this->fpdf->Cell(0, 7, $this->texto['rodape-dir']);
+    }    
 
     function gerar() {
         $this->fpdf = new PdfWriteTag();
@@ -190,93 +278,4 @@ class Relatorio {
 }
 
 
-class TemplateRelatorio {
-    
-    function __construct($pdf) {
-        $this->pdf = $pdf;
-    }
-
-    // function setPDF($p) {
-    //     $this->pdf = $p;
-    // }
-
-    function header() {
-
-    }
-
-    function body($texto) {
-        # Informações do pesquisado
-        $wd = 15; # tamanho dos campos
-        $ht = 5;  # altura das linhas
-
-        $this->pdf->SetFont('Arial','B', 7);
-        $this->pdf->Cell($wd, $ht, "Nome :");
-        $this->pdf->SetFont('Arial','', 7);
-        $this->pdf->Cell(10, $ht, $texto['pesquisado']['nome'], 0, 1);
-
-        $this->pdf->SetFont('Arial','B', 7);
-        $this->pdf->Cell($wd, $ht, "Cpf :");
-        $this->pdf->SetFont('Arial','', 7);
-        $this->pdf->Cell(10, $ht, $texto['pesquisado']['cpf'], 0, 1);
-
-        $this->pdf->SetFont('Arial','B', 7);
-        $this->pdf->Cell($wd, $ht, "Email: ");
-        $this->pdf->SetFont('Arial','', 7);
-        $this->pdf->Cell(10, $ht, $texto['pesquisado']['email'], 0, 1);
-
-        $this->pdf->SetFont('Arial','B', 7);
-        $this->pdf->Cell($wd, $ht, "Sexo: ");
-        $this->pdf->SetFont('Arial','', 7);
-        $this->pdf->Cell(10, $ht, $texto['pesquisado']['sexo'], 0, 1);
-
-        $this->pdf->Ln();
-        $this->pdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0" );
-
-        # Sub título 1
-        $texto = $texto['sub-titulo-1'];
-        $this->pdf->WriteTag($w=0, $h=6,  "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-        $this->pdf->Ln();
-
-        # Descrição 1
-        var_dump($texto);
-        // $texto = $texto['descricao-1'];
-        // $this->pdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-        // $this->pdf->Ln(10);
-
-        # Sub título 2
-        // $texto = $texto['sub-titulo-2'];
-        // $this->pdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-        // $this->pdf->Ln(8);
-
-        // $this->pdf->Image($this->pdf->nome_arquivo_grafico, $x=10, $y=130, $w=70, $h=70);
-
-        # Texto específico do laudo
-        $margem_esquerda = 75;
-        $this->pdf->SetFont('Arial','B',12);
-
-        $this->pdf->Cell($margem_esquerda);
-        $this->pdf->Cell(0, 7, $texto['laudo']['titulo-a1'], 0, 1);
-
-        $this->pdf->Cell($margem_esquerda);
-        $this->pdf->Cell(0, 7, $texto['laudo']['titulo-a2'], 0, 1);
-
-        $this->pdf->Cell($margem_esquerda);
-        $this->pdf->Cell(0, 7, $texto['laudo']['titulo-a3'], 0, 0);
-        $this->pdf->Ln(60);
-
-        # corpo do laudo
-        $this->pdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0");
-        $this->pdf->WriteTag($w=0, $h=6, "<p>" . $texto['laudo']['corpo'] . "</p>", $border=0, $align="J",  $fill=0,  $padding=0);
-
-        $this->pdf->Ln();
-        
-        
-    }
-
-    function footer() {
-        
-    }
-}
-
 ?>
-;

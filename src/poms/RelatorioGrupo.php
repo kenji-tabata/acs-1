@@ -76,20 +76,18 @@ class RelatorioGrupo extends PdfWriteTag {
         $this->Cell(0, 7, $this->texto['rodape-dir'] . $this->PageNo());
     }
 
-    function gerar() {
-        // $this->fpdf = new PdfWriteTag();
-
+    function gerar($grupo) {
         $this->AddPage();
-    
-
+        foreach ($grupo as $profissional) {
+            $this->add($profissional);
+        }
     }
 
     function add($profissional) {
-
         $relatorio = Relatorio::fabricar($profissional);
-        // $relatorio->template->setPDF($this);
-        // $relatorio->template->body($relatorio->texto);
-
+        $relatorio->setPDF($this);
+        $relatorio->body($relatorio->texto);
+        $profissional->grafico->deletar_imagem();
     }
 
     function getNomeArquivo() {
