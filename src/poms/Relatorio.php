@@ -88,7 +88,7 @@ class Relatorio {
         $this->fpdf->SetY(25);
     }
 
-    function body($texto) {
+    function body() {
         $this->fpdf->AddPage();
 
         # Informações do pesquisado
@@ -174,87 +174,9 @@ class Relatorio {
         $this->fpdf = new PdfWriteTag();
         $this->fpdf->AddPage();
 
-        # Cabeçalho
-        $this->fpdf->SetFont('Arial','B',12);
-        $this->fpdf->Cell(0, 7, $this->texto['titulo'], 0, 1, "C");
-        $this->fpdf->Cell(0, 7, $this->texto['POMS'], 0, 0, "C");
-        $this->fpdf->Line($x1=10, $y1=24, $x2=200, $y2=24);
-        $this->fpdf->SetY(25);
-
-        # Informações do pesquisado
-        $wd = 15; # tamanho dos campos
-        $ht = 5;  # altura das linhas
-
-        $this->fpdf->SetFont('Arial','B', 7);
-        $this->fpdf->Cell($wd, $ht, "Nome :");
-        $this->fpdf->SetFont('Arial','', 7);
-        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['nome'], 0, 1);
-
-        $this->fpdf->SetFont('Arial','B', 7);
-        $this->fpdf->Cell($wd, $ht, "Cpf :");
-        $this->fpdf->SetFont('Arial','', 7);
-        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['cpf'], 0, 1);
-
-        $this->fpdf->SetFont('Arial','B', 7);
-        $this->fpdf->Cell($wd, $ht, "Email: ");
-        $this->fpdf->SetFont('Arial','', 7);
-        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['email'], 0, 1);
-
-        $this->fpdf->SetFont('Arial','B', 7);
-        $this->fpdf->Cell($wd, $ht, "Sexo: ");
-        $this->fpdf->SetFont('Arial','', 7);
-        $this->fpdf->Cell(10, $ht, $this->texto['pesquisado']['sexo'], 0, 1);
-
-        $this->fpdf->Ln();
-        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0" );
-
-        # Sub título 1
-        $texto = $this->texto['sub-titulo-1'];
-        $this->fpdf->WriteTag($w=0, $h=6,  "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-        $this->fpdf->Ln();
-
-        # Descrição 1
-        $texto = $this->texto['descricao-1'];
-        $this->fpdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-        $this->fpdf->Ln(10);
-
-        # Sub título 2
-        $texto = $this->texto['sub-titulo-2'];
-        $this->fpdf->WriteTag($w=0, $h=6, "<p>".$texto."</p>", $border=0, $align="J", $fill=0, $padding=0);
-        $this->fpdf->Ln(8);
-
-        $this->fpdf->Image($this->nome_arquivo_grafico, $x=10, $y=130, $w=70, $h=70);
-
-        # Texto específico do laudo
-        $margem_esquerda = 75;
-        $this->fpdf->SetFont('Arial','B',12);
-
-        $this->fpdf->Cell($margem_esquerda);
-        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a1'], 0, 1);
-
-        $this->fpdf->Cell($margem_esquerda);
-        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a2'], 0, 1);
-
-        $this->fpdf->Cell($margem_esquerda);
-        $this->fpdf->Cell(0, 7, $this->texto['laudo']['titulo-a3'], 0, 0);
-        $this->fpdf->Ln(60);
-
-        # corpo do laudo
-        $this->fpdf->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0");
-        $this->fpdf->WriteTag($w=0, $h=6, "<p>" . $this->texto['laudo']['corpo'] . "</p>", $border=0, $align="J",  $fill=0,  $padding=0);
-
-        $this->fpdf->Ln();
-
-        # Rodapé
-        $this->fpdf->Line(10, 269, 200, 269);
-        $this->fpdf->SetY(269 + 1);
-
-        $this->fpdf->SetFont('Arial','',7);
-        $this->fpdf->Cell(10, 2, $this->texto['rodape-esq']);
-
-        $this->fpdf->SetY(269 - 1.5);
-        $this->fpdf->SetX(180);
-        $this->fpdf->Cell(0, 7, $this->texto['rodape-dir']);
+        $this->header();
+        $this->body();
+        $this->footer();
 
     }
 

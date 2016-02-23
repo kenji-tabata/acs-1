@@ -86,7 +86,7 @@ class RelatorioGrupo extends PdfWriteTag {
     function add($profissional) {
         $relatorio = Relatorio::fabricar($profissional);
         $relatorio->setPDF($this);
-        $relatorio->body($relatorio->texto);
+        $relatorio->body();
         $profissional->grafico->deletar_imagem();
     }
 
