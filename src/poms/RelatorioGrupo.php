@@ -29,34 +29,7 @@ class RelatorioGrupo extends PdfWriteTag {
         $this->nome_arquivo_grafico = $arquivo;
     }
 
-    function retRowScoreMedio() {
-        $rowScoreSoma  = new RowScore;
 
-        foreach ($this->grupo as $prof) {
-            $rowScoreSoma->tensao    += $prof->rowScore->tensao;
-            $rowScoreSoma->depressao += $prof->rowScore->depressao;
-            $rowScoreSoma->raiva     += $prof->rowScore->raiva;
-            $rowScoreSoma->vigor     += $prof->rowScore->vigor;
-            $rowScoreSoma->fadiga    += $prof->rowScore->fadiga;
-            $rowScoreSoma->confusao  += $prof->rowScore->confusao;
-        }
-
-        $divisor = $this->fatorMedia();
-
-        $rowScoreMedio = new RowScore;
-        $rowScoreMedio->tensao    = $rowScoreSoma->tensao    / $divisor;
-        $rowScoreMedio->depressao = $rowScoreSoma->depressao / $divisor;
-        $rowScoreMedio->raiva     = $rowScoreSoma->raiva     / $divisor;
-        $rowScoreMedio->vigor     = $rowScoreSoma->vigor     / $divisor;
-        $rowScoreMedio->fadiga    = $rowScoreSoma->fadiga    / $divisor;
-        $rowScoreMedio->confusao  = $rowScoreSoma->confusao  / $divisor;
-
-        return $rowScoreMedio;
-    }
-
-    function fatorMedia() {
-        return count($this->grupo);
-    }
 
     function Header() {
         $this->SetFont('Arial','B',12);
@@ -80,6 +53,7 @@ class RelatorioGrupo extends PdfWriteTag {
 
     function gerar() {
         $this->AddPage();
+        $this->Image($this->nome_arquivo_grafico, $x=10, $y=40, $w=70, $h=70);
         foreach ($this->grupo as $profissional) {
             $this->add($profissional);
         }

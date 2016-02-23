@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . "/../poms/Profissional.php";
 require_once dirname(__FILE__) . "/../poms/Laudos.php";
 require_once dirname(__FILE__) . "/../poms/Grafico.php";
 require_once dirname(__FILE__) . "/../poms/TScore.php";
-require_once dirname(__FILE__) . "/../poms/RowScore.php";
+require_once dirname(__FILE__) . "/../poms/RowScoreMedio.php";
 
 
 class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
@@ -25,21 +25,21 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
 
 
         # profissional 1
-        $tScore = new TScore();
-        $tScore->tensao    = 50;
-        $tScore->depressao = 50;
-        $tScore->raiva     = 50;
-        $tScore->vigor     = 80;
-        $tScore->fadiga    = 50;
-        $tScore->confusao  = 50;
-
         $rowScore = new RowScore();
-        $rowScore->tensao    = 15;
-        $rowScore->depressao = 15;
-        $rowScore->raiva     = 15;
-        $rowScore->vigor     = 15;
-        $rowScore->fadiga    = 15;
-        $rowScore->confusao  = 15;
+        $rowScore->tensao    = 12;
+        $rowScore->depressao = 20;
+        $rowScore->raiva     = 16;
+        $rowScore->vigor     = 19;
+        $rowScore->fadiga    = 10;
+        $rowScore->confusao  = 8;
+
+        $tScore = new TScore();
+        $tScore->tensao    = 60;
+        $tScore->depressao = 60;
+        $tScore->raiva     = 60;
+        $tScore->vigor     = 60;
+        $tScore->fadiga    = 60;
+        $tScore->confusao  = 60;
 
         $this->profissional->rowScore  = $rowScore;
         $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
@@ -48,21 +48,21 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
 
 
         # profissional 2
-        $tScore = new TScore();
-        $tScore->tensao    = 60;
-        $tScore->depressao = 60;
-        $tScore->raiva     = 60;
-        $tScore->vigor     = 70;
-        $tScore->fadiga    = 60;
-        $tScore->confusao  = 60;
-
         $rowScore = new RowScore();
-        $rowScore->tensao    = 15;
-        $rowScore->depressao = 15;
-        $rowScore->raiva     = 15;
-        $rowScore->vigor     = 15;
-        $rowScore->fadiga    = 15;
-        $rowScore->confusao  = 15;
+        $rowScore->tensao    = 24;
+        $rowScore->depressao = 40;
+        $rowScore->raiva     = 32;
+        $rowScore->vigor     = 37;
+        $rowScore->fadiga    = 20;
+        $rowScore->confusao  = 16;
+
+        $tScore = new TScore();
+        $tScore->tensao    = 80;
+        $tScore->depressao = 80;
+        $tScore->raiva     = 80;
+        $tScore->vigor     = 80;
+        $tScore->fadiga    = 82;
+        $tScore->confusao  = 80;
 
         $this->profissional->rowScore  = $rowScore;
         $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
@@ -73,31 +73,22 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
     public function testGeradorDoRelatorioGrupoPoms() {
 
         $relatorio = new RelatorioGrupo($this->grupo);
-        $rowScore = $relatorio->retRowScoreMedio();
+        
+        $rowScore = new RowScoreMedio();
+        $rowScore->calcular($this->grupo);
 
-        // $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
+        $tScore = new TScore();
+        $tScore->converterParaTScore($rowScore);
+
+        $grafico = Grafico::gerar($tScore, $rowScore);
+        $relatorio->setGrafico($grafico->getNomeArquivo());        
 
         $relatorio->gerar();
-        // $relatorio->setGrafico($this->grafico->getNomeArquivo());        
         $relatorio->gravar();
 
         $this->assertTrue(file_exists($relatorio->getNomeArquivo()));
         // $relatorio->deletar_relatorio();
-
-    }
-
-    public function testSetMedia() {
-
-        $relatorio = new RelatorioGrupo($this->grupo);
-        $rowScore = $relatorio->retRowScoreMedio();
-
-        $this->assertEquals(15, $rowScore->tensao);
-        $this->assertEquals(15, $rowScore->depressao);
-        $this->assertEquals(15, $rowScore->raiva);
-        $this->assertEquals(15, $rowScore->vigor);
-        $this->assertEquals(15, $rowScore->fadiga);
-        $this->assertEquals(15, $rowScore->confusao);
-
+        $grafico->deletar_imagem();
 
     }
 
