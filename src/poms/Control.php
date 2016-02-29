@@ -9,7 +9,8 @@ $app->get('/poms/(q=:filtro)?', function ($filtro="") {
 
     $filtro = json_decode($filtro);
     $model = new PomsModel();
-    echo json_encode($model->ret_lista_profissionais($model->ret_criterios($filtro)), JSON_UNESCAPED_SLASHES);
+    echo json_encode($model->ret_lista_profissionais($model->ret_criterios($filtro)));
+    // echo json_encode($model->ret_lista_profissionais($model->ret_criterios($filtro)), JSON_UNESCAPED_SLASHES);
 });
 
 #
@@ -37,7 +38,8 @@ $app->get('/poms/:id', function ($id) {
     require "Model.php";
 
     $model = new PomsModel();
-    echo json_encode($model->read_profissional($id)[0], JSON_UNESCAPED_SLASHES);
+    var_dump($model->read_profissional($id));
+    //echo json_encode($model->read_profissional($id)[0], JSON_UNESCAPED_SLASHES);
 });
 
 #
@@ -86,7 +88,7 @@ $app->get('/poms/relatorio/:id', function ($id) {
     require "includes/DBpdo.php";
 
     $model = new PomsModel();
-    $profissional = $model->read_profissional($id)[0];
+    //$profissional = $model->read_profissional($id)[0];
 
     $perfilPoms = Calc::perfilPoms($profissional->adjetivos);
     $grafico    = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
