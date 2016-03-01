@@ -10,10 +10,19 @@ class Relatorio {
     static function fabricar($profissional) {
         $relatorio = new Relatorio($profissional, $profissional->laudo);
         $relatorio->setGrafico($profissional->grafico->getNomeArquivo());
+        $relatorio->setPDF();
+        $relatorio->gerar();
+        $relatorio->gravar();
         return $relatorio;
     }
 
-    function __construct($pesquisado, $laudo) {
+    static function fabricarParaGrupo($profissional) {
+        $relatorio = new Relatorio($profissional, $profissional->laudo);
+        $relatorio->setGrafico($profissional->grafico->getNomeArquivo());
+        return $relatorio;
+    }
+
+    function __construct($pesquisado) {
         date_default_timezone_set('America/Sao_Paulo');
         $this->texto = array(
             'titulo'       => "LAUDO DE AVALIAÇÂO SITUACIONAL DE ESTADO DE HUMOR",
@@ -42,10 +51,10 @@ class Relatorio {
                             . "A somatória total das pontuações aos seis estados de ânimo/humor determina o que chamamos de: Perfil Iceberg.",
             'sub-titulo-2' => "2. Apresentação e Análise dos Resultados.",
             'laudo'        => array(
-                'titulo-a1' => $laudo->titulo_a1,
-                'titulo-a2' => $laudo->titulo_a2,
-                'titulo-a3' => $laudo->titulo_a3,
-                'corpo'     => $laudo->corpo
+                'titulo-a1' => $pesquisado->laudo->titulo_a1,
+                'titulo-a2' => $pesquisado->laudo->titulo_a2,
+                'titulo-a3' => $pesquisado->laudo->titulo_a3,
+                'corpo'     => $pesquisado->laudo->corpo
             ),
             'rodape-esq'   => 'Gerado em ' . date('d/m/Y') . ' às ' . date('G:i') . 'hs' . '.',
             'rodape-dir'   => "Página 1"
@@ -71,8 +80,12 @@ class Relatorio {
         }
     }
 
-    function setPDF($fpdf) {
-        $this->fpdf = $fpdf;
+    function setPDF($fpdf=null) {
+        if ($fpdf) {
+            $this->fpdf = $fpdf;
+        } else {
+            $this->fpdf = new PdfWriteTag();
+        }
     }    
 
     function setGrafico($arquivo) {
@@ -81,7 +94,7 @@ class Relatorio {
 
     function header() {
         # Cabeçalho
-        $this->fpdf->SetFont('Arial','B',12);
+        // $this->fpdf->SetFont('Arial','B',12);
         $this->fpdf->Cell(0, 7, $this->texto['titulo'], 0, 1, "C");
         $this->fpdf->Cell(0, 7, $this->texto['POMS'], 0, 0, "C");
         $this->fpdf->Line($x1=10, $y1=24, $x2=200, $y2=24);
@@ -89,7 +102,7 @@ class Relatorio {
     }
 
     function body() {
-        $this->fpdf->AddPage();
+        // $this->fpdf->AddPage();
 
         # Informações do pesquisado
         $wd = 15; # tamanho dos campos
@@ -171,13 +184,10 @@ class Relatorio {
     }    
 
     function gerar() {
-        $this->fpdf = new PdfWriteTag();
         $this->fpdf->AddPage();
-
         $this->header();
         $this->body();
         $this->footer();
-
     }
 
     function getNomeArquivo() {
@@ -193,7 +203,7 @@ class Relatorio {
         $this->fpdf->Output($nome_para_download . ".pdf", "D");
     }
 
-    function deletar_relatorio() {
+    function deletar() {
         unlink($this->getNomeArquivo());
     }
 
