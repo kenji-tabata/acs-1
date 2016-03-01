@@ -16,12 +16,6 @@ class Relatorio {
         return $relatorio;
     }
 
-    static function fabricarParaGrupo($profissional) {
-        $relatorio = new Relatorio($profissional, $profissional->laudo);
-        $relatorio->setGrafico($profissional->grafico->getNomeArquivo());
-        return $relatorio;
-    }
-
     function __construct($pesquisado) {
         date_default_timezone_set('America/Sao_Paulo');
         $this->texto = array(

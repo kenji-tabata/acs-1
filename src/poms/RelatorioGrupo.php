@@ -29,8 +29,6 @@ class RelatorioGrupo extends PdfWriteTag {
         $this->nome_arquivo_grafico = $arquivo;
     }
 
-
-
     function Header() {
         $this->SetFont('Arial','B',12);
         $this->Cell(0, 7, $this->texto['titulo'], 0, 1, "C");
@@ -55,12 +53,14 @@ class RelatorioGrupo extends PdfWriteTag {
         $this->AddPage();
         $this->Image($this->nome_arquivo_grafico, $x=10, $y=40, $w=70, $h=70);
         foreach ($this->grupo as $profissional) {
+            $this->AddPage();
             $this->add($profissional);
         }
     }
 
     function add($profissional) {
-        $relatorio = Relatorio::fabricar($profissional);
+        $relatorio = new Relatorio($profissional, $profissional->laudo);
+        $relatorio->setGrafico($profissional->grafico->getNomeArquivo());
         $relatorio->setPDF($this);
         $relatorio->body();
         $profissional->grafico->deletar_imagem();

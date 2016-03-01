@@ -58,18 +58,17 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
             . "61-1, 62-1, 63-1, 64-1, 65-1";
 
         $perfilPoms = Calc::perfilPoms($alternativasEscolhidas);
-        $grafico    = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
-        $laudo      = Laudos::laudo($perfilPoms->tScore);
+        
+        $profissional->grafico = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
+        $profissional->laudo   = Laudos::laudo($perfilPoms->tScore);
 
-        $relatorio = new Relatorio($profissional, $laudo);
-        $relatorio->setGrafico($grafico->getNomeArquivo());
-        $relatorio->gerar();
+        $relatorio = Relatorio::fabricar($profissional);
 
         #
         # $relatorio->download();
         #
 
-        $grafico->deletar_imagem();
+        $profissional->grafico->deletar_imagem();
 
     }
 
