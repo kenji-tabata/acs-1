@@ -49,7 +49,7 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
         $profissional->email = "fulano@qualquer.com.br";
         $profissional->genero  = "masculino";
 
-        $alternativasEscolhidas = "1-1, 2-1, 3-1, 4-1, 5-1, 6-1, 7-1, 8-1, 9-1, 10-1, "
+        $profissional->adjetivos = "1-1, 2-1, 3-1, 4-1, 5-1, 6-1, 7-1, 8-1, 9-1, 10-1, "
             . "11-1, 12-1, 13-1, 14-1, 15-1, 16-1, 17-1, 18-1, 19-1, 20-1,"
             . "21-1, 22-1, 23-1, 24-1, 25-1, 26-1, 27-1, 28-1, 29-1, 30-1,"
             . "31-1, 32-1, 33-1, 34-1, 35-1, 36-1, 37-1, 38-1, 39-1, 40-1,"
@@ -57,15 +57,14 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
             . "51-1, 52-1, 53-1, 54-1, 55-1, 56-1, 57-1, 58-1, 59-1, 60-1,"
             . "61-1, 62-1, 63-1, 64-1, 65-1";
 
-        $perfilPoms = Calc::perfilPoms($alternativasEscolhidas);
-        
-        $profissional->grafico = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
-        $profissional->laudo   = Laudos::laudo($perfilPoms->tScore);
+        $profissional->poms    = Calc::perfilPoms($profissional->adjetivos);
+        $profissional->grafico = Grafico::gerar($profissional->poms->tScore, $profissional->poms->rowScore);
+        $profissional->laudo   = Laudos::laudo($profissional->poms->tScore);
 
         $relatorio = Relatorio::fabricar($profissional);
 
         #
-        # $relatorio->download();
+        # $relatorio->download($profissional->nome);
         #
 
         $profissional->grafico->deletar_imagem();

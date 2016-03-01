@@ -88,19 +88,22 @@ $app->get('/poms/relatorio/:id', function ($id) {
     $model = new PomsModel();
     $profissional = $model->read_profissional($id)[0];
 
-    $perfilPoms = Calc::perfilPoms($profissional->adjetivos);
-    $grafico    = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
-    $laudo      = Laudos::laudo($perfilPoms->tScore);
+    // $perfilPoms = Calc::perfilPoms($profissional->adjetivos);
+    // $grafico    = Grafico::gerar($perfilPoms->tScore, $perfilPoms->rowScore);
+    // $laudo      = Laudos::laudo($perfilPoms->tScore);
 
-    $relatorio = new Relatorio($profissional, $laudo);
-    $relatorio->setGrafico($grafico->getNomeArquivo());
-    $relatorio->gerar();
+    // $relatorio = Relatorio::fabricar($profissional);
+    // $relatorio->download($profissional->nome);
+    // $grafico->deletar_imagem();
 
-    #
+    $profissional->poms    = Calc::perfilPoms($profissional->adjetivos);
+    $profissional->grafico = Grafico::gerar($profissional->poms->tScore, $profissional->poms->rowScore);
+    $profissional->laudo   = Laudos::laudo($profissional->poms->tScore);
+
+    $relatorio = Relatorio::fabricar($profissional);
     $relatorio->download($profissional->nome);
-    #
+    $profissional->grafico->deletar_imagem();
 
-    $grafico->deletar_imagem();
 });
 
 # Relatório em grupo
