@@ -20,24 +20,24 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->profissional->email  = "fulano@qualquer.com.br";
         $this->profissional->genero = "masculino";
 
-        $tScore = new TScore();
-        $tScore->tensao    = 46;
-        $tScore->depressao = 40;
-        $tScore->raiva     = 40;
-        $tScore->vigor     = 80;
-        $tScore->fadiga    = 40;
-        $tScore->confusao  = 51;
+        $this->profissional->tScore = new TScore();
+        $this->profissional->tScore->tensao    = 46;
+        $this->profissional->tScore->depressao = 40;
+        $this->profissional->tScore->raiva     = 40;
+        $this->profissional->tScore->vigor     = 80;
+        $this->profissional->tScore->fadiga    = 40;
+        $this->profissional->tScore->confusao  = 51;
 
-        $rowScore = new RowScore();
-        $rowScore->tensao    = 4;
-        $rowScore->depressao = 0;
-        $rowScore->raiva     = 0;
-        $rowScore->vigor     = 37;
-        $rowScore->fadiga    = 0;
-        $rowScore->confusao  = 4;
+        $this->profissional->rowScore = new RowScore();
+        $this->profissional->rowScore->tensao    = 4;
+        $this->profissional->rowScore->depressao = 0;
+        $this->profissional->rowScore->raiva     = 0;
+        $this->profissional->rowScore->vigor     = 37;
+        $this->profissional->rowScore->fadiga    = 0;
+        $this->profissional->rowScore->confusao  = 4;
 
-        $this->profissional->laudo   = Laudos::laudo($tScore);
-        $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
+        $this->profissional->laudo   = Laudos::laudo($this->profissional->tScore);
+        $this->profissional->grafico = Grafico::gerar($this->profissional->tScore, $this->profissional->rowScore);
 
     }
     
