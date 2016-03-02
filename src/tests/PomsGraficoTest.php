@@ -29,7 +29,6 @@ class GraficoTest extends PHPUnit_Framework_TestCase {
     public function testGerar() {
         $this->grafico = Grafico::gerar($this->tScore, $this->rowScore);
         $this->assertTrue(file_exists($this->grafico->getNomeArquivo()));
-        $this->grafico = $grafico;
     }
 
     protected function tearDown() {

@@ -23,7 +23,6 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
         $this->profissional->email  = "fulano@qualquer.com.br";
         $this->profissional->genero = "masculino";
 
-
         # profissional 1
         $rowScore = new RowScore();
         $rowScore->tensao    = 12;
@@ -46,7 +45,6 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
         $this->profissional->laudo   = Laudos::laudo($tScore);
         $this->grupo[] = clone $this->profissional;
 
-
         # profissional 2
         $rowScore = new RowScore();
         $rowScore->tensao    = 24;
@@ -64,9 +62,9 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
         $tScore->fadiga    = 82;
         $tScore->confusao  = 80;
 
-        $this->profissional->rowScore  = $rowScore;
-        $this->profissional->grafico = Grafico::gerar($tScore, $rowScore);
-        $this->profissional->laudo   = Laudos::laudo($tScore);
+        $this->profissional->rowScore = $rowScore;
+        $this->profissional->grafico  = Grafico::gerar($tScore, $rowScore);
+        $this->profissional->laudo    = Laudos::laudo($tScore);
         $this->grupo[] = clone $this->profissional;
     }
 

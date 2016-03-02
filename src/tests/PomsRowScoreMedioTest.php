@@ -1,7 +1,8 @@
 <?php
 
 require_once dirname(__FILE__) . "/../poms/RowScoreMedio.php";
-
+require_once dirname(__FILE__) . "/../poms/Profissional.php";
+require_once dirname(__FILE__) . "/../poms/TScore.php";
 
 class RowScoreMedioTest extends PHPUnit_Framework_TestCase {
     protected $profissionais;
