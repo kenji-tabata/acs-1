@@ -185,7 +185,7 @@ class Relatorio {
     }
 
     function getNomeArquivo() {
-        return dirname(__FILE__) . "/../files-temp/laudo.pdf";
+        return dirname(__FILE__) . "/../files-temp/relatorio-individual.pdf";
     }
 
     function gravar() {
