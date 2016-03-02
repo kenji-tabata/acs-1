@@ -36,8 +36,8 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
         $this->profissional->rowScore->fadiga    = 0;
         $this->profissional->rowScore->confusao  = 4;
 
-        $this->profissional->laudo   = Laudos::laudo($this->profissional->tScore);
         $this->profissional->grafico = Grafico::gerar($this->profissional->tScore, $this->profissional->rowScore);
+        $this->profissional->laudo   = Laudos::laudo($this->profissional->tScore);
 
     }
     
@@ -87,7 +87,7 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
 
     protected function tearDown() {
         $this->relatorio->deletar();
-        $this->profissional->grafico->deletar_imagem();
+        $this->profissional->grafico->deletar();
     }
 
 }

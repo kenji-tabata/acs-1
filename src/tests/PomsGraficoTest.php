@@ -32,7 +32,7 @@ class GraficoTest extends PHPUnit_Framework_TestCase {
     }
 
     protected function tearDown() {
-        $this->grafico->deletar_imagem();
+        $this->grafico->deletar();
     }
 
 }

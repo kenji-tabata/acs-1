@@ -10,7 +10,7 @@ class RelatorioGrupo extends PdfWriteTag {
     private $grupo;
 
     function __construct($grupo) {
-        $this->grupo = $grupo;
+        $this->grupo = $grupo->get();
 
         parent::__construct($orientation='P', $unit='mm', $format='A4');
         date_default_timezone_set('America/Sao_Paulo');
@@ -63,11 +63,11 @@ class RelatorioGrupo extends PdfWriteTag {
         $relatorio->setGrafico($profissional->grafico->getNomeArquivo());
         $relatorio->setPDF($this);
         $relatorio->body();
-        $profissional->grafico->deletar_imagem();
+        $profissional->grafico->deletar();
     }
 
     function getNomeArquivo() {
-        return dirname(__FILE__) . "/../files-temp/laudo.pdf";
+        return dirname(__FILE__) . "/../files-temp/relatorio-grupo.pdf";
     }
 
     function gravar() {
@@ -79,7 +79,7 @@ class RelatorioGrupo extends PdfWriteTag {
         $this->Output($nome_para_download . ".pdf", "D");
     }
 
-    function deletar_relatorio() {
+    function deletar() {
         unlink($this->getNomeArquivo());
     }
 
