@@ -68,7 +68,6 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
         #
 
         $profissional->grafico->deletar_imagem();
-
     }
 
 }
