@@ -10,48 +10,28 @@ class RowScoreMedioTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->grupo = [];
-        $this->profissional = new Profissional();
 
         # profissional 1
-        $rowScore = new RowScore();
-        $rowScore->tensao    = 15;
-        $rowScore->depressao = 15;
-        $rowScore->raiva     = 15;
-        $rowScore->vigor     = 28;
-        $rowScore->fadiga    = 10;
-        $rowScore->confusao  = 10;
-
-        $tScore = new TScore();
-        $tScore->tensao    = 65;
-        $tScore->depressao = 55;
-        $tScore->raiva     = 58;
-        $tScore->vigor     = 70;
-        $tScore->fadiga    = 60;
-        $tScore->confusao  = 66;
-
-        $this->profissional->rowScore  = $rowScore;
-        $this->grupo[] = clone $this->profissional;
-
+        $this->profissional = new Profissional();
+        $this->profissional->rowScore = new RowScore();
+        $this->profissional->rowScore->tensao    = 15;
+        $this->profissional->rowScore->depressao = 15;
+        $this->profissional->rowScore->raiva     = 15;
+        $this->profissional->rowScore->vigor     = 28;
+        $this->profissional->rowScore->fadiga    = 10;
+        $this->profissional->rowScore->confusao  = 10;
+        $this->grupo[] = $this->profissional;
 
         # profissional 2
-        $rowScore = new RowScore();
-        $rowScore->tensao    = 15;
-        $rowScore->depressao = 15;
-        $rowScore->raiva     = 15;
-        $rowScore->vigor     = 28;
-        $rowScore->fadiga    = 10;
-        $rowScore->confusao  = 2;
-
-        $tScore = new TScore();
-        $tScore->tensao    = 65;
-        $tScore->depressao = 55;
-        $tScore->raiva     = 58;
-        $tScore->vigor     = 70;
-        $tScore->fadiga    = 60;
-        $tScore->confusao  = 46;
-
-        $this->profissional->rowScore  = $rowScore;
-        $this->grupo[] = clone $this->profissional;
+        $this->profissional = new Profissional();
+        $this->profissional->rowScore = new RowScore();
+        $this->profissional->rowScore->tensao    = 15;
+        $this->profissional->rowScore->depressao = 15;
+        $this->profissional->rowScore->raiva     = 15;
+        $this->profissional->rowScore->vigor     = 28;
+        $this->profissional->rowScore->fadiga    = 10;
+        $this->profissional->rowScore->confusao  = 2;
+        $this->grupo[] = $this->profissional;
     }
 
 
@@ -66,7 +46,6 @@ class RowScoreMedioTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(28, $rowScore->vigor);
         $this->assertEquals(10, $rowScore->fadiga);
         $this->assertEquals(6,  $rowScore->confusao);
-
 
     }
 
