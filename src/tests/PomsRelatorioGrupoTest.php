@@ -75,7 +75,7 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
         $this->grupo = new Grupo;
         $this->grupo->add($this->mockProfissional02());
         $this->grupo->add($this->mockProfissional01());
-    
+
         $this->grupo->rowScore = new RowScoreMedio();
         $this->grupo->rowScore->calcular($this->grupo->get());
 
