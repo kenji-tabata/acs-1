@@ -22,12 +22,12 @@ App::$slim->post('/poms/', function () {
 
     $request = \Slim\Slim::getInstance()->request();
     $profissional = json_decode($request->getBody());
-    var_dump($profissional);
+    // var_dump($profissional);
 
-    // $model = new PomsModel();
-    // $profissional = $model->insert_profissional($profissional);
+    $model = new PomsModel();
+    $profissional = $model->insert_profissional($profissional);
 
-    // echo json_encode(array('id_profissional' => $profissional->id, 'id_poms' => $profissional->poms_id));
+    echo json_encode(array('id_profissional' => $profissional->id, 'id_poms' => $profissional->poms_id));
 });
 
 #
@@ -51,12 +51,12 @@ App::$slim->put('/poms/:id', function ($id) {
     $request = \Slim\Slim::getInstance()->request();
     $profissional = json_decode($request->getBody());
     $profissional->id = $id;
-    var_dump($profissional);
+    // var_dump($profissional);
 
-    // $model = new PomsModel();
-    // $profissional = $model->update_profissional($profissional);
+    $model = new PomsModel();
+    $profissional = $model->update_profissional($profissional);
 
-    // echo json_encode(array('profissional' => $profissional->id));
+    echo json_encode(array('profissional' => $profissional->id));
 });
 
 #
@@ -66,10 +66,10 @@ App::$slim->delete('/poms/:id', function ($id) {
     require "includes/DBpdo.php";
     require "Model.php";
 
-    var_dump($id);
+    // var_dump($id);
 
-    // $model = new PomsModel();
-    // echo json_encode(array('deletado' => $model->deletar_profissional($id)), JSON_UNESCAPED_SLASHES);
+    $model = new PomsModel();
+    echo json_encode(array('deletado' => $model->deletar_profissional($id)), JSON_UNESCAPED_SLASHES);
 });
 
 #
