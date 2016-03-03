@@ -8,6 +8,7 @@ App::$slim->get('/poms/(q=:filtro)?', function ($filtro="") {
     require "Model.php";
 
     $filtro = json_decode($filtro);
+    // var_dump($filtro);
     $model = new PomsModel();
     echo json_encode($model->ret_lista_profissionais($model->ret_criterios($filtro)), JSON_UNESCAPED_SLASHES);
 });
