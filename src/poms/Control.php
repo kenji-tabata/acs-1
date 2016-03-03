@@ -3,7 +3,7 @@
 #
 # Index
 #
-$app->get('/poms/(q=:filtro)?', function ($filtro="") {
+App::$slim->get('/poms/(q=:filtro)?', function ($filtro="") {
     require "includes/DBpdo.php";
     require "Model.php";
 
@@ -15,7 +15,7 @@ $app->get('/poms/(q=:filtro)?', function ($filtro="") {
 #
 # Create
 #
-$app->post('/poms/', function () {
+App::$slim->post('/poms/', function () {
     require "includes/DBpdo.php";
     require "Model.php";
 
@@ -32,7 +32,7 @@ $app->post('/poms/', function () {
 #
 # Read
 #
-$app->get('/poms/:id', function ($id) {
+App::$slim->get('/poms/:id', function ($id) {
     require "includes/DBpdo.php";
     require "Model.php";
 
@@ -43,7 +43,7 @@ $app->get('/poms/:id', function ($id) {
 #
 # Update
 #
-$app->put('/poms/:id', function ($id) {
+App::$slim->put('/poms/:id', function ($id) {
     require "includes/DBpdo.php";
     require "Model.php";
 
@@ -61,7 +61,7 @@ $app->put('/poms/:id', function ($id) {
 #
 # Delete
 #
-$app->delete('/poms/:id', function ($id) {
+App::$slim->delete('/poms/:id', function ($id) {
     require "includes/DBpdo.php";
     require "Model.php";
 
@@ -74,7 +74,7 @@ $app->delete('/poms/:id', function ($id) {
 #
 # Relatório individual
 #
-$app->get('/poms/relatorio/:id', function ($id) {
+App::$slim->get('/poms/relatorio/:id', function ($id) {
     require "Relatorio.php";
     require "Profissional.php";
     require "Laudos.php";
@@ -102,7 +102,7 @@ $app->get('/poms/relatorio/:id', function ($id) {
 #
 # POST http://localhost/acs/src/poms/relatorio/grupo
 # ids[]=1&ids[]=2
-$app->post('/poms/relatorio/grupo', function () {
+App::$slim->post('/poms/relatorio/grupo', function () {
     $request = \Slim\Slim::getInstance()->request();
     var_dump($request->post('ids'));
 });
@@ -110,4 +110,4 @@ $app->post('/poms/relatorio/grupo', function () {
 #
 # Formulário externo
 #
-// $app->get('/formulario-poms/', 'poms_formulario_externo');
+// App::$slim->get('/formulario-poms/', 'poms_formulario_externo');
