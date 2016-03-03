@@ -24,7 +24,7 @@ App::$slim->post('/login/', function () {
     $senha =  $request->params('txt-senha');
     // var_dump($senha);
     autenticar($senha);
-    App::$slim->redirect('/acs/src');
+    App::$slim->redirect('/src/');
 });
 
 
