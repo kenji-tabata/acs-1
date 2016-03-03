@@ -104,12 +104,12 @@ App::$slim->get('/poms/relatorio/:id', function ($id) {
 # Relatório em grupo
 #
 # POST http://localhost/acs/src/poms/relatorio/grupo
-# ids[]=1&ids[]=2
-# ids=[1, 2, 3]
-App::$slim->post('/poms/relatorio/grupo', function () {
+# /poms/relatorio/grupo/[1, 2, 3]
+App::$slim->get('/poms/relatorio/grupo/:ids', function ($ids) {
     $request = \Slim\Slim::getInstance()->request();
-    var_dump($request->post('ids'));
-    var_dump(json_decode($request->post('ids')));
+    // var_dump($request->post('ids'));
+    // var_dump(json_decode($request->post('ids')));
+    var_dump(json_decode($ids));
 });
 
 #

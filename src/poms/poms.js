@@ -2,7 +2,9 @@
 //     console.log("Backbone.sync(" + method + ")" + " model.id=" + model.id);
 // };
 
-var App = {};
+var App = {
+    grupo: [] // array com os pesquisados selecionados
+};
 
 App.JumbotronView = Backbone.View.extend({
     el: $('.jumbotron'),
@@ -39,13 +41,25 @@ App.PomsListaItemView = Backbone.View.extend({
     initialize: function () {
     },
     events: {
-        'click .btn-selecionar': 'selecionar',
-        'click .btn-delete':     'unrender',
-        'click .btn-relatorio':  'relatorio',
-        'click .btn-formulario': 'formulario'
+        'click .btn-selecionar':      'selecionar',
+        'click .btn-delete':          'unrender',
+        'click .btn-relatorio':       'relatorio',
+        'click .btn-formulario':      'formulario'
     },
     selecionar: function () {
-        console.log(this.model.id);
+        // console.log(this.model.id);
+        var valor = this.model.id;
+        // já tem ?
+        if (_.contains(App.grupo, valor)) {
+            // então remova!
+            App.grupo = _.without(App.grupo, valor) ;
+        } 
+        // se não tem...
+        else {
+            // então insira !
+           App.grupo.push(valor); 
+        }
+        // console.log(App.grupo);
     },
     render: function () {
         this.$el.html(this.template({prof: this.model.attributes}));
@@ -73,6 +87,9 @@ App.PomsListaView = Backbone.View.extend({
     initialize: function () {
         this.render();
     },
+    events: {
+        'click .btn-relatorio-grupo': 'relatorio_grupo',
+    },    
     render: function () {
         console.log('render()');
         var me = this,
@@ -87,7 +104,11 @@ App.PomsListaView = Backbone.View.extend({
             elem_tbody.append(item_view.render().el);
         });
         return this;
-    }
+    },
+    relatorio_grupo: function () {
+        console.log("view: emitir relatorio em grupo:" + App.grupo);
+        window.location.href = "poms/relatorio/grupo/" + JSON.stringify(App.grupo);
+    },    
 });
 
 App.Formulario = Backbone.Model.extend({

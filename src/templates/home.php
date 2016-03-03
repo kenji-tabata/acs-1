@@ -30,7 +30,9 @@
         <script type="text/template" id="poms-lista">
             <thead>
                 <tr>
-                    <th></th>
+                    <th>
+                        <button type="button" class="btn btn-default btn-relatorio-grupo" aria-label="Left Align" title="Relatório">grupo</button>
+                    </th>
                     <th>id</th>
                     <th>nome</th>
                     <th>email</th>
