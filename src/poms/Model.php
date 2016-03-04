@@ -45,7 +45,6 @@ class PomsModel {
         }
     }
 
-
     #
     # Read um único profissional
     #
