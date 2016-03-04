@@ -38,8 +38,8 @@ App::$slim->get('/poms/:id', function ($id) {
     require "Model.php";
 
     $model = new PomsModel();
-    $profissionais = $model->read_profissional($id);
-    echo json_encode($profissionais[0], JSON_UNESCAPED_SLASHES);
+    $profissional = $model->read_profissional($id);
+    echo json_encode($profissional, JSON_UNESCAPED_SLASHES);
 });
 
 #
@@ -88,8 +88,7 @@ App::$slim->get('/poms/relatorio/:id', function ($id) {
     require "includes/DBpdo.php";
 
     $model = new PomsModel();
-    $profissionais = $model->read_profissional($id);
-    $profissional  = $profissionais[0];
+    $profissional = $model->read_profissional($id);
 
     $profissional->poms    = Calc::perfilPoms($profissional->adjetivos);
     $profissional->grafico = Grafico::gerar($profissional->poms->tScore, $profissional->poms->rowScore);
@@ -106,10 +105,29 @@ App::$slim->get('/poms/relatorio/:id', function ($id) {
 # POST http://localhost/acs/src/poms/relatorio/grupo
 # /poms/relatorio/grupo/[1, 2, 3]
 App::$slim->get('/poms/relatorio/grupo/:ids', function ($ids) {
+    require "Model.php";
+    require "includes/DBpdo.php";
+
+
     $request = \Slim\Slim::getInstance()->request();
     // var_dump($request->post('ids'));
     // var_dump(json_decode($request->post('ids')));
-    var_dump(json_decode($ids));
+    //var_dump(json_decode($ids));
+
+
+
+    $model = new PomsModel();
+    $profissionais = $model->read_profissional(14);
+    var_dump($profissionais);
+
+    // $grupo = new Grupo;
+    // foreach ($ids as $id) {
+
+    //     $model = new PomsModel();
+    //     $profissionais = $model->read_profissional($id);
+    //     $grupo->add($profissionais[0]);
+    // }
+    // var_dump($grupo);
 });
 
 #
