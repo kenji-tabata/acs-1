@@ -71,7 +71,6 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
     }
 
     protected function setUp() {
-
         $this->grupo = new Grupo;
         $this->grupo->add($this->mockProfissional02());
         $this->grupo->add($this->mockProfissional01());
@@ -83,7 +82,6 @@ class RelatorioGrupoTest extends PHPUnit_Framework_TestCase {
         $this->grupo->tScore->converterParaTScore($this->grupo->rowScore);
 
         $this->grupo->grafico = Grafico::gerar($this->grupo->tScore, $this->grupo->rowScore);
-
     }
 
     public function testGeradorDoRelatorioGrupoPoms() {
