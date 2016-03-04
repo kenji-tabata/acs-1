@@ -10,7 +10,8 @@ App::$slim->get('/poms/(q=:filtro)?', function ($filtro="") {
     $filtro = json_decode($filtro);
     // var_dump($filtro);
     $model = new PomsModel();
-    echo json_encode($model->ret_lista_profissionais($model->ret_criterios($filtro)), JSON_UNESCAPED_SLASHES);
+    echo json_encode($model->ret_lista_profissionais($model->ret_criterios($filtro)));
+    // echo json_encode($model->ret_lista_profissionais($model->ret_criterios($filtro)), JSON_UNESCAPED_SLASHES);
 });
 
 #
@@ -40,6 +41,7 @@ App::$slim->get('/poms/:id', function ($id) {
     $model = new PomsModel();
     $profissional = $model->read_profissional($id);
     echo json_encode($profissional, JSON_UNESCAPED_SLASHES);
+    //var_dump($model->read_profissional($id));
 });
 
 #
