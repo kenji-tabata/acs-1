@@ -5,77 +5,43 @@ ini_set('html_errors', 'on');
 ini_set('error_reporting', E_ALL);
 error_reporting(E_ALL);
 
-#
-#
-#
-define('BASE_DIR', dirname(__FILE__));
-require BASE_DIR . '/../vendor/autoload.php';
+require dirname(__FILE__) . '/../vendor/autoload.php';
+require dirname(__FILE__) . '/app.php';
 
-#
-# Bootstrap...
-#
-session_start();
-$app = new \Slim\Slim();
-
-#
-# Session debug
-#
-// $_SESSION['auth'] = '';
-// unset($_SESSION['auth']);
-// var_dump($_SESSION);
-
-#
-# Func aux
-#
-function autenticado() {
-    if (isset($_SESSION['auth'])) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function autenticar($senha) {
-    if ($senha == '1234') {
-        //var_dump('autenticado');
-        $_SESSION['auth'] = $senha;
-    } else {
-        //var_dump('na na ni na não');
-        unset($_SESSION['auth']);
-    }
-}
 
 #
 # index
 #
-$app->get('/', function ($filtro="") {
+App::$slim->get('/', function ($filtro="") {
     if (autenticado()) {
-        require BASE_DIR .  '/templates/home.php';
+        require App::$path['base-dir'] .  '/templates/home.php';
     } else {
-        require BASE_DIR .  '/templates/login.php';
+        require App::$path['base-dir'] .  '/templates/login.php';
     }
 });
+
 
 #
 # login, sing in, logando-se
 #
-$app->post('/login/', function () use ($app) {
+App::$slim->post('/login/', function () {
     $request = \Slim\Slim::getInstance()->request();
     $senha =  $request->params('txt-senha');
     // var_dump($senha);
     autenticar($senha);
-    $app->redirect('/acs/src');
-
+    App::$slim->redirect('/src/');
 });
+
 
 #
 # Módulo Poms
 #
 if (autenticado()) {
-    require BASE_DIR . '/poms/Control.php';
+    require App::$path['base-dir'] . '/poms/Control.php';
 }
+
 
 #
 # run, run, run!
 #
-$app->run();
+App::$slim->run();

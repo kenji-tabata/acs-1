@@ -12,7 +12,7 @@ class ModelTest extends PHPUnit_Framework_TestCase {
     public function testRetListaProfissionais() {
         $model = new PomsModel();
         $lista = $model->ret_lista_profissionais();
-        $this->assertEquals(29, count($lista));
+        $this->assertEquals(28, count($lista));
 
         $lista = $model->ret_lista_profissionais('ORDER BY nome');
         $this->assertEquals($lista[0]->nome, "Alessandro de Souza Lira");
@@ -20,7 +20,7 @@ class ModelTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($lista[2]->nome, "Alexandre Roberto Misage");
 
         $lista = $model->ret_lista_profissionais('WHERE genero = "m"');
-        $this->assertEquals(24, count($lista));
+        $this->assertEquals(23, count($lista));
     }
 
     public function testRetCriterios() {

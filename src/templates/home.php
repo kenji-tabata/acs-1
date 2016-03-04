@@ -30,6 +30,9 @@
         <script type="text/template" id="poms-lista">
             <thead>
                 <tr>
+                    <th>
+                        <button type="button" class="btn btn-default btn-relatorio-grupo" aria-label="Left Align" title="Relatório">grupo</button>
+                    </th>
                     <th>id</th>
                     <th>nome</th>
                     <th>email</th>
@@ -43,6 +46,7 @@
         </script>
 
         <script type="text/template" id="poms-lista-item">
+            <td><input type="checkbox" class="btn-selecionar"/></td>
             <td><%= prof.id %></td>
             <td><%= prof.nome %></td>
             <td><%= prof.email %></td>

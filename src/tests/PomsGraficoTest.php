@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../poms/RowScore.php";
 
 class GraficoTest extends PHPUnit_Framework_TestCase {
 
+    protected $grafico;
+
     public function setUp() {
         $this->tScore = new TScore();
         $this->tScore->tensao    = 46;
@@ -25,13 +27,12 @@ class GraficoTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGerar() {
-        $grafico = Grafico::gerar($this->tScore, $this->rowScore);
-        $this->assertTrue(file_exists($grafico->getNomeArquivo()));
-        $this->grafico = $grafico;
+        $this->grafico = Grafico::gerar($this->tScore, $this->rowScore);
+        $this->assertTrue(file_exists($this->grafico->getNomeArquivo()));
     }
 
     protected function tearDown() {
-        $this->grafico->deletar_imagem();
+        $this->grafico->deletar();
     }
 
 }

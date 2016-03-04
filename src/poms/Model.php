@@ -45,7 +45,6 @@ class PomsModel {
         }
     }
 
-
     #
     # Read um único profissional
     #
@@ -54,7 +53,7 @@ class PomsModel {
 
         $sql  = "SELECT * FROM acsViewPoms where id = $id";
         $stmt = DBpdo::conectar()->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
     #

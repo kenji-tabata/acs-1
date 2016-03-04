@@ -15,92 +15,79 @@ class RelatorioTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->profissional = new Profissional();
-        $this->profissional->nome  = "Fulano";
-        $this->profissional->cpf   = "111.2222.333.45";
-        $this->profissional->email = "fulano@qualquer.com.br";
+        $this->profissional->nome   = "Fulano";
+        $this->profissional->cpf    = "111.2222.333.45";
+        $this->profissional->email  = "fulano@qualquer.com.br";
         $this->profissional->genero = "masculino";
 
-        $tScore = new TScore();
-        $tScore->tensao    = 46;
-        $tScore->depressao = 40;
-        $tScore->raiva     = 40;
-        $tScore->vigor     = 80;
-        $tScore->fadiga    = 40;
-        $tScore->confusao  = 51;
+        $this->profissional->tScore = new TScore();
+        $this->profissional->tScore->tensao    = 46;
+        $this->profissional->tScore->depressao = 40;
+        $this->profissional->tScore->raiva     = 40;
+        $this->profissional->tScore->vigor     = 80;
+        $this->profissional->tScore->fadiga    = 40;
+        $this->profissional->tScore->confusao  = 51;
 
-        $rowScore = new RowScore();
-        $rowScore->tensao    = 4;
-        $rowScore->depressao = 0;
-        $rowScore->raiva     = 0;
-        $rowScore->vigor     = 37;
-        $rowScore->fadiga    = 0;
-        $rowScore->confusao  = 4;
+        $this->profissional->rowScore = new RowScore();
+        $this->profissional->rowScore->tensao    = 4;
+        $this->profissional->rowScore->depressao = 0;
+        $this->profissional->rowScore->raiva     = 0;
+        $this->profissional->rowScore->vigor     = 37;
+        $this->profissional->rowScore->fadiga    = 0;
+        $this->profissional->rowScore->confusao  = 4;
 
-        $this->grafico = new Grafico();
-        $this->grafico->setPontuacao($tScore, $rowScore);
-        $this->grafico->setNomeArquivo();
-        $this->grafico->setDisplay(Grafico::GRAVAR_NO_DISCO);
-        $this->grafico->display();
-
-        $this->laudo = new Laudos;
-        $this->laudo->descobrir($tScore);
+        $this->profissional->grafico = Grafico::gerar($this->profissional->tScore, $this->profissional->rowScore);
+        $this->profissional->laudo   = Laudos::laudo($this->profissional->tScore);
 
     }
-
-    public function testGeradorDoRelatorioPoms() {
-
-        $relatorio = new Relatorio($this->profissional, $this->laudo);
-        $relatorio->setGrafico($this->grafico->getNomeArquivo());
-        $relatorio->gerar();
-        $relatorio->gravar();
-
-        $this->assertTrue(file_exists($relatorio->getNomeArquivo()));
-        $this->relatorio = $relatorio;
+    
+    public function testRealtorioFabricar() {
+        $this->relatorio = Relatorio::fabricar($this->profissional);
     }
 
-    public function testTodosOsLaudos() {
-        $laudos = array();
-        $laudo  = new Laudos();
+    public function testSeRenderizaLaudo1() {
+        $this->profissional->laudo->laudo01();
+        $this->relatorio = Relatorio::fabricar($this->profissional);
+    }
 
-        $laudo->laudo01();
-        $laudos[] = clone $laudo;
+    public function testSeRenderizaLaudo2() {
+        $this->profissional->laudo->laudo02();
+        $this->relatorio = Relatorio::fabricar($this->profissional);
+    }
 
-        $laudo->laudo02();
-        $laudos[] = clone $laudo;
+    public function testSeRenderizaLaudo3() {
+        $this->profissional->laudo->laudo03();
+        $this->relatorio = Relatorio::fabricar($this->profissional);
+    }
 
-        $laudo->laudo03();
-        $laudos[] = clone $laudo;
+    public function testSeRenderizaLaudo4() {
+        $this->profissional->laudo->laudo04();
+        $this->relatorio = Relatorio::fabricar($this->profissional);
+    }
 
-        $laudo->laudo04();
-        $laudos[] = clone $laudo;
+    public function testSeRenderizaLaudo5() {
+        $this->profissional->laudo->laudo05();
+        $this->relatorio = Relatorio::fabricar($this->profissional);
+    }
 
-        $laudo->laudo05();
-        $laudos[] = clone $laudo;
+    public function testSeRenderizaLaudo6() {
+        $this->profissional->laudo->laudo06();
+        $this->relatorio = Relatorio::fabricar($this->profissional);
+    }
 
-        $laudo->laudo06();
-        $laudos[] = clone $laudo;
+    public function testSeRenderizaLaudo7() {
+        $this->profissional->laudo->laudo07();
+        $this->relatorio = Relatorio::fabricar($this->profissional);
+    }
 
-        $laudo->laudo07();
-        $laudos[] = clone $laudo;
-
-        $laudo->laudoDesconhecido();
-        $laudos[] = clone $laudo;
-
-        foreach($laudos as $laudo) {
-            // echo $laudo->titulo_a3 . "\n";
-            $relatorio = new Relatorio($this->profissional, $laudo);
-            $relatorio->setGrafico($this->grafico->getNomeArquivo());
-            $relatorio->gerar();
-            $relatorio->gravar();
-        }
-
-        $this->relatorio = $relatorio;
-
+    public function testSeRenderizaLaudoDesconhecido() {
+        $this->profissional->laudo->laudoDesconhecido();
+        $this->relatorio = Relatorio::fabricar($this->profissional);
     }
 
     protected function tearDown() {
-        $this->relatorio->deletar_relatorio();
-        $this->grafico->deletar_imagem();
+        $this->relatorio->deletar();
+        $this->profissional->grafico->deletar();
     }
 
 }

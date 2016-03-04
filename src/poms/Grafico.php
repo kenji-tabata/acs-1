@@ -53,7 +53,7 @@ class Grafico {
         }
     }
 
-    public function deletar_imagem() {
+    public function deletar() {
         unlink($this->imagem['nome']);
     }
 
