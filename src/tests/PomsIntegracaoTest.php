@@ -150,9 +150,14 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
 
     }    
 
-    public function testFoo() {
+    public function testParseDate() {
         parseDate('10/09/2016');
+        parseDate('09/09/2016');
+        parseDate('01/01/2000');
+        parseDate('01/01/1999');
         parseDate();
+
+        $d = parseDate('27/09/1999');
     }
 
 }

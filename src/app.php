@@ -42,8 +42,9 @@ function autenticar($senha) {
 }
 
 function parseDate($date_string='') {
+    if (!$date_string) return false;
     try {
-        $date = new DateTime($date_string);
+        $date = DateTime::createFromFormat('d/m/Y', $date_string);
         if (checkdate($date->format('m'), $date->format('d'), $date->format('Y'))) {
             return $date;
         } else {
