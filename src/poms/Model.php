@@ -75,7 +75,6 @@ class PomsModel {
     # Insert profissional  e poms
     #
     function insert_profissional($profissional) {
-        date_default_timezone_set ("America/Sao_Paulo");
         $query = "INSERT INTO acsProfissionais (nome, email, cpf, genero) VALUES (:nome, :email, :cpf, :genero)";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
@@ -89,7 +88,7 @@ class PomsModel {
         
         $preench = parseDate($profissional->preench);
         if($preench) {
-            $profissional->preench = $preench;
+            $profissional->preench = $preench->format('Y-m-d');
         } else {
             $profissional->preench = date("Y-m-d H:i:s");
         }
@@ -108,10 +107,9 @@ class PomsModel {
     }
 
     #
-    # Update profissional  e poms
+    # Update profissional e poms
     #
     function update_profissional($profissional) {
-        date_default_timezone_set ("America/Sao_Paulo");
         $query = "UPDATE acsProfissionais  SET nome=:nome, email=:email, cpf=:cpf, genero=:genero WHERE id=:id";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
@@ -122,14 +120,11 @@ class PomsModel {
         $sth->bindParam(':genero', $profissional->genero);
         $sth->execute();
 
-        $profissional->preench = date("Y-m-d H:i:s");
-
-        $query = "UPDATE acsPoms SET formulario=:formulario, preenchido_em=:preenchido_em WHERE id_prof = :id_prof";
+        $query = "UPDATE acsPoms SET formulario=:formulario WHERE id_prof = :id_prof";
         $pdo = DBpdo::conectar();
         $sth = $pdo->prepare($query);
         $sth->bindParam(':id_prof',       $profissional->id);
         $sth->bindParam(':formulario',    $profissional->adjetivos);
-        $sth->bindParam(':preenchido_em', $profissional->preench);
         $sth->execute();
 
         return $profissional;
