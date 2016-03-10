@@ -115,6 +115,7 @@ App.Formulario = Backbone.Model.extend({
     urlRoot: 'poms/',
     defaults: {
         nome:      '',
+        preench:   '',
         email:     '',
         cpf:       '',
         genero:    '', // m ou f
