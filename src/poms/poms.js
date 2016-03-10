@@ -41,10 +41,10 @@ App.PomsListaItemView = Backbone.View.extend({
     initialize: function () {
     },
     events: {
-        'click .btn-selecionar':      'selecionar',
-        'click .btn-delete':          'unrender',
-        'click .btn-relatorio':       'relatorio',
-        'click .btn-formulario':      'formulario'
+        'click .btn-selecionar': 'selecionar',
+        'click .btn-delete':     'unrender',
+        'click .btn-relatorio':  'relatorio',
+        'click .btn-formulario': 'formulario'
     },
     selecionar: function () {
         // console.log(this.model.id);
