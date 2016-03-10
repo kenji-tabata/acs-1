@@ -1,5 +1,8 @@
 <?php
 
+require_once dirname(__FILE__) . '/../../vendor/autoload.php';
+require_once dirname(__FILE__) . '/../app.php';
+
 class IntegracaoTest extends PHPUnit_Framework_TestCase {
 
     public function testSeArquivoDeFontesParaPDfExiste() {
@@ -146,5 +149,10 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
         $grupo->grafico->deletar();        
 
     }    
+
+    public function testFoo() {
+        parseDate('10/09/2016');
+        parseDate();
+    }
 
 }

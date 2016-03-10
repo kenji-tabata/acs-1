@@ -85,8 +85,14 @@ class PomsModel {
         $sth->bindParam(':genero', $profissional->genero);
         $sth->execute();
 
-        $profissional->id      = $pdo->lastInsertId();
-        $profissional->preench = date("Y-m-d H:i:s");
+        $profissional->id = $pdo->lastInsertId();
+        
+        $preench = parseDate($profissional->preench);
+        if($preench) {
+            $profissional->preench = $preench;
+        } else {
+            $profissional->preench = date("Y-m-d H:i:s");
+        }
 
         $query = "INSERT INTO acsPoms (id_prof, formulario, preenchido_em) VALUES (:id_prof, :formulario, :preenchido_em)";
         $pdo = DBpdo::conectar();

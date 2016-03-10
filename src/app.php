@@ -41,6 +41,21 @@ function autenticar($senha) {
     }
 }
 
+function parseDate($date_string='') {
+    try {
+        $date = new DateTime($date_string);
+        if (checkdate($date->format('m'), $date->format('d'), $date->format('Y'))) {
+            return $date;
+        } else {
+            return false;
+        }
+    } catch (Exception $e) {
+        print_r($e->getMessage());
+        exit(1);
+    }
+}
+
+
 #
 # Session debug
 #
