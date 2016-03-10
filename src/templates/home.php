@@ -130,11 +130,10 @@
                         <div class="form-group">
                             <label for="" class="col-md-offset-2 col-sm-4 col-xs-8 control-label"><?php echo $key . ". " . ucfirst($adjetivo) ?></label>
                             <div class="col-sm-1 col-xs-3">
-                                <input type="text" class="form-control" name="adjetivos[]" maxlength="1"/>
+                                <input type="text" class="form-control" name="adjetivos" maxlength="1"/>
                             </div>
                         </div>
                     <?php endforeach; ?>
-
 
                     <div class="form-group">
                         <div class="col-md-offset-5 col-md-2">

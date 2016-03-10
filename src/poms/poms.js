@@ -220,7 +220,7 @@ App.FormularioView = Backbone.View.extend({
     render: function () {
         console.log("view: render(" + this.model.id + ")");
         this.$el.html(this.template(this.model.attributes));
-        var JQuery_questoes = this.$el.find('input[name="adjetivos[]"]');
+        var JQuery_questoes = this.$el.find('input[name="adjetivos"]');
         this.unserializeAdjetivos(this.model.get('adjetivos'), JQuery_questoes);
     },
     events: {
@@ -268,7 +268,7 @@ App.FormularioView = Backbone.View.extend({
         var controle = {};
 
         // adjetivos
-        controle = $('input[name="adjetivos[]"]');
+        controle = $('input[name="adjetivos"]');
         var elem, valor;
         $.each(controle, function (index, value) {
             elem  = $(value).parent().parent();
@@ -292,7 +292,7 @@ App.FormularioView = Backbone.View.extend({
         console.log('view.salvar()');
         evt.preventDefault();
         self = this;
-        this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos[]"]')));
+        this.model.set('adjetivos', this.serializeAdjetivos($('input[name="adjetivos"]')));
         // console.log(this.model.attributes);
         this.model.salvar(function(_model) {
             // console.log('callback do save');
