@@ -150,6 +150,8 @@ class IntegracaoTest extends PHPUnit_Framework_TestCase {
 
     }    
 
+    # Estou apenas executando a função
+    # É preciso refatorar o teste
     public function testParseDate() {
         parseDate('10/09/2016');
         parseDate('09/09/2016');
