@@ -137,7 +137,9 @@
 
                     <?php foreach (FormularioPoms::adjetivos() as $key => $adjetivo): ?>
                         <div class="form-group">
-                            <label for="" class="col-md-offset-2 col-sm-4 col-xs-8 control-label"><?php echo $key . ". " . ucfirst($adjetivo) ?></label>
+                            <label for="" class="col-md-offset-2 col-sm-4 col-xs-8 control-label" style="font-size: 1.2em">
+                                <?php echo ucfirst($adjetivo) ?>
+                            </label>
                             <div class="col-sm-1 col-xs-3">
                                 <input type="text" class="form-control" name="adjetivos" maxlength="1"/>
                             </div>
