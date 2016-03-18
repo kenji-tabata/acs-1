@@ -1,4 +1,4 @@
 composer.lock
-files-temp/*
-/nbproject/*
-/vendor/
+src/files-temp/*
+nbproject/*
+vendor/
