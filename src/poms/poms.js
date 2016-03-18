@@ -66,9 +66,11 @@ App.PomsListaItemView = Backbone.View.extend({
         return this;
     },
     unrender: function () {
-        console.log('view: deletando:' + this.model.get('id'))
-        this.remove();
-        this.model.destroy();
+        if (window.confirm("Você deseja realmente deletar?")) { 
+            console.log('view: deletando:' + this.model.get('id'))
+            this.remove();
+            this.model.destroy();
+        }
     },
     relatorio: function () {
         console.log("view: emitir relatorio:" + this.model.get('id'));
