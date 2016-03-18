@@ -58,11 +58,11 @@
                     <button type="button" class="btn btn-default btn-delete" aria-label="Left Align" title="Deletar">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
-                    <button type="button" class="btn btn-default btn-relatorio" aria-label="Left Align" title="Relatório">
-                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span
-                    </button>
                     <button type="button" class="btn btn-default btn-formulario" aria-label="Left Align" title="Formulário">
                         <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-relatorio" aria-label="Left Align" title="Relatório">
+                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span
                     </button>
                 </div>
             </td>
