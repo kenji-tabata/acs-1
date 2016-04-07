@@ -1,10 +1,10 @@
 <?php
 $nome_arquivo = $_POST['nome_arquivo'] = "foo.doc";
 
-header("Content-type: application/vnd.ms-word");
-header("Content-type: application/force-download");
-header("Content-Disposition: attachment; filename=$nome_arquivo");
-header("Pragma: no-cache");
+// header("Content-type: application/vnd.ms-word");
+// header("Content-type: application/force-download");
+// header("Content-Disposition: attachment; filename=$nome_arquivo");
+// header("Pragma: no-cache");
 
 ?>
 <!DOCTYPE html>
@@ -46,8 +46,8 @@ header("Pragma: no-cache");
 
         <p>2. Apresentação e Análise dos Resultados</p>
 
-        <img src="http://6iee.com/data/uploads/23/681437.jpg" height="300px" width="300px">
-
+        <img src="http://www.whatstube.com.br/wp-content/uploads/2016/03/brasileiro-ta-tranquilo.jpg" height="300px" width="300px">
+        
         <p style="text-align: justify">
             Indica que a pessoa situcionalmente está com dificuldade de agir normalmente para levar adiante suas atividades profissionais e pessoais. Isto significa que o fator
             CONFUSÃO-DESORIENTAÇÃO mostra-se com índices de energias afetivas relacionais preocupantes em relação aos demais fatores (tensão-ansiedade;
