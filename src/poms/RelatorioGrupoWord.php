@@ -83,10 +83,8 @@ $grafico_url = App::$path['dominio'] . $grupo->grafico->getURLArquivo();
 
         <p>2. Apresentação e Análise dos Resultados</p>
 
-        <img src=<?php echo $grafico_url ?> />
+        <img src=<?php echo $grafico_url ?> height="300px" width="300px" />
 
-        <img src="http://www.whatstube.com.br/wp-content/uploads/2016/03/brasileiro-ta-tranquilo.jpg" height="300px" width="300px" />
-        
         <p style="text-align: justify">
             Indica que a pessoa situcionalmente está com dificuldade de agir normalmente para levar adiante suas atividades profissionais e pessoais. Isto significa que o fator
             CONFUSÃO-DESORIENTAÇÃO mostra-se com índices de energias afetivas relacionais preocupantes em relação aos demais fatores (tensão-ansiedade;
