@@ -10,7 +10,7 @@
 # Recebendo dados
 #
 $nome_arquivo = $_POST['nome_arquivo'] = "foo.doc";
-$id_pesq      = $_POST['id-pesq']      = 14;
+
 
 #
 #

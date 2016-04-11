@@ -174,18 +174,17 @@ App::$slim->get('/poms/relatorio/grupo/word/:ids', function ($ids) {
 });
 
 #
-#
+# Para baixar imagens
 #
 App::$slim->get('/poms/graficos/:nome_img', function ($nome_img) {
-    // require "Model.php";
-
+    $nome_arquivo = "foo.doc";
     $url = App::$path['base-dir'] . '/files-temp/' . "/570be7e8c2b03.png";
-    // var_dump($file);
+    // var_dump($url);
 
      if (file_exists($url)) {
           header('Content-Description: File Transfer');
           header('Content-Type: application/octet-stream');
-          header('Content-Disposition: inline; filename="'.basename($url).'"' );
+          header('Content-Disposition: inline; filename="' . basename($url) . '"' );
           header('Expires: 0');
           header('Cache-Control: must-revalidate');
           header('Pragma: public');
