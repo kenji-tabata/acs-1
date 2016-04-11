@@ -19,14 +19,17 @@ class Grafico {
     }
 
     public function setNomeArquivo() {
-        // front end
-         $this->imagem['nome'] = dirname(__FILE__) . '/../files-temp/' . uniqid() . '.png';
-        // tests
-        // $this->imagem['nome'] = 'files-temp/' . uniqid() . '.png';
+        $nome_arquivo = uniqid() . '.png';
+        $this->imagem['nome'] = dirname(__FILE__) . '/../files-temp/' . $nome_arquivo;
+        $this->imagem['url']  = "/src/poms/graficos/" . $nome_arquivo;
     }
 
     public function getNomeArquivo() {
         return $this->imagem['nome'];
+    }
+
+    public function getURLArquivo() {
+        return $this->imagem['url'];
     }
 
     public function setDisplay($display) {
