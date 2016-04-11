@@ -35,13 +35,6 @@ function printTableProfissional($profissional) {
 }
 
 
-
-$profissional = new Profissional();
-$profissional->nome   = "Fulano";
-$profissional->cpf    = "111.2222.333.45";
-$profissional->email  = "fulano@qualquer.com.br";
-$profissional->genero = "masculino";
-
 // var_dump($profissional);
 // var_dump($grupo->grafico->getURLArquivo());
 
@@ -66,8 +59,6 @@ $grafico_url = App::$path['dominio'] . $grupo->grafico->getURLArquivo();
 
     </head>
     <body>
-
-
         <p>1. Descrição do Dispositivo de diagnóstico e métricas de avaliação "POMS" \- Profile of Moode State (de MacNair, Loor y Dropleman (1971)).<p>
 
         <p style="text-align: justify">
