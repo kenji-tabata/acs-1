@@ -19,6 +19,7 @@ App::$slim = new \Slim\Slim();
 App::$path = array();
 
 App::$path['base-dir'] = dirname(__FILE__);
+App::$path['dominio']  = "http://192.168.0.170/acs";
 
 #
 # Func aux
