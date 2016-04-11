@@ -31,7 +31,8 @@
             <thead>
                 <tr>
                     <th>
-                        <button type="button" class="btn btn-default btn-relatorio-grupo" aria-label="Left Align" title="Relatório">grupo</button>
+                        <button type="button" class="btn btn-default btn-relatorio-grupo" aria-label="Left Align" title="Relatório">gr</button>
+                        <button type="button" class="btn btn-default btn-relatorio-parecer" aria-label="Left Align" title="Relatório">par</button>
                     </th>
                     <th>id</th>
                     <th>nome</th>
@@ -67,6 +68,27 @@
                 </div>
             </td>
         </script>
+
+
+
+<div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Parecer</h4>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <textarea class='form-control' rows='15'></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id='laudo-parecer' >Emitir Laudo</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
         <script type="text/template" id="poms-formulario">
             <form action="salvar/" method="post">
