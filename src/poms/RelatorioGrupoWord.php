@@ -9,7 +9,7 @@
 #
 # Recebendo dados
 #
-$nome_arquivo = $_POST['nome_arquivo'] = "foo.doc";
+
 
 
 #
