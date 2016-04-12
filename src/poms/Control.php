@@ -155,6 +155,19 @@ App::$slim->get('/poms/relatorio/grupo/:ids', function ($ids) {
 });
 
 #
+# http://www.acs.loc/src/poms/relatorio/grupo/[1, 15]/?p=a%0Ab%0Ac%0Ad%0Ae%0Af%0Ag
+#
+App::$slim->get('/poms/relatorio/grupo/:ids/', function ($ids) {
+    var_dump($ids = json_decode($ids));
+    $parecer = App::$slim->request()->params('p');
+    var_dump($parecer);
+    echo "<pre>";
+    echo nl2br($parecer);
+    echo "</pre>";    
+});
+
+
+#
 # Formulário externo
 #
 // App::$slim->get('/formulario-poms/', 'poms_formulario_externo');

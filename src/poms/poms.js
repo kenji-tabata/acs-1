@@ -119,6 +119,7 @@ App.PomsListaView = Backbone.View.extend({
         $('#laudo-parecer').click(function() {
             console.log('emitir laudo com o seguinte parecer:');
             console.log($('textarea').val());
+            window.location.href = "poms/relatorio/grupo/" + JSON.stringify(App.grupo) + "/?p=" + encodeURI($('textarea').val());
         });
     },    
 
