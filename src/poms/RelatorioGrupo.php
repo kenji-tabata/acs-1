@@ -49,9 +49,18 @@ class RelatorioGrupo extends PdfWriteTag {
         $this->Cell(0, 7, $this->texto['rodape-dir'] . $this->PageNo());
     }
 
-    function gerar() {
+    function gerar($parecer=null) {
         $this->AddPage();
         $this->Image($this->nome_arquivo_grafico, $x=10, $y=40, $w=70, $h=70);
+        $this->Ln(100);
+        if($parecer) {
+            $this->SetStyle($tag="p", $fonte="Arial", $style="N", $size=7, $cor="0, 0, 0" );
+            foreach ($parecer as $texto) {
+                $this->WriteTag($w=0, $h=6,  "<p>".utf8_decode($texto)."</p>", $border=0, $align="J", $fill=0, $padding=0);
+                $this->Ln();
+            }
+        }
+
         foreach ($this->grupo as $profissional) {
             $this->AddPage();
             $this->add($profissional);

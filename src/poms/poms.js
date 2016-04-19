@@ -90,7 +90,8 @@ App.PomsListaView = Backbone.View.extend({
         this.render();
     },
     events: {
-        'click .btn-relatorio-grupo': 'relatorio_grupo',
+        'click .btn-relatorio-grupo':   'relatorio_grupo',
+        'click .btn-relatorio-parecer': 'relatorio_grupo_parecer'
     },    
     render: function () {
         console.log('render()');
@@ -111,6 +112,17 @@ App.PomsListaView = Backbone.View.extend({
         console.log("view: emitir relatorio em grupo:" + App.grupo);
         window.location.href = "poms/relatorio/grupo/" + JSON.stringify(App.grupo);
     },    
+    relatorio_grupo_parecer: function () {
+        console.log("view: emitir relatorio em grupo com parecer:" + App.grupo);
+        //window.location.href = "poms/relatorio/grupo/" + JSON.stringify(App.grupo);
+        $('#myModal').modal();
+        $('#laudo-parecer').click(function() {
+            console.log('emitir laudo com o seguinte parecer:');
+            console.log($('textarea').val());
+            window.location.href = "poms/relatorio/grupo/" + JSON.stringify(App.grupo) + "/?p=" + encodeURI($('textarea').val());
+        });
+    },    
+
 });
 
 App.Formulario = Backbone.Model.extend({
