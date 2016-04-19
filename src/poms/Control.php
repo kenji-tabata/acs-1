@@ -126,11 +126,11 @@ App::$slim->get('/poms/relatorio/grupo/:ids', function ($ids) {
     foreach ($ids as $id) {
         $model = new PomsModel();
         $profissional = $model->read_profissional($id);
-        $profissional->poms    = Calc::perfilPoms($profissional->adjetivos);
+        $profissional->poms     = Calc::perfilPoms($profissional->adjetivos);
         $profissional->tScore   = $profissional->poms->tScore;
         $profissional->rowScore = $profissional->poms->rowScore;
-        $profissional->grafico = Grafico::gerar($profissional->poms->tScore, $profissional->poms->rowScore);
-        $profissional->laudo   = Laudos::laudo($profissional->poms->tScore);
+        $profissional->grafico  = Grafico::gerar($profissional->poms->tScore, $profissional->poms->rowScore);
+        $profissional->laudo    = Laudos::laudo($profissional->poms->tScore);
         $grupo->add($profissional);
     }
     // var_dump($grupo);    
@@ -158,12 +158,59 @@ App::$slim->get('/poms/relatorio/grupo/:ids', function ($ids) {
 # http://www.acs.loc/src/poms/relatorio/grupo/[1, 15]/?p=a%0Ab%0Ac%0Ad%0Ae%0Af%0Ag
 #
 App::$slim->get('/poms/relatorio/grupo/:ids/', function ($ids) {
-    var_dump($ids = json_decode($ids));
-    $parecer = App::$slim->request()->params('p');
-    var_dump($parecer);
-    echo "<pre>";
-    echo nl2br($parecer);
-    echo "</pre>";    
+    // var_dump($ids = json_decode($ids));
+    $parecer     = App::$slim->request()->params('p');
+    $arr_parecer = explode("\n", $parecer);
+    // var_dump($arr_parecer);
+    // foreach ($arr_parecer as $par) {
+    //     var_dump($par);
+    // }
+    require "RelatorioGrupo.php";
+    require "Grupo.php";    
+    require "Laudos.php";
+    require "Grafico.php";
+    require "Calc.php";
+    require "RowScore.php";
+    require "RowScoreMedio.php";
+    require "TScore.php";
+    require "Model.php";
+    require "includes/DBpdo.php";
+
+    // var_dump(json_decode($ids));
+
+    $ids = json_decode($ids);
+    $grupo = new Grupo;
+    foreach ($ids as $id) {
+        $model = new PomsModel();
+        $profissional = $model->read_profissional($id);
+        $profissional->poms     = Calc::perfilPoms($profissional->adjetivos);
+        $profissional->tScore   = $profissional->poms->tScore;
+        $profissional->rowScore = $profissional->poms->rowScore;
+        $profissional->grafico  = Grafico::gerar($profissional->poms->tScore, $profissional->poms->rowScore);
+        $profissional->laudo    = Laudos::laudo($profissional->poms->tScore);
+        $grupo->add($profissional);
+    }
+    // var_dump($grupo);    
+
+    $grupo->rowScore = new RowScoreMedio();
+    $grupo->rowScore->calcular($grupo->get());
+    $grupo->tScore = new TScore();
+    $grupo->tScore->converterParaTScore($grupo->rowScore);
+    $grupo->grafico = Grafico::gerar($grupo->tScore, $grupo->rowScore);
+    // var_dump($grupo);
+
+    $relatorio = new RelatorioGrupo($grupo);
+    $relatorio->setGrafico($grupo->grafico->getNomeArquivo());
+    $relatorio->gerar($arr_parecer);
+
+    $relatorio->download('relatorio-em-grupo');
+
+    // $relatorio->gravar();
+    // $relatorio->deletar();
+    $grupo->grafico->deletar();
+
+
+   
 });
 
 
