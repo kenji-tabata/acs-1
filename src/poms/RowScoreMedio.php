@@ -28,11 +28,11 @@ class RowScoreMedio {
 
         $divisor = count($grupo);
 
-        $this->tensao    = $rowScoreSoma->tensao    / $divisor;
-        $this->depressao = $rowScoreSoma->depressao / $divisor;
-        $this->raiva     = $rowScoreSoma->raiva     / $divisor;
-        $this->vigor     = $rowScoreSoma->vigor     / $divisor;
-        $this->fadiga    = $rowScoreSoma->fadiga    / $divisor;
-        $this->confusao  = $rowScoreSoma->confusao  / $divisor;
+        $this->tensao    = round($rowScoreSoma->tensao    / $divisor);
+        $this->depressao = round($rowScoreSoma->depressao / $divisor);
+        $this->raiva     = round($rowScoreSoma->raiva     / $divisor);
+        $this->vigor     = round($rowScoreSoma->vigor     / $divisor);
+        $this->fadiga    = round($rowScoreSoma->fadiga    / $divisor);
+        $this->confusao  = round($rowScoreSoma->confusao  / $divisor);
     }
 }
